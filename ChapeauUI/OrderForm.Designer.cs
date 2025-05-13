@@ -48,7 +48,7 @@
             btnPlus = new Button();
             btnMinus = new Button();
             btnClearAll = new Button();
-            btnFinishOrder = new Button();
+            btnSendOrder = new Button();
             pnlDinner = new Panel();
             pnlDrinks = new Panel();
             listVCoffee = new ListView();
@@ -264,7 +264,6 @@
             btnLunchM.TabIndex = 28;
             btnLunchM.Text = "Lunch";
             btnLunchM.UseVisualStyleBackColor = false;
-  
             // 
             // btnDinnerM
             // 
@@ -344,18 +343,18 @@
             btnClearAll.Text = "Clear All";
             btnClearAll.UseVisualStyleBackColor = false;
             // 
-            // btnFinishOrder
+            // btnSendOrder
             // 
-            btnFinishOrder.BackColor = Color.LimeGreen;
-            btnFinishOrder.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
-            btnFinishOrder.ForeColor = SystemColors.ControlLightLight;
-            btnFinishOrder.Location = new Point(1807, 1158);
-            btnFinishOrder.Margin = new Padding(4, 2, 4, 2);
-            btnFinishOrder.Name = "btnFinishOrder";
-            btnFinishOrder.Size = new Size(199, 102);
-            btnFinishOrder.TabIndex = 43;
-            btnFinishOrder.Text = "Finish Order";
-            btnFinishOrder.UseVisualStyleBackColor = false;
+            btnSendOrder.BackColor = Color.LimeGreen;
+            btnSendOrder.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSendOrder.ForeColor = SystemColors.ControlLightLight;
+            btnSendOrder.Location = new Point(1807, 1158);
+            btnSendOrder.Margin = new Padding(4, 2, 4, 2);
+            btnSendOrder.Name = "btnSendOrder";
+            btnSendOrder.Size = new Size(199, 102);
+            btnSendOrder.TabIndex = 43;
+            btnSendOrder.Text = "Send Order";
+            btnSendOrder.UseVisualStyleBackColor = false;
             // 
             // pnlDinner
             // 
@@ -1038,7 +1037,7 @@
             Controls.Add(btnPlus);
             Controls.Add(btnMinus);
             Controls.Add(btnClearAll);
-            Controls.Add(btnFinishOrder);
+            Controls.Add(btnSendOrder);
             Controls.Add(lblTableNr);
             Controls.Add(btnLogOut);
             Controls.Add(btnRemoveCom);
@@ -1084,7 +1083,7 @@
         private Button btnPlus;
         private Button btnMinus;
         private Button btnClearAll;
-        private Button btnFinishOrder;
+        private Button btnSendOrder;
         private Panel pnlDinner;
         private Panel pnlDrinks;
         private ListView listVCoffee;
