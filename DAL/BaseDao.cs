@@ -12,7 +12,6 @@ namespace DAL
 
         public BaseDao()
         {
-
             conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ChapeauDatabase"].ConnectionString);
             adapter = new SqlDataAdapter();
         }
