@@ -4,32 +4,22 @@ using System.Data.SqlClient;
 
 namespace DAL
 {
-    internal class OrderItemDao
+    internal class OrderItemDao : BaseDao
     {
-        private string connectionString = "your_connection_string_here";
-
         public List<OrderItem> GetOrderItemsByOrderId(int orderId)
         {
             List<OrderItem> orderItems = new List<OrderItem>();
             string query = "SELECT * FROM Order_Item WHERE order_id = @orderId";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = OpenConnection())
             {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@orderId", orderId);
-                connection.Open();
+                SqlCommand command = CreateCommand(connection, query,
+                    new SqlParameter("@orderId", orderId));
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    OrderItem orderItem = new OrderItem
-                    {
-                        Id = reader.GetInt32(0),
-                        MenuItemId = reader.GetInt32(1),
-                        Count = reader.GetInt32(2),
-                        OrderId = reader.GetInt32(3)
-                    };
-                    orderItems.Add(orderItem);
+                    orderItems.Add(MapOrderItem(reader));
                 }
             }
 
@@ -40,16 +30,26 @@ namespace DAL
         {
             string query = "INSERT INTO Order_Item (menu_item_id, count, order_id) VALUES (@menuItemId, @count, @orderId)";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = OpenConnection())
             {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@menuItemId", orderItem.MenuItemId);
-                command.Parameters.AddWithValue("@count", orderItem.Count);
-                command.Parameters.AddWithValue("@orderId", orderItem.OrderId);
+                SqlCommand command = CreateCommand(connection, query,
+                    new SqlParameter("@menuItemId", orderItem.MenuItemId),
+                    new SqlParameter("@count", orderItem.Count),
+                    new SqlParameter("@orderId", orderItem.OrderId));
 
-                connection.Open();
                 command.ExecuteNonQuery();
             }
+        }
+
+        private OrderItem MapOrderItem(SqlDataReader reader)
+        {
+            return new OrderItem
+            {
+                Id = reader.GetInt32(0),
+                MenuItemId = reader.GetInt32(1),
+                Count = reader.GetInt32(2),
+                OrderId = reader.GetInt32(3)
+            };
         }
     }
 }
