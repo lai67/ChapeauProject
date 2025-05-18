@@ -36,11 +36,6 @@
             label8 = new Label();
             label6 = new Label();
             listVOrder = new ListView();
-            columnHeader49 = new ColumnHeader();
-            columnHeader50 = new ColumnHeader();
-            columnHeader51 = new ColumnHeader();
-            columnHeader52 = new ColumnHeader();
-            columnHeader53 = new ColumnHeader();
             btnLunchM = new Button();
             btnDinnerM = new Button();
             btnDrinksM = new Button();
@@ -52,79 +47,73 @@
             pnlDinner = new Panel();
             label13 = new Label();
             listVEntremetsDinner = new ListView();
-            columnHeader25 = new ColumnHeader();
-            columnHeader26 = new ColumnHeader();
-            columnHeader27 = new ColumnHeader();
-            columnHeader28 = new ColumnHeader();
             label9 = new Label();
             label10 = new Label();
             label11 = new Label();
             listVDessertsDinner = new ListView();
-            columnHeader13 = new ColumnHeader();
-            columnHeader14 = new ColumnHeader();
-            columnHeader15 = new ColumnHeader();
-            columnHeader16 = new ColumnHeader();
             listVMainsDinner = new ListView();
-            columnHeader17 = new ColumnHeader();
-            columnHeader18 = new ColumnHeader();
-            columnHeader19 = new ColumnHeader();
-            columnHeader20 = new ColumnHeader();
             listVStartersDinner = new ListView();
-            columnHeader21 = new ColumnHeader();
-            columnHeader22 = new ColumnHeader();
-            columnHeader23 = new ColumnHeader();
-            columnHeader24 = new ColumnHeader();
             label12 = new Label();
             pnlLunch = new Panel();
             label4 = new Label();
             label3 = new Label();
             label2 = new Label();
             listVDessertsLunch = new ListView();
-            columnHeader9 = new ColumnHeader();
-            columnHeader10 = new ColumnHeader();
-            columnHeader11 = new ColumnHeader();
-            columnHeader12 = new ColumnHeader();
             listVMainsLunch = new ListView();
+            columnHeader1 = new ColumnHeader();
+            columnHeader2 = new ColumnHeader();
+            columnHeader3 = new ColumnHeader();
             listVStartersLunch = new ListView();
+            columnHeader54 = new ColumnHeader();
+            columnHeader55 = new ColumnHeader();
+            columnHeader56 = new ColumnHeader();
             label1 = new Label();
             pnlDrinks = new Panel();
             listVCoffee = new ListView();
-            columnHeader45 = new ColumnHeader();
-            columnHeader46 = new ColumnHeader();
-            columnHeader47 = new ColumnHeader();
-            columnHeader48 = new ColumnHeader();
             label19 = new Label();
             label14 = new Label();
             listVSpirit = new ListView();
-            columnHeader29 = new ColumnHeader();
-            columnHeader30 = new ColumnHeader();
-            columnHeader31 = new ColumnHeader();
-            columnHeader32 = new ColumnHeader();
             label15 = new Label();
             label16 = new Label();
             label17 = new Label();
             listVWines = new ListView();
-            columnHeader33 = new ColumnHeader();
-            columnHeader34 = new ColumnHeader();
-            columnHeader35 = new ColumnHeader();
-            columnHeader36 = new ColumnHeader();
             listVBeers = new ListView();
+            listVSoftDrinks = new ListView();
+            label18 = new Label();
+            columnHeader4 = new ColumnHeader();
+            columnHeader5 = new ColumnHeader();
+            columnHeader6 = new ColumnHeader();
+            columnHeader7 = new ColumnHeader();
+            columnHeader8 = new ColumnHeader();
+            columnHeader9 = new ColumnHeader();
+            columnHeader10 = new ColumnHeader();
+            columnHeader11 = new ColumnHeader();
+            columnHeader12 = new ColumnHeader();
             columnHeader37 = new ColumnHeader();
             columnHeader38 = new ColumnHeader();
             columnHeader39 = new ColumnHeader();
+            columnHeader33 = new ColumnHeader();
+            columnHeader34 = new ColumnHeader();
+            columnHeader35 = new ColumnHeader();
+            columnHeader29 = new ColumnHeader();
+            columnHeader30 = new ColumnHeader();
+            columnHeader31 = new ColumnHeader();
+            columnHeader32 = new ColumnHeader();
+            columnHeader36 = new ColumnHeader();
             columnHeader40 = new ColumnHeader();
-            listVSoftDrinks = new ListView();
-            columnHeader41 = new ColumnHeader();
-            columnHeader42 = new ColumnHeader();
-            columnHeader43 = new ColumnHeader();
-            columnHeader44 = new ColumnHeader();
-            label18 = new Label();
-            columnHeader54 = new ColumnHeader();
-            columnHeader55 = new ColumnHeader();
-            columnHeader56 = new ColumnHeader();
-            columnHeader1 = new ColumnHeader();
-            columnHeader2 = new ColumnHeader();
-            columnHeader3 = new ColumnHeader();
+            columnHeader21 = new ColumnHeader();
+            columnHeader22 = new ColumnHeader();
+            columnHeader23 = new ColumnHeader();
+            columnHeader24 = new ColumnHeader();
+            columnHeader25 = new ColumnHeader();
+            columnHeader26 = new ColumnHeader();
+            columnHeader17 = new ColumnHeader();
+            columnHeader18 = new ColumnHeader();
+            columnHeader19 = new ColumnHeader();
+            columnHeader13 = new ColumnHeader();
+            columnHeader14 = new ColumnHeader();
+            columnHeader15 = new ColumnHeader();
+            columnHeader16 = new ColumnHeader();
             pnlDinner.SuspendLayout();
             pnlLunch.SuspendLayout();
             pnlDrinks.SuspendLayout();
@@ -211,44 +200,17 @@
             // 
             // listVOrder
             // 
-            listVOrder.Columns.AddRange(new ColumnHeader[] { columnHeader49, columnHeader50, columnHeader51, columnHeader52, columnHeader53 });
+            listVOrder.Columns.AddRange(new ColumnHeader[] { columnHeader13, columnHeader14, columnHeader15, columnHeader16 });
             listVOrder.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
             listVOrder.FullRowSelect = true;
             listVOrder.Location = new Point(1094, 390);
             listVOrder.Margin = new Padding(4, 2, 4, 2);
             listVOrder.MultiSelect = false;
             listVOrder.Name = "listVOrder";
-            listVOrder.Size = new Size(912, 731);
+            listVOrder.Size = new Size(954, 731);
             listVOrder.TabIndex = 32;
             listVOrder.UseCompatibleStateImageBehavior = false;
             listVOrder.View = View.Details;
-            // 
-            // columnHeader49
-            // 
-            columnHeader49.Width = 0;
-            // 
-            // columnHeader50
-            // 
-            columnHeader50.Text = "Name of an element";
-            columnHeader50.TextAlign = HorizontalAlignment.Center;
-            columnHeader50.Width = 350;
-            // 
-            // columnHeader51
-            // 
-            columnHeader51.Text = "Price";
-            columnHeader51.TextAlign = HorizontalAlignment.Center;
-            columnHeader51.Width = 150;
-            // 
-            // columnHeader52
-            // 
-            columnHeader52.Text = "Amount";
-            columnHeader52.TextAlign = HorizontalAlignment.Center;
-            columnHeader52.Width = 150;
-            // 
-            // columnHeader53
-            // 
-            columnHeader53.Text = "Comment";
-            columnHeader53.Width = 250;
             // 
             // btnLunchM
             // 
@@ -390,7 +352,7 @@
             // 
             // listVEntremetsDinner
             // 
-            listVEntremetsDinner.Columns.AddRange(new ColumnHeader[] { columnHeader25, columnHeader26, columnHeader27, columnHeader28 });
+            listVEntremetsDinner.Columns.AddRange(new ColumnHeader[] { columnHeader21, columnHeader22, columnHeader23 });
             listVEntremetsDinner.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
             listVEntremetsDinner.FullRowSelect = true;
             listVEntremetsDinner.Location = new Point(33, 373);
@@ -401,28 +363,6 @@
             listVEntremetsDinner.TabIndex = 7;
             listVEntremetsDinner.UseCompatibleStateImageBehavior = false;
             listVEntremetsDinner.View = View.Details;
-            // 
-            // columnHeader25
-            // 
-            columnHeader25.Width = 0;
-            // 
-            // columnHeader26
-            // 
-            columnHeader26.Text = "Name of a dish";
-            columnHeader26.TextAlign = HorizontalAlignment.Center;
-            columnHeader26.Width = 450;
-            // 
-            // columnHeader27
-            // 
-            columnHeader27.Text = "Price";
-            columnHeader27.TextAlign = HorizontalAlignment.Center;
-            columnHeader27.Width = 170;
-            // 
-            // columnHeader28
-            // 
-            columnHeader28.Text = "Stock";
-            columnHeader28.TextAlign = HorizontalAlignment.Center;
-            columnHeader28.Width = 170;
             // 
             // label9
             // 
@@ -462,7 +402,7 @@
             // 
             // listVDessertsDinner
             // 
-            listVDessertsDinner.Columns.AddRange(new ColumnHeader[] { columnHeader13, columnHeader14, columnHeader15, columnHeader16 });
+            listVDessertsDinner.Columns.AddRange(new ColumnHeader[] { columnHeader17, columnHeader18, columnHeader19 });
             listVDessertsDinner.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
             listVDessertsDinner.FullRowSelect = true;
             listVDessertsDinner.Location = new Point(33, 845);
@@ -474,31 +414,9 @@
             listVDessertsDinner.UseCompatibleStateImageBehavior = false;
             listVDessertsDinner.View = View.Details;
             // 
-            // columnHeader13
-            // 
-            columnHeader13.Width = 0;
-            // 
-            // columnHeader14
-            // 
-            columnHeader14.Text = "Name of a dish";
-            columnHeader14.TextAlign = HorizontalAlignment.Center;
-            columnHeader14.Width = 450;
-            // 
-            // columnHeader15
-            // 
-            columnHeader15.Text = "Price";
-            columnHeader15.TextAlign = HorizontalAlignment.Center;
-            columnHeader15.Width = 170;
-            // 
-            // columnHeader16
-            // 
-            columnHeader16.Text = "Stock";
-            columnHeader16.TextAlign = HorizontalAlignment.Center;
-            columnHeader16.Width = 170;
-            // 
             // listVMainsDinner
             // 
-            listVMainsDinner.Columns.AddRange(new ColumnHeader[] { columnHeader17, columnHeader18, columnHeader19, columnHeader20 });
+            listVMainsDinner.Columns.AddRange(new ColumnHeader[] { columnHeader24, columnHeader25, columnHeader26 });
             listVMainsDinner.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
             listVMainsDinner.FullRowSelect = true;
             listVMainsDinner.Location = new Point(33, 610);
@@ -510,31 +428,9 @@
             listVMainsDinner.UseCompatibleStateImageBehavior = false;
             listVMainsDinner.View = View.Details;
             // 
-            // columnHeader17
-            // 
-            columnHeader17.Width = 0;
-            // 
-            // columnHeader18
-            // 
-            columnHeader18.Text = "Name of a dish";
-            columnHeader18.TextAlign = HorizontalAlignment.Center;
-            columnHeader18.Width = 450;
-            // 
-            // columnHeader19
-            // 
-            columnHeader19.Text = "Price";
-            columnHeader19.TextAlign = HorizontalAlignment.Center;
-            columnHeader19.Width = 170;
-            // 
-            // columnHeader20
-            // 
-            columnHeader20.Text = "Stock";
-            columnHeader20.TextAlign = HorizontalAlignment.Center;
-            columnHeader20.Width = 170;
-            // 
             // listVStartersDinner
             // 
-            listVStartersDinner.Columns.AddRange(new ColumnHeader[] { columnHeader21, columnHeader22, columnHeader23, columnHeader24 });
+            listVStartersDinner.Columns.AddRange(new ColumnHeader[] { columnHeader32, columnHeader36, columnHeader40 });
             listVStartersDinner.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
             listVStartersDinner.FullRowSelect = true;
             listVStartersDinner.Location = new Point(33, 145);
@@ -545,28 +441,6 @@
             listVStartersDinner.TabIndex = 1;
             listVStartersDinner.UseCompatibleStateImageBehavior = false;
             listVStartersDinner.View = View.Details;
-            // 
-            // columnHeader21
-            // 
-            columnHeader21.Width = 0;
-            // 
-            // columnHeader22
-            // 
-            columnHeader22.Text = "Name of a dish";
-            columnHeader22.TextAlign = HorizontalAlignment.Center;
-            columnHeader22.Width = 450;
-            // 
-            // columnHeader23
-            // 
-            columnHeader23.Text = "Price";
-            columnHeader23.TextAlign = HorizontalAlignment.Center;
-            columnHeader23.Width = 170;
-            // 
-            // columnHeader24
-            // 
-            columnHeader24.Text = "Stock";
-            columnHeader24.TextAlign = HorizontalAlignment.Center;
-            columnHeader24.Width = 170;
             // 
             // label12
             // 
@@ -591,7 +465,7 @@
             pnlLunch.Controls.Add(listVMainsLunch);
             pnlLunch.Controls.Add(listVStartersLunch);
             pnlLunch.Controls.Add(label1);
-            pnlLunch.Location = new Point(8, 17);
+            pnlLunch.Location = new Point(13, 14);
             pnlLunch.Margin = new Padding(4, 2, 4, 2);
             pnlLunch.Name = "pnlLunch";
             pnlLunch.Size = new Size(893, 1534);
@@ -635,7 +509,7 @@
             // 
             // listVDessertsLunch
             // 
-            listVDessertsLunch.Columns.AddRange(new ColumnHeader[] { columnHeader9, columnHeader10, columnHeader11, columnHeader12 });
+            listVDessertsLunch.Columns.AddRange(new ColumnHeader[] { columnHeader4, columnHeader5, columnHeader6 });
             listVDessertsLunch.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
             listVDessertsLunch.FullRowSelect = true;
             listVDessertsLunch.Location = new Point(33, 738);
@@ -646,28 +520,6 @@
             listVDessertsLunch.TabIndex = 3;
             listVDessertsLunch.UseCompatibleStateImageBehavior = false;
             listVDessertsLunch.View = View.Details;
-            // 
-            // columnHeader9
-            // 
-            columnHeader9.Width = 0;
-            // 
-            // columnHeader10
-            // 
-            columnHeader10.Text = "Name of a dish";
-            columnHeader10.TextAlign = HorizontalAlignment.Center;
-            columnHeader10.Width = 450;
-            // 
-            // columnHeader11
-            // 
-            columnHeader11.Text = "Price";
-            columnHeader11.TextAlign = HorizontalAlignment.Center;
-            columnHeader11.Width = 170;
-            // 
-            // columnHeader12
-            // 
-            columnHeader12.Text = "Stock";
-            columnHeader12.TextAlign = HorizontalAlignment.Center;
-            columnHeader12.Width = 170;
             // 
             // listVMainsLunch
             // 
@@ -683,6 +535,21 @@
             listVMainsLunch.UseCompatibleStateImageBehavior = false;
             listVMainsLunch.View = View.Details;
             // 
+            // columnHeader1
+            // 
+            columnHeader1.Text = "Name";
+            columnHeader1.Width = 250;
+            // 
+            // columnHeader2
+            // 
+            columnHeader2.Text = "Price";
+            columnHeader2.Width = 250;
+            // 
+            // columnHeader3
+            // 
+            columnHeader3.Text = "Stock";
+            columnHeader3.Width = 250;
+            // 
             // listVStartersLunch
             // 
             listVStartersLunch.Columns.AddRange(new ColumnHeader[] { columnHeader54, columnHeader55, columnHeader56 });
@@ -696,6 +563,21 @@
             listVStartersLunch.TabIndex = 1;
             listVStartersLunch.UseCompatibleStateImageBehavior = false;
             listVStartersLunch.View = View.Details;
+            // 
+            // columnHeader54
+            // 
+            columnHeader54.Text = "Name";
+            columnHeader54.Width = 250;
+            // 
+            // columnHeader55
+            // 
+            columnHeader55.Text = "Price";
+            columnHeader55.Width = 250;
+            // 
+            // columnHeader56
+            // 
+            columnHeader56.Text = "Stock";
+            columnHeader56.Width = 250;
             // 
             // label1
             // 
@@ -724,7 +606,7 @@
             pnlDrinks.Controls.Add(listVBeers);
             pnlDrinks.Controls.Add(listVSoftDrinks);
             pnlDrinks.Controls.Add(label18);
-            pnlDrinks.Location = new Point(8, 11);
+            pnlDrinks.Location = new Point(13, 17);
             pnlDrinks.Margin = new Padding(4, 2, 4, 2);
             pnlDrinks.Name = "pnlDrinks";
             pnlDrinks.Size = new Size(893, 1534);
@@ -732,7 +614,7 @@
             // 
             // listVCoffee
             // 
-            listVCoffee.Columns.AddRange(new ColumnHeader[] { columnHeader45, columnHeader46, columnHeader47, columnHeader48 });
+            listVCoffee.Columns.AddRange(new ColumnHeader[] { columnHeader29, columnHeader30, columnHeader31 });
             listVCoffee.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
             listVCoffee.FullRowSelect = true;
             listVCoffee.Location = new Point(33, 1310);
@@ -743,28 +625,6 @@
             listVCoffee.TabIndex = 10;
             listVCoffee.UseCompatibleStateImageBehavior = false;
             listVCoffee.View = View.Details;
-            // 
-            // columnHeader45
-            // 
-            columnHeader45.Width = 0;
-            // 
-            // columnHeader46
-            // 
-            columnHeader46.Text = "Name of a drink";
-            columnHeader46.TextAlign = HorizontalAlignment.Center;
-            columnHeader46.Width = 450;
-            // 
-            // columnHeader47
-            // 
-            columnHeader47.Text = "Price";
-            columnHeader47.TextAlign = HorizontalAlignment.Center;
-            columnHeader47.Width = 170;
-            // 
-            // columnHeader48
-            // 
-            columnHeader48.Text = "Stock";
-            columnHeader48.TextAlign = HorizontalAlignment.Center;
-            columnHeader48.Width = 170;
             // 
             // label19
             // 
@@ -792,7 +652,7 @@
             // 
             // listVSpirit
             // 
-            listVSpirit.Columns.AddRange(new ColumnHeader[] { columnHeader29, columnHeader30, columnHeader31, columnHeader32 });
+            listVSpirit.Columns.AddRange(new ColumnHeader[] { columnHeader33, columnHeader34, columnHeader35 });
             listVSpirit.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
             listVSpirit.FullRowSelect = true;
             listVSpirit.Location = new Point(33, 1033);
@@ -803,28 +663,6 @@
             listVSpirit.TabIndex = 7;
             listVSpirit.UseCompatibleStateImageBehavior = false;
             listVSpirit.View = View.Details;
-            // 
-            // columnHeader29
-            // 
-            columnHeader29.Width = 0;
-            // 
-            // columnHeader30
-            // 
-            columnHeader30.Text = "Name of a drink";
-            columnHeader30.TextAlign = HorizontalAlignment.Center;
-            columnHeader30.Width = 450;
-            // 
-            // columnHeader31
-            // 
-            columnHeader31.Text = "Price";
-            columnHeader31.TextAlign = HorizontalAlignment.Center;
-            columnHeader31.Width = 170;
-            // 
-            // columnHeader32
-            // 
-            columnHeader32.Text = "Stock";
-            columnHeader32.TextAlign = HorizontalAlignment.Center;
-            columnHeader32.Width = 170;
             // 
             // label15
             // 
@@ -864,7 +702,7 @@
             // 
             // listVWines
             // 
-            listVWines.Columns.AddRange(new ColumnHeader[] { columnHeader33, columnHeader34, columnHeader35, columnHeader36 });
+            listVWines.Columns.AddRange(new ColumnHeader[] { columnHeader37, columnHeader38, columnHeader39 });
             listVWines.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
             listVWines.FullRowSelect = true;
             listVWines.Location = new Point(33, 759);
@@ -876,31 +714,9 @@
             listVWines.UseCompatibleStateImageBehavior = false;
             listVWines.View = View.Details;
             // 
-            // columnHeader33
-            // 
-            columnHeader33.Width = 0;
-            // 
-            // columnHeader34
-            // 
-            columnHeader34.Text = "Name of a drink";
-            columnHeader34.TextAlign = HorizontalAlignment.Center;
-            columnHeader34.Width = 450;
-            // 
-            // columnHeader35
-            // 
-            columnHeader35.Text = "Price";
-            columnHeader35.TextAlign = HorizontalAlignment.Center;
-            columnHeader35.Width = 170;
-            // 
-            // columnHeader36
-            // 
-            columnHeader36.Text = "Stock";
-            columnHeader36.TextAlign = HorizontalAlignment.Center;
-            columnHeader36.Width = 170;
-            // 
             // listVBeers
             // 
-            listVBeers.Columns.AddRange(new ColumnHeader[] { columnHeader37, columnHeader38, columnHeader39, columnHeader40 });
+            listVBeers.Columns.AddRange(new ColumnHeader[] { columnHeader10, columnHeader11, columnHeader12 });
             listVBeers.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
             listVBeers.FullRowSelect = true;
             listVBeers.Location = new Point(33, 439);
@@ -912,31 +728,9 @@
             listVBeers.UseCompatibleStateImageBehavior = false;
             listVBeers.View = View.Details;
             // 
-            // columnHeader37
-            // 
-            columnHeader37.Width = 0;
-            // 
-            // columnHeader38
-            // 
-            columnHeader38.Text = "Name of a drink";
-            columnHeader38.TextAlign = HorizontalAlignment.Center;
-            columnHeader38.Width = 450;
-            // 
-            // columnHeader39
-            // 
-            columnHeader39.Text = "Price";
-            columnHeader39.TextAlign = HorizontalAlignment.Center;
-            columnHeader39.Width = 170;
-            // 
-            // columnHeader40
-            // 
-            columnHeader40.Text = "Stock";
-            columnHeader40.TextAlign = HorizontalAlignment.Center;
-            columnHeader40.Width = 170;
-            // 
             // listVSoftDrinks
             // 
-            listVSoftDrinks.Columns.AddRange(new ColumnHeader[] { columnHeader41, columnHeader42, columnHeader43, columnHeader44 });
+            listVSoftDrinks.Columns.AddRange(new ColumnHeader[] { columnHeader7, columnHeader8, columnHeader9 });
             listVSoftDrinks.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
             listVSoftDrinks.FullRowSelect = true;
             listVSoftDrinks.Location = new Point(33, 132);
@@ -947,28 +741,6 @@
             listVSoftDrinks.TabIndex = 1;
             listVSoftDrinks.UseCompatibleStateImageBehavior = false;
             listVSoftDrinks.View = View.Details;
-            // 
-            // columnHeader41
-            // 
-            columnHeader41.Width = 0;
-            // 
-            // columnHeader42
-            // 
-            columnHeader42.Text = "Name of a drink";
-            columnHeader42.TextAlign = HorizontalAlignment.Center;
-            columnHeader42.Width = 450;
-            // 
-            // columnHeader43
-            // 
-            columnHeader43.Text = "Price";
-            columnHeader43.TextAlign = HorizontalAlignment.Center;
-            columnHeader43.Width = 170;
-            // 
-            // columnHeader44
-            // 
-            columnHeader44.Text = "Stock";
-            columnHeader44.TextAlign = HorizontalAlignment.Center;
-            columnHeader44.Width = 170;
             // 
             // label18
             // 
@@ -982,35 +754,175 @@
             label18.TabIndex = 0;
             label18.Text = "Drinks";
             // 
-            // columnHeader54
+            // columnHeader4
             // 
-            columnHeader54.Text = "Name";
-            columnHeader54.Width = 250;
+            columnHeader4.Text = "Name";
+            columnHeader4.Width = 250;
             // 
-            // columnHeader55
+            // columnHeader5
             // 
-            columnHeader55.Text = "Price";
-            columnHeader55.Width = 250;
+            columnHeader5.Text = "Price";
+            columnHeader5.Width = 250;
             // 
-            // columnHeader56
+            // columnHeader6
             // 
-            columnHeader56.Text = "Stock";
-            columnHeader56.Width = 250;
+            columnHeader6.Text = "Stock";
+            columnHeader6.Width = 250;
             // 
-            // columnHeader1
+            // columnHeader7
             // 
-            columnHeader1.Text = "Name";
-            columnHeader1.Width = 250;
+            columnHeader7.Text = "Name";
+            columnHeader7.Width = 250;
             // 
-            // columnHeader2
+            // columnHeader8
             // 
-            columnHeader2.Text = "Price";
-            columnHeader2.Width = 250;
+            columnHeader8.Text = "Price";
+            columnHeader8.Width = 250;
             // 
-            // columnHeader3
+            // columnHeader9
             // 
-            columnHeader3.Text = "Stock";
-            columnHeader3.Width = 250;
+            columnHeader9.Text = "Stock";
+            columnHeader9.Width = 250;
+            // 
+            // columnHeader10
+            // 
+            columnHeader10.Text = "Name";
+            columnHeader10.Width = 250;
+            // 
+            // columnHeader11
+            // 
+            columnHeader11.Text = "Price";
+            columnHeader11.Width = 250;
+            // 
+            // columnHeader12
+            // 
+            columnHeader12.Text = "Stock";
+            columnHeader12.Width = 250;
+            // 
+            // columnHeader37
+            // 
+            columnHeader37.Text = "Name";
+            columnHeader37.Width = 250;
+            // 
+            // columnHeader38
+            // 
+            columnHeader38.Text = "Price";
+            columnHeader38.Width = 250;
+            // 
+            // columnHeader39
+            // 
+            columnHeader39.Text = "Stock";
+            columnHeader39.Width = 250;
+            // 
+            // columnHeader33
+            // 
+            columnHeader33.Text = "Name";
+            columnHeader33.Width = 250;
+            // 
+            // columnHeader34
+            // 
+            columnHeader34.Text = "Price";
+            columnHeader34.Width = 250;
+            // 
+            // columnHeader35
+            // 
+            columnHeader35.Text = "Stock";
+            columnHeader35.Width = 250;
+            // 
+            // columnHeader29
+            // 
+            columnHeader29.Text = "Name";
+            columnHeader29.Width = 250;
+            // 
+            // columnHeader30
+            // 
+            columnHeader30.Text = "Price";
+            columnHeader30.Width = 250;
+            // 
+            // columnHeader31
+            // 
+            columnHeader31.Text = "Stock";
+            columnHeader31.Width = 250;
+            // 
+            // columnHeader32
+            // 
+            columnHeader32.Text = "Name";
+            columnHeader32.Width = 250;
+            // 
+            // columnHeader36
+            // 
+            columnHeader36.Text = "Price";
+            columnHeader36.Width = 250;
+            // 
+            // columnHeader40
+            // 
+            columnHeader40.Text = "Stock";
+            columnHeader40.Width = 250;
+            // 
+            // columnHeader21
+            // 
+            columnHeader21.Text = "Name";
+            columnHeader21.Width = 250;
+            // 
+            // columnHeader22
+            // 
+            columnHeader22.Text = "Price";
+            columnHeader22.Width = 250;
+            // 
+            // columnHeader23
+            // 
+            columnHeader23.Text = "Stock";
+            columnHeader23.Width = 250;
+            // 
+            // columnHeader24
+            // 
+            columnHeader24.Text = "Name";
+            columnHeader24.Width = 250;
+            // 
+            // columnHeader25
+            // 
+            columnHeader25.Text = "Price";
+            columnHeader25.Width = 250;
+            // 
+            // columnHeader26
+            // 
+            columnHeader26.Text = "Stock";
+            columnHeader26.Width = 250;
+            // 
+            // columnHeader17
+            // 
+            columnHeader17.Text = "Name";
+            columnHeader17.Width = 250;
+            // 
+            // columnHeader18
+            // 
+            columnHeader18.Text = "Price";
+            columnHeader18.Width = 250;
+            // 
+            // columnHeader19
+            // 
+            columnHeader19.Text = "Stock";
+            columnHeader19.Width = 250;
+            // 
+            // columnHeader13
+            // 
+            columnHeader13.Text = "Name of Item";
+            columnHeader13.Width = 250;
+            // 
+            // columnHeader14
+            // 
+            columnHeader14.Text = "Price";
+            columnHeader14.Width = 250;
+            // 
+            // columnHeader15
+            // 
+            columnHeader15.Text = "Amount";
+            columnHeader15.Width = 200;
+            // 
+            // columnHeader16
+            // 
+            columnHeader16.Text = "Comment";
+            columnHeader16.Width = 250;
             // 
             // OrderForm
             // 
@@ -1058,11 +970,6 @@
         private Label label8;
         private Label label6;
         private ListView listVOrder;
-        private ColumnHeader columnHeader49;
-        private ColumnHeader columnHeader50;
-        private ColumnHeader columnHeader51;
-        private ColumnHeader columnHeader52;
-        private ColumnHeader columnHeader53;
         private Button btnLunchM;
         private Button btnDinnerM;
         private Button btnDrinksM;
@@ -1074,72 +981,32 @@
         private Panel pnlDinner;
         private Panel pnlDrinks;
         private ListView listVCoffee;
-        private ColumnHeader columnHeader45;
-        private ColumnHeader columnHeader46;
-        private ColumnHeader columnHeader47;
-        private ColumnHeader columnHeader48;
         private Label label19;
         private Label label14;
         private ListView listVSpirit;
-        private ColumnHeader columnHeader29;
-        private ColumnHeader columnHeader30;
-        private ColumnHeader columnHeader31;
-        private ColumnHeader columnHeader32;
         private Label label15;
         private Label label16;
         private Label label17;
         private ListView listVWines;
-        private ColumnHeader columnHeader33;
-        private ColumnHeader columnHeader34;
-        private ColumnHeader columnHeader35;
-        private ColumnHeader columnHeader36;
         private ListView listVBeers;
-        private ColumnHeader columnHeader37;
-        private ColumnHeader columnHeader38;
-        private ColumnHeader columnHeader39;
-        private ColumnHeader columnHeader40;
         private ListView listVSoftDrinks;
-        private ColumnHeader columnHeader41;
-        private ColumnHeader columnHeader42;
-        private ColumnHeader columnHeader43;
-        private ColumnHeader columnHeader44;
         private Label label18;
         private Panel pnlLunch;
         private Label label4;
         private Label label3;
         private Label label2;
         private ListView listVDessertsLunch;
-        private ColumnHeader columnHeader9;
-        private ColumnHeader columnHeader10;
-        private ColumnHeader columnHeader11;
-        private ColumnHeader columnHeader12;
         private ListView listVMainsLunch;
         private ListView listVStartersLunch;
         private Label label1;
         private Label label13;
         private ListView listVEntremetsDinner;
-        private ColumnHeader columnHeader25;
-        private ColumnHeader columnHeader26;
-        private ColumnHeader columnHeader27;
-        private ColumnHeader columnHeader28;
         private Label label9;
         private Label label10;
         private Label label11;
         private ListView listVDessertsDinner;
-        private ColumnHeader columnHeader13;
-        private ColumnHeader columnHeader14;
-        private ColumnHeader columnHeader15;
-        private ColumnHeader columnHeader16;
         private ListView listVMainsDinner;
-        private ColumnHeader columnHeader17;
-        private ColumnHeader columnHeader18;
-        private ColumnHeader columnHeader19;
-        private ColumnHeader columnHeader20;
         private ListView listVStartersDinner;
-        private ColumnHeader columnHeader21;
-        private ColumnHeader columnHeader22;
-        private ColumnHeader columnHeader23;
-        private ColumnHeader columnHeader24;
         private Label label12;
         private ColumnHeader columnHeader54;
         private ColumnHeader columnHeader55;
@@ -1147,5 +1014,39 @@
         private ColumnHeader columnHeader1;
         private ColumnHeader columnHeader2;
         private ColumnHeader columnHeader3;
+        private ColumnHeader columnHeader4;
+        private ColumnHeader columnHeader5;
+        private ColumnHeader columnHeader6;
+        private ColumnHeader columnHeader29;
+        private ColumnHeader columnHeader30;
+        private ColumnHeader columnHeader31;
+        private ColumnHeader columnHeader33;
+        private ColumnHeader columnHeader34;
+        private ColumnHeader columnHeader35;
+        private ColumnHeader columnHeader37;
+        private ColumnHeader columnHeader38;
+        private ColumnHeader columnHeader39;
+        private ColumnHeader columnHeader10;
+        private ColumnHeader columnHeader11;
+        private ColumnHeader columnHeader12;
+        private ColumnHeader columnHeader7;
+        private ColumnHeader columnHeader8;
+        private ColumnHeader columnHeader9;
+        private ColumnHeader columnHeader21;
+        private ColumnHeader columnHeader22;
+        private ColumnHeader columnHeader23;
+        private ColumnHeader columnHeader32;
+        private ColumnHeader columnHeader36;
+        private ColumnHeader columnHeader40;
+        private ColumnHeader columnHeader17;
+        private ColumnHeader columnHeader18;
+        private ColumnHeader columnHeader19;
+        private ColumnHeader columnHeader24;
+        private ColumnHeader columnHeader25;
+        private ColumnHeader columnHeader26;
+        private ColumnHeader columnHeader13;
+        private ColumnHeader columnHeader14;
+        private ColumnHeader columnHeader15;
+        private ColumnHeader columnHeader16;
     }
 }
