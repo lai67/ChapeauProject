@@ -1,6 +1,6 @@
 ﻿namespace ChapeauUI
 {
-    partial class RestaurantOverview
+    partial class RestaurantOverviewForm
     {
         /// <summary>
         /// Required designer variable.

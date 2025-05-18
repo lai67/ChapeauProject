@@ -1,55 +1,56 @@
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+//using System;
+//using System.Collections.Generic;
+//using System.Data.SqlClient;
+//using Model;
 
-namespace DAL
-{
-    internal class OrderItemDao : BaseDao
-    {
-        public List<OrderItem> GetOrderItemsByOrderId(int orderId)
-        {
-            List<OrderItem> orderItems = new List<OrderItem>();
-            string query = "SELECT * FROM Order_Item WHERE order_id = @orderId";
+//namespace DAL
+//{
+//    internal class OrderItemDao : BaseDao
+//    {
+//        public List<OrderItem> GetOrderItemsByOrderId(int orderId)
+//        {
+//            List<OrderItem> orderItems = new List<OrderItem>();
+//            string query = "SELECT * FROM Order_Item WHERE order_id = @orderId";
 
-            using (SqlConnection connection = OpenConnection())
-            {
-                SqlCommand command = CreateCommand(connection, query,
-                    new SqlParameter("@orderId", orderId));
-                SqlDataReader reader = command.ExecuteReader();
+//            using (SqlConnection connection = OpenConnection())
+//            {
+//                SqlCommand command = CreateCommand(connection, query,
+//                    new SqlParameter("@orderId", orderId));
+//                SqlDataReader reader = command.ExecuteReader();
 
-                while (reader.Read())
-                {
-                    orderItems.Add(MapOrderItem(reader));
-                }
-            }
+//                while (reader.Read())
+//                {
+//                    orderItems.Add(MapOrderItem(reader));
+//                }
+//            }
 
-            return orderItems;
-        }
+//            return orderItems;
+//        }
 
-        public void AddOrderItem(OrderItem orderItem)
-        {
-            string query = "INSERT INTO Order_Item (menu_item_id, count, order_id) VALUES (@menuItemId, @count, @orderId)";
+//        public void AddOrderItem(OrderItem orderItem)
+//        {
+//            string query = "INSERT INTO Order_Item (menu_item_id, count, order_id) VALUES (@menuItemId, @count, @orderId)";
 
-            using (SqlConnection connection = OpenConnection())
-            {
-                SqlCommand command = CreateCommand(connection, query,
-                    new SqlParameter("@menuItemId", orderItem.MenuItemId),
-                    new SqlParameter("@count", orderItem.Count),
-                    new SqlParameter("@orderId", orderItem.OrderId));
+//            using (SqlConnection connection = OpenConnection())
+//            {
+//                SqlCommand command = CreateCommand(connection, query,
+//                    new SqlParameter("@menuItemId", orderItem.MenuItemId),
+//                    new SqlParameter("@count", orderItem.Count),
+//                    new SqlParameter("@orderId", orderItem.OrderId));
 
-                command.ExecuteNonQuery();
-            }
-        }
+//                command.ExecuteNonQuery();
+//            }
+//        }
 
-        private OrderItem MapOrderItem(SqlDataReader reader)
-        {
-            return new OrderItem
-            {
-                Id = reader.GetInt32(0),
-                MenuItemId = reader.GetInt32(1),
-                Count = reader.GetInt32(2),
-                OrderId = reader.GetInt32(3)
-            };
-        }
-    }
-}
+//        private OrderItem MapOrderItem(SqlDataReader reader)
+//        {
+//            return new OrderItem
+//            {
+//                Id = reader.GetInt32(0),
+//                MenuItemId = reader.GetInt32(1),
+//                Count = reader.GetInt32(2),
+//                OrderId = reader.GetInt32(3)
+//            };
+//        }
+//    }
+//}
