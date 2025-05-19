@@ -32,7 +32,7 @@ namespace DAL
             return ConvertToList(dt);
         }
 
-        // This method is used to get all items by menu id
+        // This method is used to get all items by menu id.
         public List<Menu_Item_Model> GetItemsByMenuId(int menuId)
         {
             string query = "SELECT * FROM Menu_Item WHERE menu_id = @menuId";
@@ -60,7 +60,7 @@ namespace DAL
                     Vat = Convert.ToDouble(row["vat"]),
                     Price = Convert.ToDecimal(row["price"]),
                     Preperation_Time = Convert.ToInt32(row["preparation_time"]),
-                    Menu_Id = row.Table.Columns.Contains("menu_id") && row["menu_id"] != DBNull.Value
+                    Menu_Id = row.Table.Columns.Contains("menu_id") && row["menu_id"] != DBNull.Value // in case if its null.
                           ? Convert.ToInt32(row["menu_id"])
                           : 0
 

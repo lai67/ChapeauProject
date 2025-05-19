@@ -47,18 +47,17 @@ namespace ChapeauUI
 
         private void LoadLunchItems()
         {
-           
             FillListView(listVStartersLunch, menuService.GetItemsByMenuAndCategory((int)MenuType.Lunch, "Starter"));
-            FillListView(listVMainsLunch, menuService.GetItemsByMenuAndCategory((int)MenuType.Lunch, "MainCourse"));
+            FillListView(listVMainsLunch, menuService.GetItemsByMenuAndCategory((int)MenuType.Lunch, "Main"));
             FillListView(listVDessertsLunch, menuService.GetItemsByMenuAndCategory((int)MenuType.Lunch, "Dessert"));
         }
         private void LoadDinnerItems()
         {
             var allDinnerItems = menuService.GetItemsByMenuId((int)MenuType.Dinner);
-            FillListView(listVStartersDinner, menuService.GetItemsByMenuAndCategory((int)MenuType.Lunch, "Starter"));
-            FillListView(listVEntremetsDinner, menuService.GetItemsByMenuAndCategory((int)MenuType.Lunch, "Entremet"));
-            FillListView(listVMainsDinner, menuService.GetItemsByMenuAndCategory((int)MenuType.Lunch, "MainCourse"));
-            FillListView(listVDessertsDinner, menuService.GetItemsByMenuAndCategory((int)MenuType.Lunch, "Dessert"));
+            FillListView(listVStartersDinner, menuService.GetItemsByMenuAndCategory((int)MenuType.Dinner, "Starter"));
+            FillListView(listVEntremetsDinner, menuService.GetItemsByMenuAndCategory((int)MenuType.Dinner, "Entremet"));
+            FillListView(listVMainsDinner, menuService.GetItemsByMenuAndCategory((int)MenuType.Dinner, "Main"));
+            FillListView(listVDessertsDinner, menuService.GetItemsByMenuAndCategory((int)MenuType.Dinner, "Dessert"));
         }
 
 
