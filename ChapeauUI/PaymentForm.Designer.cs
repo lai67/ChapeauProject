@@ -76,6 +76,27 @@
             lblTipPercent = new Label();
             richTextBoxFeedback = new RichTextBox();
             lblFeedbackFromCustomer = new Label();
+            lblSplitValue = new Label();
+            btnSplitDecrement = new Button();
+            btnSplitIncrement = new Button();
+            rdBtnTipPct0 = new RadioButton();
+            rdBtnTipPct25 = new RadioButton();
+            rdBtnTipPct20 = new RadioButton();
+            rdBtnTipPct15 = new RadioButton();
+            rdBtnTipPct12 = new RadioButton();
+            rdBtnTipPct10 = new RadioButton();
+            rdBtnTipPct7 = new RadioButton();
+            rdBtnTipPct5 = new RadioButton();
+            rdBtnTipPct2 = new RadioButton();
+            lblTipPct2 = new Label();
+            lblTipPct15 = new Label();
+            lblTipPct20 = new Label();
+            lblTipPct25 = new Label();
+            lblTipPct12 = new Label();
+            lblTipPct10 = new Label();
+            lblTipPct5 = new Label();
+            lblTipPct7 = new Label();
+            lblTipPct0 = new Label();
             completeBillFields.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -547,11 +568,244 @@
             lblFeedbackFromCustomer.TabIndex = 44;
             lblFeedbackFromCustomer.Text = "Feedback from customer:";
             // 
+            // lblSplitValue
+            // 
+            lblSplitValue.AutoSize = true;
+            lblSplitValue.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSplitValue.Location = new Point(975, 198);
+            lblSplitValue.Name = "lblSplitValue";
+            lblSplitValue.Size = new Size(33, 38);
+            lblSplitValue.TabIndex = 50;
+            lblSplitValue.Text = "0";
+            // 
+            // btnSplitDecrement
+            // 
+            btnSplitDecrement.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
+            btnSplitDecrement.Location = new Point(825, 197);
+            btnSplitDecrement.Name = "btnSplitDecrement";
+            btnSplitDecrement.Size = new Size(100, 42);
+            btnSplitDecrement.TabIndex = 51;
+            btnSplitDecrement.Text = " - ";
+            btnSplitDecrement.UseVisualStyleBackColor = true;
+            btnSplitDecrement.Click += btnSplitDecrement_Click;
+            // 
+            // btnSplitIncrement
+            // 
+            btnSplitIncrement.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
+            btnSplitIncrement.Location = new Point(1064, 197);
+            btnSplitIncrement.Name = "btnSplitIncrement";
+            btnSplitIncrement.Size = new Size(100, 42);
+            btnSplitIncrement.TabIndex = 52;
+            btnSplitIncrement.Text = "+";
+            btnSplitIncrement.UseVisualStyleBackColor = true;
+            btnSplitIncrement.Click += btnSplitIncrement_Click;
+            // 
+            // rdBtnTipPct0
+            // 
+            rdBtnTipPct0.AutoSize = true;
+            rdBtnTipPct0.Location = new Point(833, 295);
+            rdBtnTipPct0.Name = "rdBtnTipPct0";
+            rdBtnTipPct0.Size = new Size(17, 16);
+            rdBtnTipPct0.TabIndex = 53;
+            rdBtnTipPct0.TabStop = true;
+            rdBtnTipPct0.UseVisualStyleBackColor = true;
+            // 
+            // rdBtnTipPct25
+            // 
+            rdBtnTipPct25.AutoSize = true;
+            rdBtnTipPct25.Location = new Point(1141, 295);
+            rdBtnTipPct25.Name = "rdBtnTipPct25";
+            rdBtnTipPct25.Size = new Size(17, 16);
+            rdBtnTipPct25.TabIndex = 54;
+            rdBtnTipPct25.TabStop = true;
+            rdBtnTipPct25.UseVisualStyleBackColor = true;
+            // 
+            // rdBtnTipPct20
+            // 
+            rdBtnTipPct20.AutoSize = true;
+            rdBtnTipPct20.Location = new Point(1101, 295);
+            rdBtnTipPct20.Name = "rdBtnTipPct20";
+            rdBtnTipPct20.Size = new Size(17, 16);
+            rdBtnTipPct20.TabIndex = 55;
+            rdBtnTipPct20.TabStop = true;
+            rdBtnTipPct20.UseVisualStyleBackColor = true;
+            // 
+            // rdBtnTipPct15
+            // 
+            rdBtnTipPct15.AutoSize = true;
+            rdBtnTipPct15.Location = new Point(1063, 295);
+            rdBtnTipPct15.Name = "rdBtnTipPct15";
+            rdBtnTipPct15.Size = new Size(17, 16);
+            rdBtnTipPct15.TabIndex = 56;
+            rdBtnTipPct15.TabStop = true;
+            rdBtnTipPct15.UseVisualStyleBackColor = true;
+            // 
+            // rdBtnTipPct12
+            // 
+            rdBtnTipPct12.AutoSize = true;
+            rdBtnTipPct12.Location = new Point(1027, 295);
+            rdBtnTipPct12.Name = "rdBtnTipPct12";
+            rdBtnTipPct12.Size = new Size(17, 16);
+            rdBtnTipPct12.TabIndex = 57;
+            rdBtnTipPct12.TabStop = true;
+            rdBtnTipPct12.UseVisualStyleBackColor = true;
+            // 
+            // rdBtnTipPct10
+            // 
+            rdBtnTipPct10.AutoSize = true;
+            rdBtnTipPct10.Location = new Point(988, 295);
+            rdBtnTipPct10.Name = "rdBtnTipPct10";
+            rdBtnTipPct10.Size = new Size(17, 16);
+            rdBtnTipPct10.TabIndex = 58;
+            rdBtnTipPct10.TabStop = true;
+            rdBtnTipPct10.UseVisualStyleBackColor = true;
+            // 
+            // rdBtnTipPct7
+            // 
+            rdBtnTipPct7.AutoSize = true;
+            rdBtnTipPct7.Location = new Point(948, 295);
+            rdBtnTipPct7.Name = "rdBtnTipPct7";
+            rdBtnTipPct7.Size = new Size(17, 16);
+            rdBtnTipPct7.TabIndex = 59;
+            rdBtnTipPct7.TabStop = true;
+            rdBtnTipPct7.UseVisualStyleBackColor = true;
+            // 
+            // rdBtnTipPct5
+            // 
+            rdBtnTipPct5.AutoSize = true;
+            rdBtnTipPct5.Location = new Point(910, 295);
+            rdBtnTipPct5.Name = "rdBtnTipPct5";
+            rdBtnTipPct5.Size = new Size(17, 16);
+            rdBtnTipPct5.TabIndex = 60;
+            rdBtnTipPct5.TabStop = true;
+            rdBtnTipPct5.UseVisualStyleBackColor = true;
+            // 
+            // rdBtnTipPct2
+            // 
+            rdBtnTipPct2.AutoSize = true;
+            rdBtnTipPct2.Location = new Point(870, 295);
+            rdBtnTipPct2.Name = "rdBtnTipPct2";
+            rdBtnTipPct2.Size = new Size(17, 16);
+            rdBtnTipPct2.TabIndex = 61;
+            rdBtnTipPct2.TabStop = true;
+            rdBtnTipPct2.UseVisualStyleBackColor = true;
+            // 
+            // lblTipPct2
+            // 
+            lblTipPct2.AutoSize = true;
+            lblTipPct2.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTipPct2.Location = new Point(869, 269);
+            lblTipPct2.Name = "lblTipPct2";
+            lblTipPct2.Size = new Size(19, 23);
+            lblTipPct2.TabIndex = 62;
+            lblTipPct2.Text = "2";
+            // 
+            // lblTipPct15
+            // 
+            lblTipPct15.AutoSize = true;
+            lblTipPct15.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTipPct15.Location = new Point(1057, 269);
+            lblTipPct15.Name = "lblTipPct15";
+            lblTipPct15.Size = new Size(28, 23);
+            lblTipPct15.TabIndex = 63;
+            lblTipPct15.Text = "15";
+            // 
+            // lblTipPct20
+            // 
+            lblTipPct20.AutoSize = true;
+            lblTipPct20.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTipPct20.Location = new Point(1096, 269);
+            lblTipPct20.Name = "lblTipPct20";
+            lblTipPct20.Size = new Size(28, 23);
+            lblTipPct20.TabIndex = 64;
+            lblTipPct20.Text = "20";
+            // 
+            // lblTipPct25
+            // 
+            lblTipPct25.AutoSize = true;
+            lblTipPct25.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTipPct25.Location = new Point(1136, 269);
+            lblTipPct25.Name = "lblTipPct25";
+            lblTipPct25.Size = new Size(28, 23);
+            lblTipPct25.TabIndex = 65;
+            lblTipPct25.Text = "25";
+            // 
+            // lblTipPct12
+            // 
+            lblTipPct12.AutoSize = true;
+            lblTipPct12.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTipPct12.Location = new Point(1020, 269);
+            lblTipPct12.Name = "lblTipPct12";
+            lblTipPct12.Size = new Size(28, 23);
+            lblTipPct12.TabIndex = 66;
+            lblTipPct12.Text = "12";
+            // 
+            // lblTipPct10
+            // 
+            lblTipPct10.AutoSize = true;
+            lblTipPct10.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTipPct10.Location = new Point(982, 269);
+            lblTipPct10.Name = "lblTipPct10";
+            lblTipPct10.Size = new Size(28, 23);
+            lblTipPct10.TabIndex = 67;
+            lblTipPct10.Text = "10";
+            // 
+            // lblTipPct5
+            // 
+            lblTipPct5.AutoSize = true;
+            lblTipPct5.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTipPct5.Location = new Point(909, 269);
+            lblTipPct5.Name = "lblTipPct5";
+            lblTipPct5.Size = new Size(19, 23);
+            lblTipPct5.TabIndex = 68;
+            lblTipPct5.Text = "5";
+            // 
+            // lblTipPct7
+            // 
+            lblTipPct7.AutoSize = true;
+            lblTipPct7.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTipPct7.Location = new Point(947, 269);
+            lblTipPct7.Name = "lblTipPct7";
+            lblTipPct7.Size = new Size(19, 23);
+            lblTipPct7.TabIndex = 69;
+            lblTipPct7.Text = "7";
+            // 
+            // lblTipPct0
+            // 
+            lblTipPct0.AutoSize = true;
+            lblTipPct0.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTipPct0.Location = new Point(832, 269);
+            lblTipPct0.Name = "lblTipPct0";
+            lblTipPct0.Size = new Size(19, 23);
+            lblTipPct0.TabIndex = 70;
+            lblTipPct0.Text = "0";
+            // 
             // PaymentForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1176, 753);
+            Controls.Add(lblTipPct0);
+            Controls.Add(lblTipPct7);
+            Controls.Add(lblTipPct5);
+            Controls.Add(lblTipPct10);
+            Controls.Add(lblTipPct12);
+            Controls.Add(lblTipPct25);
+            Controls.Add(lblTipPct20);
+            Controls.Add(lblTipPct15);
+            Controls.Add(lblTipPct2);
+            Controls.Add(rdBtnTipPct2);
+            Controls.Add(rdBtnTipPct5);
+            Controls.Add(rdBtnTipPct7);
+            Controls.Add(rdBtnTipPct10);
+            Controls.Add(rdBtnTipPct12);
+            Controls.Add(rdBtnTipPct15);
+            Controls.Add(rdBtnTipPct20);
+            Controls.Add(rdBtnTipPct25);
+            Controls.Add(rdBtnTipPct0);
+            Controls.Add(btnSplitIncrement);
+            Controls.Add(btnSplitDecrement);
+            Controls.Add(lblSplitValue);
             Controls.Add(richTextBoxFeedback);
             Controls.Add(lblFeedbackFromCustomer);
             Controls.Add(lblTipPercent);
@@ -651,5 +905,26 @@
         private Label lblTipPercent;
         private RichTextBox richTextBoxFeedback;
         private Label lblFeedbackFromCustomer;
+        private Label lblTipPct2;
+        private Label lblSplitValue;
+        private Button btnSplitDecrement;
+        private Button btnSplitIncrement;
+        private Label lblTipPct20;
+        private RadioButton rdBtnTipPct0;
+        private RadioButton rdBtnTipPct25;
+        private RadioButton rdBtnTipPct20;
+        private RadioButton rdBtnTipPct15;
+        private RadioButton rdBtnTipPct12;
+        private RadioButton rdBtnTipPct10;
+        private RadioButton rdBtnTipPct7;
+        private RadioButton rdBtnTipPct5;
+        private RadioButton rdBtnTipPct2;
+        private Label lblTipPct15;
+        private Label lblTipPct25;
+        private Label lblTipPct12;
+        private Label lblTipPct10;
+        private Label lblTipPct5;
+        private Label lblTipPct7;
+        private Label lblTipPct0;
     }
 }
