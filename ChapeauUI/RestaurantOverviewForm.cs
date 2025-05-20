@@ -45,7 +45,7 @@ namespace ChapeauUI
             lblDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
             lblTime.Text = DateTime.Now.ToString("HH:mm:ss");
 
-            foreach (var btn in TablesPanel.Controls.OfType<Button>())
+            foreach (var btn in this.Controls.OfType<Button>())
             {
                 if (!int.TryParse(btn.Text, out int tableNumber))
                     continue;
@@ -76,5 +76,7 @@ namespace ChapeauUI
             loginForm.Closed += (s, args) => Close();
             loginForm.Show();
         }
+
+     
     }
 }
