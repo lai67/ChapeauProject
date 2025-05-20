@@ -16,23 +16,22 @@ namespace ChapeauUI
         {
             InitializeComponent();
 
-            employeeService = new EmployeeService();
-
             txtUserId.UseSystemPasswordChar = false;
             txtPassword.UseSystemPasswordChar = true;
+
+            activeTextBox = txtUserId;
 
             txtUserId.Click += TextBox_Click;
             txtPassword.Click += TextBox_Click;
 
-            activeTextBox = txtUserId;
 
-           foreach(var btn in panel1.Controls.OfType<Button>().Where(b =>b.Tag?.ToString() =="NUM"))
+            foreach (var btn in panel1.Controls.OfType<Button>().Where(b => b.Tag?.ToString() == "NUM"))
             {
                 btn.Click += btnNumber_Click;
             }
 
             btnDelete.Click += btnDelete_Click;
-            btnLogin.Click+= btnLogin_Click;
+            btnLogin.Click += btnLogin_Click;
         }
 
         //Login button
@@ -48,13 +47,20 @@ namespace ChapeauUI
                 ShowLoginError("Invalid ID or password. Please try again.");
                 return;
             }
+
+            GlobalVariables.CurrentEmployee = employee;
+
+            // 2) Instantiate the overview with the employee
             var overview = new RestaurantOverviewForm();
             overview.Show();
-            this.Hide();
 
-            //GlobalVariables.CurrentEmployee = employee;
-            //RedirectEmployeeRole();
+            // 3) Hide login
+            this.Hide();
         }
+
+        //GlobalVariables.CurrentEmployee = employee;
+        //RedirectEmployeeRole();
+
 
         //private void RedirectEmployeeRole()
         //{
@@ -106,22 +112,6 @@ namespace ChapeauUI
                 activeTextBox.Text = text[..^1];  // C# 8 range syntax
         }
 
-        //TextBoxes events
-
-        private void textBox_MouseClick(object sender, EventArgs e)
-        {
-            foreach (Control control in panel1.Controls)
-            {
-                if (control is TextBox)
-                {
-                    ((TextBox)control).ReadOnly = false;
-                }
-            }
-
-            TextBox textBox = sender as TextBox;
-            textBox.ReadOnly = true;
-        }
-
         private bool TryGetCredentials(out int userId, out string password)
         {
             userId = 0;
@@ -157,6 +147,10 @@ namespace ChapeauUI
         private void LoginForm_Load(object sender, EventArgs e)
         {
 
+        }
+        public static class GlobalVariables
+        {
+            public static Model.Employee CurrentEmployee { get; set; }
         }
 
     }

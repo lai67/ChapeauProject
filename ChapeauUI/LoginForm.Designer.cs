@@ -81,7 +81,7 @@
             LogoPanel.Location = new Point(2, 2);
             LogoPanel.Margin = new Padding(2);
             LogoPanel.Name = "LogoPanel";
-            LogoPanel.Size = new Size(101, 105);
+            LogoPanel.Size = new Size(182, 69);
             LogoPanel.TabIndex = 16;
             // 
             // btnDelete
@@ -269,7 +269,6 @@
             txtPassword.PasswordChar = '*';
             txtPassword.Size = new Size(125, 27);
             txtPassword.TabIndex = 3;
-            txtPassword.MouseClick += textBox_MouseClick;
             // 
             // txtUserId
             // 
@@ -278,7 +277,6 @@
             txtUserId.Name = "txtUserId";
             txtUserId.Size = new Size(125, 27);
             txtUserId.TabIndex = 2;
-            txtUserId.MouseClick += textBox_MouseClick;
             // 
             // label2
             // 

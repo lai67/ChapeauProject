@@ -6,16 +6,25 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    internal class Table
+    public class Table
     {
-        public int Number {  get; set; }
+        public int TableNumber {  get; set; }
 
         public TableStatus Status { get; set; }
 
+        public Table()
+        {
+            
+        }
+        public Table(int tableNumber, TableStatus statuse)
+        {
+            this.TableNumber = tableNumber;
+            this.Status = statuse;
+        }
     }
 }
 
 public enum TableStatus
 {
-    Occupied, Free
+    Occupied, Free,Booked
 }

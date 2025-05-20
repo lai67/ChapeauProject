@@ -12,7 +12,7 @@ namespace DAL
 {
     public class EmployeeDao :BaseDao
     {
-        public Employee? GetEmployee (int id , string password)
+        public Employee GetEmployee (int id , string password)
         {
             string query = @"SELECT id,first_name,last_name,password,role FROM Employee 
                 WHERE id = @id AND password = @password";
