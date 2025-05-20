@@ -97,6 +97,10 @@
             lblTipPct5 = new Label();
             lblTipPct7 = new Label();
             lblTipPct0 = new Label();
+            listView1 = new ListView();
+            Item = new ColumnHeader();
+            listView2 = new ListView();
+            columnHeader1 = new ColumnHeader();
             completeBillFields.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -780,11 +784,31 @@
             lblTipPct0.TabIndex = 70;
             lblTipPct0.Text = "0";
             // 
+            // listView1
+            // 
+            listView1.Columns.AddRange(new ColumnHeader[] { Item });
+            listView1.Location = new Point(32, 197);
+            listView1.Name = "listView1";
+            listView1.Size = new Size(342, 353);
+            listView1.TabIndex = 71;
+            listView1.UseCompatibleStateImageBehavior = false;
+            // 
+            // listView2
+            // 
+            listView2.Columns.AddRange(new ColumnHeader[] { columnHeader1 });
+            listView2.Location = new Point(424, 197);
+            listView2.Name = "listView2";
+            listView2.Size = new Size(342, 320);
+            listView2.TabIndex = 72;
+            listView2.UseCompatibleStateImageBehavior = false;
+            // 
             // PaymentForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1176, 753);
+            Controls.Add(listView2);
+            Controls.Add(listView1);
             Controls.Add(lblTipPct0);
             Controls.Add(lblTipPct7);
             Controls.Add(lblTipPct5);
@@ -926,5 +950,9 @@
         private Label lblTipPct5;
         private Label lblTipPct7;
         private Label lblTipPct0;
+        private ListView listView1;
+        private ColumnHeader Item;
+        private ListView listView2;
+        private ColumnHeader columnHeader1;
     }
 }
