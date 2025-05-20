@@ -1,13 +1,13 @@
 ﻿namespace ChapeauUI
 {
-    partial class table
+    partial class TestLogin
     {
-        /// <summary> 
+        /// <summary>
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
+        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -20,38 +20,40 @@
             base.Dispose(disposing);
         }
 
-        #region Component Designer generated code
+        #region Windows Form Designer generated code
 
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
+        /// <summary>
+        /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            tableInstance = new Button();
+            button1 = new Button();
             SuspendLayout();
             // 
-            // tableInstance
+            // button1
             // 
-            tableInstance.Location = new Point(3, 3);
-            tableInstance.Name = "tableInstance";
-            tableInstance.Size = new Size(219, 188);
-            tableInstance.TabIndex = 0;
-            tableInstance.Text = "Table ... ";
-            tableInstance.UseVisualStyleBackColor = true;
+            button1.Location = new Point(282, 156);
+            button1.Name = "button1";
+            button1.Size = new Size(244, 46);
+            button1.TabIndex = 0;
+            button1.Text = "Open Order Form";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
-            // table
+            // TestLogin
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(tableInstance);
-            Name = "table";
-            Size = new Size(226, 191);
+            ClientSize = new Size(800, 450);
+            Controls.Add(button1);
+            Name = "TestLogin";
+            Text = "TestLogin";
             ResumeLayout(false);
         }
 
         #endregion
 
-        private Button tableInstance;
+        private Button button1;
     }
 }
