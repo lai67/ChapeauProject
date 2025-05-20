@@ -14,6 +14,7 @@ namespace DAL
         {
 
             conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Group6database"].ConnectionString);
+
             adapter = new SqlDataAdapter();
         }
 

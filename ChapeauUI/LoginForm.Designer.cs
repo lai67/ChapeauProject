@@ -28,6 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+
+            SuspendLayout();
+            // 
+
             panel1 = new Panel();
             LogoPanel = new Panel();
             btnDelete = new Button();
@@ -298,10 +302,16 @@
             labUserID.TabIndex = 0;
             labUserID.Text = "User ID:";
             // 
+
             // LoginForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+
+            ClientSize = new Size(800, 450);
+            Name = "LoginForm";
+            Text = "Form1";
+
             BackColor = Color.White;
             ClientSize = new Size(881, 551);
             Controls.Add(panel1);
@@ -311,6 +321,7 @@
             Load += LoginForm_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+
             ResumeLayout(false);
         }
 
