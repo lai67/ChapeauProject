@@ -10,7 +10,7 @@ namespace Service
 {
     public class TableService
     {
-        private TableDao tableDao;
+        private readonly TableDao tableDao;
         public TableService()
         {
             tableDao = new TableDao();

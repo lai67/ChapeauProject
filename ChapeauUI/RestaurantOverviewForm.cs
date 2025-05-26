@@ -15,6 +15,7 @@ namespace ChapeauUI
     public partial class RestaurantOverviewForm : Form
     {
         private readonly TableService _tableService = new();
+        private readonly OrderService orderService = new();
 
         private List<Table> _tables = new();
 
@@ -47,8 +48,8 @@ namespace ChapeauUI
 
             foreach (var btn in this.Controls.OfType<Button>())
             {
-                if (!int.TryParse(btn.Text, out int tableNumber))
-                    continue;
+                if (!int.TryParse(btn.Text, out int tableNumber)) //skip logo / other buttons
+                    continue; 
 
                 var table = _tables.FirstOrDefault(t => t.TableNumber == tableNumber);
                 if (table == null)
@@ -58,15 +59,42 @@ namespace ChapeauUI
                 switch (table.Status)
                 {
                     case TableStatus.Free:
-                        btn.BackColor = Color.LightGreen;
+                        btn.BackColor = Color.Green;
                         break;
                     case TableStatus.Booked:
-                        btn.BackColor = Color.LightBlue;
+                        btn.BackColor = Color.Blue;
                         break;
                     case TableStatus.Occupied:
-                        btn.BackColor = Color.IndianRed;
+                        btn.BackColor = Color.Red;
                         break;
                 }
+            }
+
+            var phases = orderService.GetTableLocationPhases();   // dictionary
+
+            foreach (int n in Enumerable.Range(1, 10))
+            {
+                var picBar = Controls.Find($"picBar{n}", true).FirstOrDefault() as PictureBox;
+                var picKitch = Controls.Find($"picKitch{n}", true).FirstOrDefault() as PictureBox;
+                if (picBar == null || picKitch == null) continue;
+
+                phases.TryGetValue(n, out var p);   // p defaults to ("", "") if none
+
+                // ----BAR icon----
+                picBar.Image = p.BarStatus switch
+                {
+                    "Preparing" => Properties.Resources.PreparingBarIcon,
+                    "Ready" => Properties.Resources.ReadyBarIcon,
+                    _ => Properties.Resources.NoBarIcon      // Running/None
+                };
+
+                // ---- KITCHEN icon ----
+                picKitch.Image = p.KitchenStatus switch
+                {
+                    "Preparing" => Properties.Resources.PreparingKitchenIcon,
+                    "Ready" => Properties.Resources.ReadyKitchenIcon,
+                    _ => Properties.Resources.NoKitchenIcon
+                };
             }
         }
         private void btnLogOutNew_Click(object sender, EventArgs e)
@@ -76,7 +104,6 @@ namespace ChapeauUI
             loginForm.Closed += (s, args) => Close();
             loginForm.Show();
         }
-
-     
     }
 }
+

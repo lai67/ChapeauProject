@@ -31,7 +31,6 @@ namespace ChapeauUI
             }
 
             btnDelete.Click += btnDelete_Click;
-            btnLogin.Click += btnLogin_Click;
         }
 
         //Login button

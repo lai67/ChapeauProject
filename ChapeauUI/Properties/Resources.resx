@@ -117,4 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="NoBarIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Images\NoBarIcon.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="NoKitchenIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Images\NoKitchenIcon.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PreparingBarIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Images\PreparingBarIcon.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PreparingKitchenIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Images\PreparingKitchenIcon.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReadyBarIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Images\ReadyBarIcon.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ReadyKitchenIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Images\ReadyKitchenIcon.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
