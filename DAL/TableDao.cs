@@ -13,7 +13,7 @@ namespace DAL
     {
         public List<Table> GetAllTables()
         {
-            string sql = @" SELECT table_number, table_status FROM dbo.[Table] ";
+            string sql = @" SELECT id, table_number, table_status FROM dbo.[Table] ";
 
             DataTable dt = ExecuteSelectQuery(sql);
 
@@ -23,6 +23,7 @@ namespace DAL
                 {
                     int tableNumber = dr.Field<int>("table_number");
                     string tableStatusString = dr.Field<string>("table_status");
+                    int id = dr.Field<int>("id");
 
                     if (!Enum.TryParse<TableStatus>(tableStatusString, ignoreCase: true, out var tableStatus))
                         throw new DataException($"Unrecognized table status '{tableStatusString}' for table {tableNumber}");

@@ -14,14 +14,17 @@ namespace ChapeauUI
 {
     public partial class RestaurantOverviewForm : Form
     {
-        private readonly TableService _tableService = new();
+        private TableService _tableService = new();
+        private Employee _currentEmployee;
 
         private List<Table> _tables = new();
 
         private readonly System.Windows.Forms.Timer _refreshTimer = new System.Windows.Forms.Timer { Interval = 5000 };
-        public RestaurantOverviewForm()
+        public RestaurantOverviewForm(Employee employee)
         {
             InitializeComponent();
+            _currentEmployee = employee;
+            lblName.Text = $" {_currentEmployee.FirstName} {_currentEmployee.LastName}";
 
             this.Load += RestaurantOverviewForm_Load;
 

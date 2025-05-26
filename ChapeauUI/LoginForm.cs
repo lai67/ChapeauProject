@@ -9,7 +9,7 @@ namespace ChapeauUI
 {
     public partial class LoginForm : Form
     {
-        private EmployeeService employeeService = new();
+        private readonly EmployeeService employeeService = new();
 
         private TextBox activeTextBox;
         public LoginForm()
@@ -41,20 +41,18 @@ namespace ChapeauUI
             if (!TryGetCredentials(out int userId, out string password))
                 return;
 
-            var employee = employeeService.Authenticate(userId, password);
+            Employee employee = employeeService.Authenticate(userId, password);
             if (employee is null)
             {
                 ShowLoginError("Invalid ID or password. Please try again.");
                 return;
             }
 
-            GlobalVariables.CurrentEmployee = employee;
 
             // 2) Instantiate the overview with the employee
-            var overview = new RestaurantOverviewForm();
+            var overview = new RestaurantOverviewForm(employee);
+            overview.FormClosed += (_, __) => this.Close();
             overview.Show();
-
-            // 3) Hide login
             this.Hide();
         }
 
@@ -148,11 +146,7 @@ namespace ChapeauUI
         {
 
         }
-        public static class GlobalVariables
-        {
-            public static Model.Employee CurrentEmployee { get; set; }
-        }
-
+      
     }
 
 }

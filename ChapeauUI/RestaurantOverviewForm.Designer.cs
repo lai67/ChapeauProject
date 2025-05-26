@@ -316,7 +316,7 @@
             btnLogOutNew.TabIndex = 19;
             btnLogOutNew.Text = "Log Out";
             btnLogOutNew.UseVisualStyleBackColor = true;
-            btnLogOutNew.Click += this.btnLogOutNew_Click;
+            btnLogOutNew.Click += btnLogOutNew_Click;
             // 
             // RestaurantOverviewForm
             // 
