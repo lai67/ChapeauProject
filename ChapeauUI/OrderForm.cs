@@ -39,10 +39,10 @@ namespace ChapeauUI
         private void LoadDrinkItems()
         {
             FillListView(listVSoftDrinks, menuService.GetItemsByMenuAndCategory((int)MenuType.Drinks, "SoftDrink"));
-            FillListView(listVBeers, menuService.GetItemsByMenuAndCategory((int)MenuType.Drinks,"Beer"));
-            FillListView(listVWines, menuService.GetItemsByMenuAndCategory((int)MenuType.Drinks,"Wine"));
-            FillListView(listVSpirit, menuService.GetItemsByMenuAndCategory((int)MenuType.Drinks,"SpiritDrink"));
-            FillListView(listVCoffee, menuService.GetItemsByMenuAndCategory((int)MenuType.Drinks,"Coffee"));
+            FillListView(listVBeers, menuService.GetItemsByMenuAndCategory((int)MenuType.Drinks, "Beer"));
+            FillListView(listVWines, menuService.GetItemsByMenuAndCategory((int)MenuType.Drinks, "Wine"));
+            FillListView(listVSpirit, menuService.GetItemsByMenuAndCategory((int)MenuType.Drinks, "SpiritDrink"));
+            FillListView(listVCoffee, menuService.GetItemsByMenuAndCategory((int)MenuType.Drinks, "Coffee"));
         }
 
         private void LoadLunchItems()
@@ -90,6 +90,11 @@ namespace ChapeauUI
             hideAllPanels();
             pnlDinner.Visible = true;
             LoadDinnerItems();
+        }
+
+        private void btnClearAll_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
