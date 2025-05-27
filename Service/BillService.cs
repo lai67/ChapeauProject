@@ -17,17 +17,22 @@ namespace Service
             // initalize the DAO to access the database
             billDao = new BillDao();
         }
-        // retrieves a single bill by it's ID
+        // gets all bills
         public List<Bill> GetAllBills()
         {
             return billDao.GetAllBills();
+        }
+        // retrieves a single bill by its ID
+        public Bill GetBillById(int billId)
+        {
+            return billDao.GetBillById(billId);
         }
         // creates a new bill and saves it to the database
         public void CreateBill(Bill bill)
         {
             billDao.CreateBill(bill);
         }
-        // updates an existing bill in the database
+        // updates an existing bill in the databasecr
         public void UpdateBill(Bill bill)
         { 
             billDao.UpdateBill(bill);

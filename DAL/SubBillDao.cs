@@ -54,7 +54,7 @@ namespace DAL
             };
             return subBill;
         }
-        public SubBill GetBillById(int subBillId)
+        public SubBill GetSubBillById(int subBillId)
         {
             string query = "SELECT id, bill_id, price, vat, tip, feedback FROM [SUB_BILL] WHERE id = @id;";
             SqlParameter[] parameters = new SqlParameter[]
@@ -65,6 +65,51 @@ namespace DAL
             DataTable table = ExecuteSelectQuery(query, parameters);
             return ReadSubBill(table);
         }
+        public void CreateSubBill(SubBill subBill)
+        {
+            string query = @"INSERT INTO [SUB_BILL] (bill_id, price, vat, tip, feedback)
+                     VALUES (@bill_id, @price, @vat, @tip, @feedback);";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@bill_id", subBill.BillId),
+                new SqlParameter("@price", subBill.Price),
+                new SqlParameter("@vat", subBill.Vat),
+                new SqlParameter("@tip", subBill.Tip),
+                new SqlParameter("@feedback", subBill.Feedback ?? (object)DBNull.Value)
+            };
+            ExecuteEditQuery(query, parameters);
+        }
+        public void UpdateSubBill(SubBill subBill)
+        {
+            string query = @"UPDATE [SUB_BILL]
+                           SET bill_id = @bill_id
+                           price = @price,
+                           vat = @vat,
+                           tip = @tip,
+                           feedback = @feedback
+                           WHERE id = @id;";
 
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@price", subBill.Price),
+                new SqlParameter("@vat", subBill.Vat),
+                new SqlParameter("@tip", subBill.Tip),
+                new SqlParameter("@feedback", subBill.Feedback ?? (object)DBNull.Value),
+                new SqlParameter("@id", subBill.SubBillId),
+                new SqlParameter("@bill_id", subBill.BillId)
+            };
+
+            ExecuteEditQuery(query, parameters);
+        }
+        public void DeleteSubBill(int subBillId)
+        {
+            string query = "DELETE FROM [SUB_BILL] WHERE id = @id;";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@id", subBillId)
+            };
+
+            ExecuteEditQuery(query, parameters);
+        }
     }
 }
