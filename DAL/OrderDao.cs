@@ -9,13 +9,7 @@
 //{
 //    internal class OrderDao : BaseDao
 //    {
-//        public enum OrderStatus
-//        {
-//            Running,
-//            Preparing,
-//            Ready,
-//            Served
-//        }
+//       
 
 //        public List<Order> GetAllOrders()
 //        {
