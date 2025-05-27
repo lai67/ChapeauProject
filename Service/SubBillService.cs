@@ -26,6 +26,10 @@ namespace Service
         {
             return subBillDao.GetSubBillById(subBillId);
         }
+        public List<SubBill> GetSubBillsByBillId(int billId)
+        {
+            return subBillDao.GetSubBillsByBillId(billId);
+        }
         // creates a new sub bill and saves it to the database
         public void CreateSubBill(SubBill subBill)
         {

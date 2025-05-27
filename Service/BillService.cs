@@ -12,10 +12,12 @@ namespace Service
     public class BillService
     {
         private BillDao billDao;
+        private SubBillService subBillService;
         public BillService()
         {
             // initalize the DAO to access the database
             billDao = new BillDao();
+            subBillService = new SubBillService();
         }
         // gets all bills
         public List<Bill> GetAllBills()
@@ -25,7 +27,10 @@ namespace Service
         // retrieves a single bill by its ID
         public Bill GetBillById(int billId)
         {
-            return billDao.GetBillById(billId);
+            var bill = billDao.GetBillById(billId);
+            if (bill != null)
+                bill.SubBills = subBillService.GetSubBillsByBillId(bill.BillId);
+            return bill;
         }
         // creates a new bill and saves it to the database
         public void CreateBill(Bill bill)

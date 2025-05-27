@@ -43,14 +43,16 @@ namespace DAL
                 return null;
             }
             DataRow dr = dataTable.Rows[0];
+            int billId = (int)dr["bill_id"];
             SubBill subBill = new SubBill()
             {
                 SubBillId = (int)dr["id"],
-                BillId = (int)dr["bill_id"],
+                BillId = billId,
                 Price = (float)dr["price"],
                 Vat = (float)dr["vat"],
                 Feedback = dr["feedback"].ToString(),
                 Tip = (float)dr["tip"],
+                Bill = new BillDao().GetBillById(billId) // only if parent Bill needs to be loaded for SubBill
             };
             return subBill;
         }
@@ -64,6 +66,16 @@ namespace DAL
 
             DataTable table = ExecuteSelectQuery(query, parameters);
             return ReadSubBill(table);
+        }
+        public List<SubBill> GetSubBillsByBillId(int billId)
+        {
+            string query = "SELECT id, bill_id, price, vat, tip, feedback FROM [SUB_BILL] WHERE bill_id = @bill_id;";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@bill_id", billId)
+            };
+
+            return ReadTables(ExecuteSelectQuery(query, parameters));
         }
         public void CreateSubBill(SubBill subBill)
         {
@@ -98,7 +110,6 @@ namespace DAL
                 new SqlParameter("@id", subBill.SubBillId),
                 new SqlParameter("@bill_id", subBill.BillId)
             };
-
             ExecuteEditQuery(query, parameters);
         }
         public void DeleteSubBill(int subBillId)

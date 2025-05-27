@@ -20,18 +20,22 @@ namespace DAL
         private List<Bill> ReadTables(DataTable dataTable)
         {
             List<Bill> bills = new List<Bill>();
+            SubBillDao subBillDao = new SubBillDao();
 
             foreach (DataRow dr in dataTable.Rows)
             {
+                int billId = (int)dr["id"];
+
                 Bill bill = new Bill()
                 {
-                    BillId = (int)dr["id"],
+                    BillId = billId,
                     TotalPrice = (float)dr["total_price"],
                     Vat = (float)dr["vat"],
                     GuestNumber = (int)dr["guest_number"],
                     OrderId = (int)dr["order_id"],
                     Feedback = dr["feedback"].ToString(),
                     Tip = (float)dr["tip"],
+                    SubBills = subBillDao.GetSubBillsByBillId(billId)
                 };
                 bills.Add(bill);
             }
@@ -43,16 +47,19 @@ namespace DAL
             {
                 return null;
             }
+            SubBillDao subBillDao = new SubBillDao();
             DataRow dr = dataTable.Rows[0];
+            int billId = (int)(dr["id"]);
             Bill bill = new Bill()
             {
-                BillId = (int)dr["id"],
+                BillId = billId,
                 TotalPrice = (float)dr["total_price"],
                 Vat = (float)dr["vat"],
                 GuestNumber = (int)dr["guest_number"],
                 OrderId = (int)dr["order_id"],
                 Feedback = dr["feedback"].ToString(),
                 Tip = (float)dr["tip"],
+                SubBills = subBillDao.GetSubBillsByBillId(billId)
             };
             return bill;
         }
