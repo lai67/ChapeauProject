@@ -30,5 +30,10 @@ namespace Model
             Count = count;
             OrderId = orderId;
         }
+
+        public enum OrderStatus
+        {
+            Placed, Preparing, Ready, Served
+        }
     }
 }
