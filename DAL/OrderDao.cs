@@ -116,35 +116,37 @@ namespace DAL
         //    };
         //}
 
-        // ADD this inside your existing OrderDao (column names adjusted if needed)
+
+        //  Highest phase per (table, location) Running  -> 1 /Preparing-> 2  Ready    -> 3 
+
         public Dictionary<int, (string BarStatus, string KitchenStatus)> GetTableLocationPhases()
         {
-            /*  Highest phase per (table, location)
-                Running  -> 1
-                Preparing-> 2
-                Ready    -> 3   */
             const string sql = @"
-        SELECT  t.table_number,
-                o.preparation_location,
-                MAX(CASE o.status
-                        WHEN 'Running'   THEN 1
-                        WHEN 'Preparing' THEN 2
-                        WHEN 'Ready'     THEN 3
-                     END) AS phase_code
-        FROM dbo.[Table]  AS t
-        LEFT JOIN dbo.[Order] AS o ON o.table_id = t.id
-        WHERE o.status IN ('Running','Preparing','Ready')
-        GROUP BY t.table_number, o.preparation_location;";
-
+            SELECT  t.table_number,
+                    o.preparation_location,
+                    MAX(CASE o.status
+                            WHEN 'Running'   THEN 1
+                            WHEN 'Preparing' THEN 2
+                            WHEN 'Ready'     THEN 3
+                         END) AS phase_code
+            FROM dbo.[Table] AS t
+            LEFT JOIN dbo.[Order] AS o ON o.table_id = t.id
+            WHERE o.status IN ('Running','Preparing','Ready')
+            GROUP BY t.table_number, o.preparation_location;";
             var dt = ExecuteSelectQuery(sql);
+            return BuildTableLocationPhaseDictionary(dt);
+        }
+        private Dictionary<int, (string BarStatus, string KitchenStatus)> BuildTableLocationPhaseDictionary(DataTable dt)
+        {
             var dict = new Dictionary<int, (string Bar, string Kitch)>();
 
             foreach (DataRow row in dt.Rows)
             {
-                int tbl = row.Field<int>("table_number");
-                string where = (string)row["preparation_location"];   // "Bar" / "Kitchen"
+                int tableNumber = row.Field<int>("table_number");
+                string location = row.Field<string>("preparation_location");
                 int code = row.Field<int>("phase_code");
 
+                // Map numeric code back to status string
                 string status = code switch
                 {
                     1 => "Running",
@@ -153,15 +155,15 @@ namespace DAL
                     _ => "None"
                 };
 
-                dict.TryGetValue(tbl, out var current);
+                dict.TryGetValue(tableNumber, out var current);
 
-                if (where.Equals("Bar", StringComparison.OrdinalIgnoreCase))
-                    dict[tbl] = (status, current.Kitch);
+                if (location.Equals("Bar", StringComparison.OrdinalIgnoreCase))
+                    dict[tableNumber] = (status, current.Kitch);
                 else
-                    dict[tbl] = (current.Bar, status);
+                    dict[tableNumber] = (current.Bar, status);
             }
-            return dict;          // key = tableNumber, value = (barStatus,kitchStatus)
-        }
 
+            return dict;
+        }
     }
 }

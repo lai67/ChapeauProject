@@ -318,7 +318,6 @@
             Margin = new Padding(2);
             Name = "LoginForm";
             Text = "LoginForm";
-            Load += LoginForm_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
 

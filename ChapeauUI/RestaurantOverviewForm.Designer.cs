@@ -195,10 +195,10 @@
             btnTable1.BackgroundImageLayout = ImageLayout.Stretch;
             btnTable1.Font = new Font("Segoe UI", 19.875F, FontStyle.Bold, GraphicsUnit.Point);
             btnTable1.ForeColor = Color.White;
-            btnTable1.Location = new Point(50, 150);
+            btnTable1.Location = new Point(40, 150);
             btnTable1.Margin = new Padding(2);
             btnTable1.Name = "btnTable1";
-            btnTable1.Size = new Size(92, 94);
+            btnTable1.Size = new Size(120, 100);
             btnTable1.TabIndex = 0;
             btnTable1.Text = "1";
             btnTable1.UseVisualStyleBackColor = true;
@@ -208,10 +208,10 @@
             btnTable3.BackgroundImageLayout = ImageLayout.Stretch;
             btnTable3.Font = new Font("Segoe UI", 19.875F, FontStyle.Bold, GraphicsUnit.Point);
             btnTable3.ForeColor = Color.White;
-            btnTable3.Location = new Point(197, 150);
+            btnTable3.Location = new Point(179, 150);
             btnTable3.Margin = new Padding(2);
             btnTable3.Name = "btnTable3";
-            btnTable3.Size = new Size(92, 94);
+            btnTable3.Size = new Size(120, 100);
             btnTable3.TabIndex = 2;
             btnTable3.Text = "3";
             btnTable3.UseVisualStyleBackColor = true;
@@ -221,10 +221,10 @@
             btnTable5.BackgroundImageLayout = ImageLayout.Stretch;
             btnTable5.Font = new Font("Segoe UI", 19.875F, FontStyle.Bold, GraphicsUnit.Point);
             btnTable5.ForeColor = Color.White;
-            btnTable5.Location = new Point(352, 150);
+            btnTable5.Location = new Point(335, 150);
             btnTable5.Margin = new Padding(2);
             btnTable5.Name = "btnTable5";
-            btnTable5.Size = new Size(92, 94);
+            btnTable5.Size = new Size(120, 100);
             btnTable5.TabIndex = 4;
             btnTable5.Text = "5";
             btnTable5.UseVisualStyleBackColor = true;
@@ -237,7 +237,7 @@
             btnTable7.Location = new Point(504, 150);
             btnTable7.Margin = new Padding(2);
             btnTable7.Name = "btnTable7";
-            btnTable7.Size = new Size(92, 94);
+            btnTable7.Size = new Size(120, 100);
             btnTable7.TabIndex = 6;
             btnTable7.Text = "7";
             btnTable7.UseVisualStyleBackColor = true;
@@ -250,7 +250,7 @@
             btnTable9.Location = new Point(646, 150);
             btnTable9.Margin = new Padding(2);
             btnTable9.Name = "btnTable9";
-            btnTable9.Size = new Size(92, 94);
+            btnTable9.Size = new Size(120, 100);
             btnTable9.TabIndex = 8;
             btnTable9.Text = "9";
             btnTable9.UseVisualStyleBackColor = true;
@@ -260,10 +260,10 @@
             btnTable2.BackgroundImageLayout = ImageLayout.Stretch;
             btnTable2.Font = new Font("Segoe UI", 19.875F, FontStyle.Bold, GraphicsUnit.Point);
             btnTable2.ForeColor = Color.White;
-            btnTable2.Location = new Point(50, 286);
+            btnTable2.Location = new Point(40, 316);
             btnTable2.Margin = new Padding(2);
             btnTable2.Name = "btnTable2";
-            btnTable2.Size = new Size(92, 94);
+            btnTable2.Size = new Size(120, 94);
             btnTable2.TabIndex = 1;
             btnTable2.Text = "2";
             btnTable2.UseVisualStyleBackColor = true;
@@ -273,10 +273,10 @@
             btnTable10.BackgroundImageLayout = ImageLayout.Stretch;
             btnTable10.Font = new Font("Segoe UI", 19.875F, FontStyle.Bold, GraphicsUnit.Point);
             btnTable10.ForeColor = Color.White;
-            btnTable10.Location = new Point(646, 286);
+            btnTable10.Location = new Point(646, 316);
             btnTable10.Margin = new Padding(2);
             btnTable10.Name = "btnTable10";
-            btnTable10.Size = new Size(92, 94);
+            btnTable10.Size = new Size(120, 94);
             btnTable10.TabIndex = 9;
             btnTable10.Text = "10";
             btnTable10.UseVisualStyleBackColor = true;
@@ -286,10 +286,10 @@
             btnTable4.BackgroundImageLayout = ImageLayout.Stretch;
             btnTable4.Font = new Font("Segoe UI", 19.875F, FontStyle.Bold, GraphicsUnit.Point);
             btnTable4.ForeColor = Color.White;
-            btnTable4.Location = new Point(188, 286);
+            btnTable4.Location = new Point(175, 316);
             btnTable4.Margin = new Padding(2);
             btnTable4.Name = "btnTable4";
-            btnTable4.Size = new Size(92, 94);
+            btnTable4.Size = new Size(120, 94);
             btnTable4.TabIndex = 3;
             btnTable4.Text = "4";
             btnTable4.UseVisualStyleBackColor = true;
@@ -299,10 +299,10 @@
             btnTable8.BackgroundImageLayout = ImageLayout.Stretch;
             btnTable8.Font = new Font("Segoe UI", 19.875F, FontStyle.Bold, GraphicsUnit.Point);
             btnTable8.ForeColor = Color.White;
-            btnTable8.Location = new Point(491, 286);
+            btnTable8.Location = new Point(504, 316);
             btnTable8.Margin = new Padding(2);
             btnTable8.Name = "btnTable8";
-            btnTable8.Size = new Size(92, 94);
+            btnTable8.Size = new Size(120, 94);
             btnTable8.TabIndex = 7;
             btnTable8.Text = "8";
             btnTable8.UseVisualStyleBackColor = true;
@@ -312,10 +312,10 @@
             btnTable6.BackgroundImageLayout = ImageLayout.Stretch;
             btnTable6.Font = new Font("Segoe UI", 19.875F, FontStyle.Bold, GraphicsUnit.Point);
             btnTable6.ForeColor = Color.White;
-            btnTable6.Location = new Point(352, 286);
+            btnTable6.Location = new Point(335, 316);
             btnTable6.Margin = new Padding(2);
             btnTable6.Name = "btnTable6";
-            btnTable6.Size = new Size(92, 94);
+            btnTable6.Size = new Size(120, 94);
             btnTable6.TabIndex = 5;
             btnTable6.Text = "6";
             btnTable6.UseVisualStyleBackColor = true;
@@ -332,161 +332,161 @@
             // 
             // picBar1
             // 
-            picBar1.Location = new Point(50, 249);
+            picBar1.Location = new Point(60, 255);
             picBar1.Name = "picBar1";
-            picBar1.Size = new Size(16, 16);
+            picBar1.Size = new Size(30, 30);
             picBar1.TabIndex = 20;
             picBar1.TabStop = false;
             // 
             // picBar3
             // 
-            picBar3.Location = new Point(197, 249);
+            picBar3.Location = new Point(188, 256);
             picBar3.Name = "picBar3";
-            picBar3.Size = new Size(16, 16);
+            picBar3.Size = new Size(30, 30);
             picBar3.TabIndex = 21;
             picBar3.TabStop = false;
             // 
             // picBar5
             // 
-            picBar5.Location = new Point(352, 249);
+            picBar5.Location = new Point(352, 255);
             picBar5.Name = "picBar5";
-            picBar5.Size = new Size(16, 16);
+            picBar5.Size = new Size(30, 30);
             picBar5.TabIndex = 22;
             picBar5.TabStop = false;
             // 
             // picBar7
             // 
-            picBar7.Location = new Point(504, 249);
+            picBar7.Location = new Point(513, 256);
             picBar7.Name = "picBar7";
-            picBar7.Size = new Size(16, 16);
+            picBar7.Size = new Size(30, 30);
             picBar7.TabIndex = 23;
             picBar7.TabStop = false;
             // 
             // picBar9
             // 
-            picBar9.Location = new Point(646, 249);
+            picBar9.Location = new Point(661, 256);
             picBar9.Name = "picBar9";
-            picBar9.Size = new Size(16, 16);
+            picBar9.Size = new Size(30, 30);
             picBar9.TabIndex = 24;
             picBar9.TabStop = false;
             // 
             // picBar2
             // 
-            picBar2.Location = new Point(50, 385);
+            picBar2.Location = new Point(50, 415);
             picBar2.Name = "picBar2";
-            picBar2.Size = new Size(16, 16);
+            picBar2.Size = new Size(30, 30);
             picBar2.TabIndex = 25;
             picBar2.TabStop = false;
             // 
             // picBar4
             // 
-            picBar4.Location = new Point(188, 385);
+            picBar4.Location = new Point(188, 415);
             picBar4.Name = "picBar4";
-            picBar4.Size = new Size(16, 16);
+            picBar4.Size = new Size(30, 30);
             picBar4.TabIndex = 26;
             picBar4.TabStop = false;
             // 
             // picBar6
             // 
-            picBar6.Location = new Point(352, 385);
+            picBar6.Location = new Point(352, 415);
             picBar6.Name = "picBar6";
-            picBar6.Size = new Size(16, 16);
+            picBar6.Size = new Size(30, 30);
             picBar6.TabIndex = 27;
             picBar6.TabStop = false;
             // 
             // picBar8
             // 
-            picBar8.Location = new Point(491, 385);
+            picBar8.Location = new Point(513, 415);
             picBar8.Name = "picBar8";
-            picBar8.Size = new Size(16, 16);
+            picBar8.Size = new Size(30, 30);
             picBar8.TabIndex = 28;
             picBar8.TabStop = false;
             // 
             // picBar10
             // 
-            picBar10.Location = new Point(646, 385);
+            picBar10.Location = new Point(661, 415);
             picBar10.Name = "picBar10";
-            picBar10.Size = new Size(16, 16);
+            picBar10.Size = new Size(30, 30);
             picBar10.TabIndex = 29;
             picBar10.TabStop = false;
             // 
             // picKitch1
             // 
-            picKitch1.Location = new Point(115, 249);
+            picKitch1.Location = new Point(107, 255);
             picKitch1.Name = "picKitch1";
-            picKitch1.Size = new Size(16, 16);
+            picKitch1.Size = new Size(30, 30);
             picKitch1.TabIndex = 30;
             picKitch1.TabStop = false;
             // 
             // picKitch3
             // 
-            picKitch3.Location = new Point(264, 249);
+            picKitch3.Location = new Point(249, 256);
             picKitch3.Name = "picKitch3";
-            picKitch3.Size = new Size(16, 16);
+            picKitch3.Size = new Size(30, 30);
             picKitch3.TabIndex = 31;
             picKitch3.TabStop = false;
             // 
             // picKitch5
             // 
-            picKitch5.Location = new Point(428, 249);
+            picKitch5.Location = new Point(416, 255);
             picKitch5.Name = "picKitch5";
-            picKitch5.Size = new Size(16, 16);
+            picKitch5.Size = new Size(30, 30);
             picKitch5.TabIndex = 32;
             picKitch5.TabStop = false;
             // 
             // picKitch7
             // 
-            picKitch7.Location = new Point(580, 249);
+            picKitch7.Location = new Point(568, 255);
             picKitch7.Name = "picKitch7";
-            picKitch7.Size = new Size(16, 16);
+            picKitch7.Size = new Size(30, 30);
             picKitch7.TabIndex = 33;
             picKitch7.TabStop = false;
             // 
             // picKitch9
             // 
-            picKitch9.Location = new Point(722, 249);
+            picKitch9.Location = new Point(711, 256);
             picKitch9.Name = "picKitch9";
-            picKitch9.Size = new Size(16, 16);
+            picKitch9.Size = new Size(30, 30);
             picKitch9.TabIndex = 34;
             picKitch9.TabStop = false;
             // 
             // picKitch2
             // 
-            picKitch2.Location = new Point(126, 385);
+            picKitch2.Location = new Point(114, 415);
             picKitch2.Name = "picKitch2";
-            picKitch2.Size = new Size(16, 16);
+            picKitch2.Size = new Size(30, 30);
             picKitch2.TabIndex = 35;
             picKitch2.TabStop = false;
             // 
             // picKitch4
             // 
-            picKitch4.Location = new Point(264, 385);
+            picKitch4.Location = new Point(249, 415);
             picKitch4.Name = "picKitch4";
-            picKitch4.Size = new Size(16, 16);
+            picKitch4.Size = new Size(30, 30);
             picKitch4.TabIndex = 36;
             picKitch4.TabStop = false;
             // 
             // picKitch6
             // 
-            picKitch6.Location = new Point(428, 385);
+            picKitch6.Location = new Point(416, 415);
             picKitch6.Name = "picKitch6";
-            picKitch6.Size = new Size(16, 16);
+            picKitch6.Size = new Size(30, 30);
             picKitch6.TabIndex = 37;
             picKitch6.TabStop = false;
             // 
             // picKitch8
             // 
-            picKitch8.Location = new Point(567, 385);
+            picKitch8.Location = new Point(568, 415);
             picKitch8.Name = "picKitch8";
-            picKitch8.Size = new Size(16, 16);
+            picKitch8.Size = new Size(30, 30);
             picKitch8.TabIndex = 38;
             picKitch8.TabStop = false;
             // 
             // picKitch10
             // 
-            picKitch10.Location = new Point(722, 385);
+            picKitch10.Location = new Point(711, 415);
             picKitch10.Name = "picKitch10";
-            picKitch10.Size = new Size(16, 16);
+            picKitch10.Size = new Size(30, 30);
             picKitch10.TabIndex = 39;
             picKitch10.TabStop = false;
             // 

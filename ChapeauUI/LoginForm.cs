@@ -47,10 +47,8 @@ namespace ChapeauUI
                 return;
             }
 
-            GlobalVariables.CurrentEmployee = employee;
-
             // 2) Instantiate the overview with the employee
-            var overview = new RestaurantOverviewForm();
+            var overview = new RestaurantOverviewForm(employee);
             overview.Show();
 
             // 3) Hide login
@@ -141,15 +139,6 @@ namespace ChapeauUI
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
             txtPassword.Clear();
-        }
-
-        private void LoginForm_Load(object sender, EventArgs e)
-        {
-
-        }
-        public static class GlobalVariables
-        {
-            public static Model.Employee CurrentEmployee { get; set; }
         }
 
     }
