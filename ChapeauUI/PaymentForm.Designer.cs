@@ -480,7 +480,6 @@
             btnRemoveAll.TabIndex = 32;
             btnRemoveAll.Text = "Remove All";
             btnRemoveAll.UseVisualStyleBackColor = false;
-            btnRemoveAll.Click += btnRemoveAll_Click;
             // 
             // textBox6
             // 

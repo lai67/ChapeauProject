@@ -326,7 +326,6 @@
             btnClearAll.TabIndex = 42;
             btnClearAll.Text = "Clear All";
             btnClearAll.UseVisualStyleBackColor = false;
-            btnClearAll.Click += btnClearAll_Click;
             // 
             // btnSendOrder
             // 

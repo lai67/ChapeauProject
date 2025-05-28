@@ -91,10 +91,5 @@ namespace ChapeauUI
             pnlDinner.Visible = true;
             LoadDinnerItems();
         }
-
-        private void btnClearAll_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
