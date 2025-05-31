@@ -7,6 +7,7 @@ using Model;
 
 namespace DAL
 {
+
     public class OrderItemDao : BaseDao
     {
         // Create Order Item
@@ -71,4 +72,3 @@ namespace DAL
         }
     }
 }
-        

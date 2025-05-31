@@ -9,6 +9,61 @@ namespace DAL
 {
     public class OrderDao : BaseDao
     {
+
+        public enum OrderStatus
+        {
+            Running,
+            Preparing,
+            Ready,
+            Served
+        }
+        
+        public Dictionary<int, (string BarStatus, string KitchenStatus)> GetTableLocationPhases()
+        {
+            const string sql = @"
+            SELECT  t.table_number,
+                    o.preparation_location,
+                    MAX(CASE o.status
+                            WHEN 'Running'   THEN 1
+                            WHEN 'Preparing' THEN 2
+                            WHEN 'Ready'     THEN 3
+                         END) AS phase_code
+            FROM dbo.[Table] AS t
+            LEFT JOIN dbo.[Order] AS o ON o.table_id = t.id
+            WHERE o.status IN ('Running','Preparing','Ready')
+            GROUP BY t.table_number, o.preparation_location;";
+            var dt = ExecuteSelectQuery(sql);
+            return BuildTableLocationPhaseDictionary(dt);
+        }
+        private Dictionary<int, (string BarStatus, string KitchenStatus)> BuildTableLocationPhaseDictionary(DataTable dt)
+        {
+            var dict = new Dictionary<int, (string Bar, string Kitch)>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                int tableNumber = row.Field<int>("table_number");
+                string location = row.Field<string>("preparation_location");
+                int code = row.Field<int>("phase_code");
+
+                // Map numeric code back to status string
+                string status = code switch
+                {
+                    1 => "Running",
+                    2 => "Preparing",
+                    3 => "Ready",
+                    _ => "None"
+                };
+
+                dict.TryGetValue(tableNumber, out var current);
+
+                if (location.Equals("Bar", StringComparison.OrdinalIgnoreCase))
+                    dict[tableNumber] = (status, current.Kitch);
+                else
+                    dict[tableNumber] = (current.Bar, status);
+            }
+
+            return dict;
+
         public int CreateOrder(Order order)
         {
             string query = @"INSERT INTO [Order] (order_time, preparation_time, 
@@ -31,6 +86,7 @@ namespace DAL
                 int insertedId = (int)command.ExecuteScalar();
                 return insertedId;
             }
+
         }
     }
 }

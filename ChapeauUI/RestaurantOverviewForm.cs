@@ -14,19 +14,22 @@ namespace ChapeauUI
 {
     public partial class RestaurantOverviewForm : Form
     {
+        private readonly Employee _currentEmpoyee;
         private readonly TableService _tableService = new();
+        private readonly OrderService orderService = new();
 
         private List<Table> _tables = new();
 
         private readonly System.Windows.Forms.Timer _refreshTimer = new System.Windows.Forms.Timer { Interval = 5000 };
-        public RestaurantOverviewForm()
+        public RestaurantOverviewForm(Employee currentEmpoyee)
         {
             InitializeComponent();
-
+            _currentEmpoyee = currentEmpoyee;
             this.Load += RestaurantOverviewForm_Load;
 
             _refreshTimer.Tick += RefreshTimer_Tick;
             _refreshTimer.Start();
+            lblName.Text =$"{_currentEmpoyee.FirstName}{_currentEmpoyee.LastName}";
         }
         private void RestaurantOverviewForm_Load(object sender, EventArgs e)
         {
@@ -41,34 +44,74 @@ namespace ChapeauUI
         private void RefreshTables()
         {
             _tables = _tableService.GetAllTables();
+            var phases = orderService.GetTableLocationPhases();
 
+            UpdateDateTime();
+            UpdateTableButtonColors();
+            UpdateOrderIcons(phases);
+        }
+
+        //update time 
+        private void UpdateDateTime()
+        {
             lblDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
             lblTime.Text = DateTime.Now.ToString("HH:mm:ss");
+        }
 
-            foreach (var btn in this.Controls.OfType<Button>())
+        //update Table button colore
+        private void UpdateTableButtonColors()
+        {
+            foreach (var btn in Controls.OfType<Button>())
             {
-                if (!int.TryParse(btn.Text, out int tableNumber))
-                    continue;
+                if (!int.TryParse(btn.Text, out int tblNbr)) continue;
+                var table = _tables.FirstOrDefault(t => t.TableNumber == tblNbr);
+                if (table == null) continue;
 
-                var table = _tables.FirstOrDefault(t => t.TableNumber == tableNumber);
-                if (table == null)
-                    continue;
-
-                btn.UseVisualStyleBackColor = false;  // enable BackColor
-                switch (table.Status)
+                btn.UseVisualStyleBackColor = false;
+                btn.BackColor = table.Status switch
                 {
-                    case TableStatus.Free:
-                        btn.BackColor = Color.LightGreen;
-                        break;
-                    case TableStatus.Booked:
-                        btn.BackColor = Color.LightBlue;
-                        break;
-                    case TableStatus.Occupied:
-                        btn.BackColor = Color.IndianRed;
-                        break;
-                }
+                    TableStatus.Free => Color.Green,
+                    TableStatus.Booked => Color.Blue,
+                    TableStatus.Occupied => Color.Red,
+                    _ => SystemColors.Control
+                };
             }
         }
+        private void UpdateOrderIcons(Dictionary<int,(string BarStatus,string KitchenStatus)> phases)
+        {
+            foreach (int n in Enumerable.Range(1, 10))
+            {
+                var picBar = Controls.Find($"picBar{n}", true).FirstOrDefault() as PictureBox;
+                var picKitch = Controls.Find($"picKitch{n}", true).FirstOrDefault() as PictureBox;
+                if (picBar == null || picKitch == null) continue;
+
+                phases.TryGetValue(n, out var p);
+
+                picBar.Image = GetBarIcon(p.BarStatus);
+                picKitch.Image = GetKitchenIcon(p.KitchenStatus);
+            }
+        }
+        //bar icos
+        private Image GetBarIcon(string status)
+        {
+            return status switch
+            {
+                "Preparing" => Properties.Resources.PreparingBarIcon,
+                "Ready" => Properties.Resources.ReadyBarIcon,
+                _ => Properties.Resources.NoBarIcon
+            };
+        }
+        //kitchen icons
+        private Image GetKitchenIcon(string status)
+        {
+            return status switch
+            {
+                "Preparing" => Properties.Resources.PreparingKitchenIcon,
+                "Ready" => Properties.Resources.ReadyKitchenIcon,
+                _ => Properties.Resources.NoKitchenIcon
+            };
+        }
+
         private void btnLogOutNew_Click(object sender, EventArgs e)
         {
             LoginForm loginForm = new LoginForm();
@@ -77,6 +120,6 @@ namespace ChapeauUI
             loginForm.Show();
         }
 
-     
     }
 }
+

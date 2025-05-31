@@ -4,7 +4,7 @@ namespace Model
 {
     public class Order
     {
-        // there should be a method that will handle adding orders to an existing table.
+
         public int Id { get; set; }
         public DateTime OrderTime { get; set; }
         public int PreparationTime { get; set; } // preparation changed to int instead of DateTime
@@ -47,3 +47,4 @@ namespace Model
 
 
 }
+

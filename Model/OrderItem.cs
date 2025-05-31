@@ -1,4 +1,7 @@
+
+
 using static Model.Order;
+
 
 namespace Model
 {
@@ -35,5 +38,6 @@ namespace Model
         {
             Placed, Preparing, Ready, Served
         }
+
     }
 }
