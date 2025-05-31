@@ -96,9 +96,10 @@ namespace ChapeauUI
         {
             return status switch
             {
+                "Placed" => Properties.Resources.NoBarIcon,
                 "Preparing" => Properties.Resources.PreparingBarIcon,
                 "Ready" => Properties.Resources.ReadyBarIcon,
-                _ => Properties.Resources.NoBarIcon
+                _ => null
             };
         }
         //kitchen icons
@@ -106,9 +107,10 @@ namespace ChapeauUI
         {
             return status switch
             {
+                "Placed" => Properties.Resources.NoKitchenIcon,  
                 "Preparing" => Properties.Resources.PreparingKitchenIcon,
                 "Ready" => Properties.Resources.ReadyKitchenIcon,
-                _ => Properties.Resources.NoKitchenIcon
+                _ => null
             };
         }
 

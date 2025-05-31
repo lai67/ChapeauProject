@@ -32,12 +32,6 @@
             lblDate = new Label();
             lblName = new Label();
             legendPanel = new Panel();
-            label3 = new Label();
-            pnlLegendOccupied = new Panel();
-            label2 = new Label();
-            pnlLegendBooked = new Panel();
-            label1 = new Label();
-            pnlLegendFree = new Panel();
             btnTable1 = new Button();
             btnTable3 = new Button();
             btnTable5 = new Button();
@@ -69,7 +63,6 @@
             picKitch6 = new PictureBox();
             picKitch8 = new PictureBox();
             picKitch10 = new PictureBox();
-            legendPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picBar1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picBar3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picBar5).BeginInit();
@@ -124,71 +117,11 @@
             // 
             // legendPanel
             // 
-            legendPanel.Controls.Add(label3);
-            legendPanel.Controls.Add(pnlLegendOccupied);
-            legendPanel.Controls.Add(label2);
-            legendPanel.Controls.Add(pnlLegendBooked);
-            legendPanel.Controls.Add(label1);
-            legendPanel.Controls.Add(pnlLegendFree);
             legendPanel.Location = new Point(11, 68);
             legendPanel.Margin = new Padding(2);
             legendPanel.Name = "legendPanel";
-            legendPanel.Size = new Size(866, 55);
+            legendPanel.Size = new Size(850, 55);
             legendPanel.TabIndex = 8;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(557, 3);
-            label3.Name = "label3";
-            label3.Size = new Size(93, 23);
-            label3.TabIndex = 13;
-            label3.Text = "– occupied";
-            // 
-            // pnlLegendOccupied
-            // 
-            pnlLegendOccupied.BackColor = Color.Red;
-            pnlLegendOccupied.Location = new Point(523, 6);
-            pnlLegendOccupied.Name = "pnlLegendOccupied";
-            pnlLegendOccupied.Size = new Size(20, 20);
-            pnlLegendOccupied.TabIndex = 11;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(395, 6);
-            label2.Name = "label2";
-            label2.Size = new Size(81, 23);
-            label2.TabIndex = 12;
-            label2.Text = "– booked";
-            // 
-            // pnlLegendBooked
-            // 
-            pnlLegendBooked.BackColor = Color.FromArgb(0, 0, 192);
-            pnlLegendBooked.Location = new Point(362, 6);
-            pnlLegendBooked.Name = "pnlLegendBooked";
-            pnlLegendBooked.Size = new Size(20, 20);
-            pnlLegendBooked.TabIndex = 11;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(257, 3);
-            label1.Name = "label1";
-            label1.Size = new Size(49, 23);
-            label1.TabIndex = 0;
-            label1.Text = "-Free";
-            // 
-            // pnlLegendFree
-            // 
-            pnlLegendFree.BackColor = Color.FromArgb(0, 192, 0);
-            pnlLegendFree.Location = new Point(220, 3);
-            pnlLegendFree.Name = "pnlLegendFree";
-            pnlLegendFree.Size = new Size(20, 20);
-            pnlLegendFree.TabIndex = 10;
             // 
             // btnTable1
             // 
@@ -532,8 +465,6 @@
             Controls.Add(lblTime);
             Name = "RestaurantOverviewForm";
             Text = "RestaurantOverviewForm";
-            legendPanel.ResumeLayout(false);
-            legendPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picBar1).EndInit();
             ((System.ComponentModel.ISupportInitialize)picBar3).EndInit();
             ((System.ComponentModel.ISupportInitialize)picBar5).EndInit();
@@ -564,12 +495,6 @@
         private Label lblDate;
         private Label lblName;
         private Panel legendPanel;
-        private Label label3;
-        private Panel pnlLegendOccupied;
-        private Label label2;
-        private Panel pnlLegendBooked;
-        private Label label1;
-        private Panel pnlLegendFree;
         private Button btnTable1;
         private Button btnTable3;
         private Button btnTable5;
