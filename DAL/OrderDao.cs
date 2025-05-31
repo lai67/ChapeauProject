@@ -9,21 +9,29 @@ namespace DAL
 {
     public class OrderDao : BaseDao
     {
-        
+
         public Dictionary<int, (string BarStatus, string KitchenStatus)> GetTableLocationPhases()
         {
             const string sql = @"
-            SELECT  t.table_number,
-                    o.preparation_location,
-                    MAX(CASE o.status
-                            WHEN 'Running'   THEN 1
-                            WHEN 'Preparing' THEN 2
-                            WHEN 'Ready'     THEN 3
-                         END) AS phase_code
-            FROM dbo.[Table] AS t
-            LEFT JOIN dbo.[Order] AS o ON o.table_id = t.id
-            WHERE o.status IN ('Running','Preparing','Ready')
-            GROUP BY t.table_number, o.preparation_location;";
+            SELECT 
+                t.table_number,
+                o.preparation_location,
+                MAX(
+                    CASE oi.status
+                        WHEN 'Placed'    THEN 1    
+                        WHEN 'Preparing' THEN 2
+                        WHEN 'Ready'     THEN 3
+                        ELSE 0
+                    END
+                ) AS phase_code
+            FROM dbo.[Table]      AS t
+            LEFT JOIN dbo.[Order] AS o  ON o.table_id = t.id
+            LEFT JOIN dbo.Order_Item AS oi ON oi.order_id = o.id
+            WHERE oi.status IN ('Placed','Preparing','Ready')
+            GROUP BY 
+                t.table_number, 
+                o.preparation_location;
+        ";
             var dt = ExecuteSelectQuery(sql);
             return BuildTableLocationPhaseDictionary(dt);
         }
@@ -34,18 +42,18 @@ namespace DAL
             foreach (DataRow row in dt.Rows)
             {
                 int tableNumber = row.Field<int>("table_number");
-                string location = row.Field<string>("preparation_location");
+                string location = row.Field<string>("preparation_location"); 
                 int code = row.Field<int>("phase_code");
 
-                // Map numeric code back to status string
                 string status = code switch
                 {
-                    1 => "Running",
+                    1 => "Placed",     
                     2 => "Preparing",
                     3 => "Ready",
                     _ => "None"
                 };
 
+                // If we already have an entry for this table, retrieve it; otherwise default to (None,None)
                 dict.TryGetValue(tableNumber, out var current);
 
                 if (location.Equals("Bar", StringComparison.OrdinalIgnoreCase))
