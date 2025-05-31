@@ -14,3 +14,4 @@ namespace Model
         public int Table { get; set; }
     }
 }
+//one order and adding items to the a same order .
