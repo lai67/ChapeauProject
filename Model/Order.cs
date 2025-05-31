@@ -4,10 +4,9 @@ namespace Model
 {
     public class Order
     {
-
         public int Id { get; set; }
         public DateTime OrderTime { get; set; }
-        public int PreparationTime { get; set; } // preparation changed to int instead of DateTime
+        public int PreparationTime { get; set; } 
         public bool IsCreated { get; set; }
         public Employee Employee { get; set; }
         public string PreparationLocation { get; set; }

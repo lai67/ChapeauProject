@@ -9,14 +9,6 @@ namespace DAL
 {
     public class OrderDao : BaseDao
     {
-
-        public enum OrderStatus
-        {
-            Running,
-            Preparing,
-            Ready,
-            Served
-        }
         
         public Dictionary<int, (string BarStatus, string KitchenStatus)> GetTableLocationPhases()
         {
@@ -63,6 +55,7 @@ namespace DAL
             }
 
             return dict;
+        }
 
         public int CreateOrder(Order order)
         {

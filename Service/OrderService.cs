@@ -5,34 +5,32 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL;
 using Model;
+
 namespace Service
 {
     public class OrderService
     {
-
-        private readonly OrderDao _dao = new();
-        public Dictionary<int, (string BarStatus, string KitchenStatus)> GetTableLocationPhases()
-            => _dao.GetTableLocationPhases();
-      
-        OrderDao orderDao;
-        OrderItemDao orderItemDao;
+        private readonly OrderDao _orderDao;
+        private readonly OrderItemDao _orderItemDao;
 
         public OrderService()
         {
-            orderDao = new OrderDao();
+            _orderDao = new OrderDao();
+            _orderItemDao = new OrderItemDao();
         }
+
+        public Dictionary<int, (string BarStatus, string KitchenStatus)> GetTableLocationPhases()
+            => _orderDao.GetTableLocationPhases();
 
         public int CreateOrder(Order order)
         {
-            int orderId = orderDao.CreateOrder(order);
+            int orderId = _orderDao.CreateOrder(order);
             foreach (var item in order.Items)
             {
                 item.OrderId = orderId;
-                orderItemDao.CreateOrderItem(item);
+                _orderItemDao.CreateOrderItem(item);
             }
             return orderId;
         }
-
-
     }
 }
