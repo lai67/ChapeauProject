@@ -19,6 +19,14 @@ namespace Service
         {
             return tableDao.GetAllTables();
         }
+        public Table GetTableById(int tableId)
+        {
+            return tableDao.GetTableById(tableId);
+        }
+        public void UpdateTableStatus(int tableId, TableStatus status)
+        {
+            tableDao.UpdateTableStatus(tableId, status);
+        }
         
     }
 }
