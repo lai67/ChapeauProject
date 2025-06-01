@@ -343,6 +343,8 @@ namespace ChapeauUI
                     TableStatus.Occupied => Color.Red,
                     _ => SystemColors.Control
                 };
+                // update button tag with current table object.
+                btn.Tag = table;
             }
         }
     }
