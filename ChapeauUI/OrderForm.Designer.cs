@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             lblTableNr = new Label();
-            btnLogOut = new Button();
             btnRemoveCom = new Button();
             btnAddCom = new Button();
             textBoxComment = new TextBox();
@@ -127,19 +126,6 @@
             lblTableNr.Size = new Size(54, 32);
             lblTableNr.TabIndex = 41;
             lblTableNr.Text = "........";
-            // 
-            // btnLogOut
-            // 
-            btnLogOut.BackColor = SystemColors.Desktop;
-            btnLogOut.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
-            btnLogOut.ForeColor = SystemColors.ControlLightLight;
-            btnLogOut.Location = new Point(1893, 11);
-            btnLogOut.Margin = new Padding(4, 2, 4, 2);
-            btnLogOut.Name = "btnLogOut";
-            btnLogOut.Size = new Size(130, 92);
-            btnLogOut.TabIndex = 40;
-            btnLogOut.Text = "Log Out";
-            btnLogOut.UseVisualStyleBackColor = false;
             // 
             // btnRemoveCom
             // 
@@ -945,7 +931,6 @@
             Controls.Add(btnClearAll);
             Controls.Add(btnSendOrder);
             Controls.Add(lblTableNr);
-            Controls.Add(btnLogOut);
             Controls.Add(btnRemoveCom);
             Controls.Add(btnAddCom);
             Controls.Add(textBoxComment);
@@ -970,7 +955,6 @@
         #endregion
 
         private Label lblTableNr;
-        private Button btnLogOut;
         private Button btnRemoveCom;
         private Button btnAddCom;
         private TextBox textBoxComment;

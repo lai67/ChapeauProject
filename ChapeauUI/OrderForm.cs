@@ -128,7 +128,7 @@ namespace ChapeauUI
             {
                 var lvi = new ListViewItem(item.MenuItem.Name);
                 lvi.SubItems.Add(item.Count.ToString());
-                decimal total = currentOrderItems.Sum(i => i.MenuItem.Price * i.Count);
+                decimal total = item.MenuItem.Price * item.Count;
                 lvi.SubItems.Add(total.ToString("C"));
                 lvi.SubItems.Add(item.Comment ?? "");
                 listVOrder.Items.Add(lvi);
@@ -356,8 +356,10 @@ namespace ChapeauUI
 
         private void btnClearAll_Click(object sender, EventArgs e)
         {
-            currentOrderItems.RemoveAll(item=>item.Id == 0); // Remove only items that are not yet saved to the database.
+            currentOrderItems.RemoveAll(item => item.Id == 0); // Remove only items that are not yet saved to the database.
             RefreshOrderItemsList();
         }
+
+       
     }
 }
