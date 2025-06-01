@@ -32,5 +32,25 @@ namespace Service
             }
             return orderId;
         }
+
+        // get a list of orders item that is ready
+        public List<OrderItem> GetReadyItemsByTableId(int tableId)
+        {
+            return _orderItemDao.GetReadyItemsByTableId(tableId);
+        }
+
+        //mark the ready items as served
+
+        public void MarkAllReadyServedByTableId(int tableId)
+        {
+            _orderItemDao.MarkAllReadyServedByTableId(tableId);
+        }
+
+        //check if the there are no running order 
+
+        public bool HasNoRunningItems(int tableId)
+        {
+            return _orderItemDao.CountRunningItemsByTableId(tableId) == 0;
+        }
     }
 }
