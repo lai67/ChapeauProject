@@ -197,7 +197,7 @@ namespace ChapeauUI
             var table = _tables.FirstOrDefault(t => t.TableNumber == _selectedTableNumber);
             if (table == null) return;
 
-            var orderForm = new OrderForm();
+            var orderForm = new OrderForm(table,_currentEmployee);
             CloseOccPanel();
             orderForm.ShowDialog(this);
 

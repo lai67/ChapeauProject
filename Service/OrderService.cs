@@ -32,6 +32,16 @@ namespace Service
             }
             return orderId;
         }
+        public void UpdateOrder(Order order)
+        {
+            _orderDao.UpdateOrderPreparationInfo(order.Id, order.PreparationTime, order.PreparationLocation);
+        }   
+
+        public Order GetOrdersForAlreadyOrderedTable(int tableId)
+        {
+            return _orderDao.GetOrdersForAlreadyOrderedTable(tableId);
+        }
+        
 
         // get a list of orders item that is ready
         public List<OrderItem> GetReadyItemsByTableId(int tableId)
@@ -47,7 +57,6 @@ namespace Service
         }
 
         //check if the there are no running order 
-
         public bool HasNoRunningItems(int tableId)
         {
             return _orderItemDao.CountRunningItemsByTableId(tableId) == 0;

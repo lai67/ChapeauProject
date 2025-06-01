@@ -30,6 +30,11 @@ namespace Service
             return true;
 
         }
+        // Get Order Items by Order Id
+        public List<OrderItem> GetOrderItemsByOrderId(int orderId)
+        {
+            return OrderItemDao.GetOrderItemsByOrderId(orderId);
+        }
 
         // Update Order Item Count
         public bool UpdateOrderItemCount(Model.OrderItem orderItem)

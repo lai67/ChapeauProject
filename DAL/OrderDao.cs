@@ -42,12 +42,12 @@ namespace DAL
             foreach (DataRow row in dt.Rows)
             {
                 int tableNumber = row.Field<int>("table_number");
-                string location = row.Field<string>("preparation_location"); 
+                string location = row.Field<string>("preparation_location");
                 int code = row.Field<int>("phase_code");
 
                 string status = code switch
                 {
-                    1 => "Placed",     
+                    1 => "Placed",
                     2 => "Preparing",
                     3 => "Ready",
                     _ => "None"
@@ -87,7 +87,52 @@ namespace DAL
                 int insertedId = (int)command.ExecuteScalar();
                 return insertedId;
             }
-
         }
+
+        // update order
+        public void UpdateOrderPreparationInfo(int orderId, int preparationTime, string preparationLocation)
+        {
+            string query = @"UPDATE [Order]
+                     SET preparation_time = @preparationTime,
+                         preparation_location = @preparationLocation
+                     WHERE id = @orderId";
+            SqlParameter[] parameters = {
+        new SqlParameter("@preparationTime", preparationTime),
+        new SqlParameter("@preparationLocation", preparationLocation),
+        new SqlParameter("@orderId", orderId)
+    };
+            ExecuteEditQuery(query, parameters);
+        }
+
+        public Order GetOrdersForAlreadyOrderedTable(int tableId)
+        {
+            string query = @"SELECT TOP 1 o.*, t.table_number, t.table_status
+                    FROM [Order] o
+               JOIN [Table] t ON o.table_id = t.id
+               WHERE o.table_id = @tableId AND o.isCreated = 0
+               ORDER BY o.order_time DESC";
+            SqlParameter[] parameters = {new SqlParameter("@tableId", tableId)
+            };
+            DataTable dt = ExecuteSelectQuery(query, parameters);
+            if (dt.Rows.Count == 0)
+                return null;
+
+            DataRow row = dt.Rows[0];
+            return new Order(
+       id: row.Field<int>("id"),
+       orderTime: row.Field<DateTime>("order_time"),
+       preparationTime: row.Field<int>("preparation_time"),
+       isCreated: row.Field<bool>("isCreated"),
+       employee: new Employee { Id = row.Field<int>("employee_id") },
+       bill: null,
+       preparationLocation: row.Field<string>("preparation_location"),
+       table: new Table(
+           row.Field<int>("table_id"),
+           row.Field<int>("table_number"),
+           Enum.Parse<TableStatus>(row.Field<string>("table_status"), true)
+       )
+   );
+        }
+
     }
 }

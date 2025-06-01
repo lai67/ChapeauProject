@@ -27,6 +27,47 @@ namespace DAL
 
             ExecuteEditQuery(query, parameters);
         }
+        // get order items by order
+        public List<OrderItem> GetOrderItemsByOrderId(int orderId)
+        {
+            string query = @"SELECT oi.*, mi.* FROM [Order_Item] oi
+                     JOIN [Menu_Item] mi ON oi.menu_item_id = mi.id
+                     WHERE oi.order_id = @orderId";
+            SqlParameter[] parameters = { new SqlParameter("@orderId", orderId) };
+            DataTable dt = ExecuteSelectQuery(query, parameters);
+
+            List<OrderItem> items = new List<OrderItem>();
+            foreach (DataRow row in dt.Rows)
+            {
+               
+                var menuItem = new Menu_Item_Model
+                {
+                    Id = (int)row["menu_item_id"],
+                    Name = row["name"].ToString(),
+                    Item_Category = row["item_category"].ToString(),
+                    Stock = (int)row["stock"],
+                    Vat = Convert.ToDouble(row["vat"]),
+                    Price = (decimal)row["price"],
+                    Preperation_Time = (int)row["preparation_time"],
+                    Menu_Id = (int)row["menu_id"]
+                };
+
+                var orderItem = new OrderItem(
+                    (int)row["id"],
+                    menuItem,
+                    row["comment"].ToString(),
+                    (OrderItem.OrderStatus)Enum.Parse(typeof(OrderItem.OrderStatus), row["status"].ToString()),
+                    (int)row["count"],
+                    (int)row["order_id"]
+                );
+                items.Add(orderItem);
+            }
+            return items;
+        }
+
+
+
+
         // Update Order Item Count
         public void UpdateOrderItemCount(OrderItem orderItem)
         {
