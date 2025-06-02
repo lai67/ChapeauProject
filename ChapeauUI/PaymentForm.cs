@@ -26,18 +26,28 @@ namespace ChapeauUI
         private void btnSplitIncrement_Click(object sender, EventArgs e)
         {
             splitValue++;
-            lblSplitValue.Text = splitValue.ToString();
+            DisplaySplitValue();
         }
-
         private void btnSplitDecrement_Click(object sender, EventArgs e)
         {
-            splitValue--;
+            if (splitValue < 0)
+            {
+                MessageBox.Show("split value cannot be negative.");
+            }
+            else
+            {
+                splitValue--;
+            }
+            DisplaySplitValue();
+        }
+        private void DisplaySplitValue()
+        {
             lblSplitValue.Text = splitValue.ToString();
         }
-
         private void FillListView(ListView listView, List<Bill> bills)
         {
             listView.Items.Clear();
+            decimal grandTotal = 0;
 
             foreach (var bill in bills)
             {
@@ -46,6 +56,8 @@ namespace ChapeauUI
 
                 foreach (var item in orderedItems)
                 {
+                    decimal itemTotal = item.Price * item.Amount;
+                    grandTotal += itemTotal;
                     ListViewItem listItem = new ListViewItem(item.Name);
                     listItem.SubItems.Add(item.Price.ToString("C")); // "C" formats as currency
                     listItem.SubItems.Add(item.Amount.ToString());
@@ -54,6 +66,22 @@ namespace ChapeauUI
                     listView.Items.Add(listItem);
                 }
             }
+
+            lblTotalPriceValueBill.Text = $"Total: €{grandTotal.ToString("0.##")}";
+        }
+
+        private void PaymentForm_Load(object sender, EventArgs e)
+        {
+            // Setup ListView columns
+            lstViewBill.View = View.Details;
+            lstViewBill.FullRowSelect = true;
+            lstViewBill.Columns.Clear();
+            lstViewBill.Columns.Add("Name", 171);
+            lstViewBill.Columns.Add("Price", 85);
+            lstViewBill.Columns.Add("Amount", 85);
+
+            // Load and display all bill items
+            FillListView(lstViewBill, bills);
         }
     }
 }
