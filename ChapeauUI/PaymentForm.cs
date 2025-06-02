@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Model;
+using Service;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +14,14 @@ namespace ChapeauUI
 {
     public partial class PaymentForm : Form
     {
+        private BillService billService;
+        private List<Bill> bills;
+        public PaymentForm()
+        {
+            InitializeComponent();
+            billService = new BillService();
+            bills = billService.GetAllBills();
+        }
         private int splitValue = 0;
         private void btnSplitIncrement_Click(object sender, EventArgs e)
         {
@@ -23,6 +33,11 @@ namespace ChapeauUI
         {
             splitValue--;
             lblSplitValue.Text = splitValue.ToString();
+        }
+
+        private void FillListView(ListView listView, List<Bill> items)
+        {
+
         }
     }
 }

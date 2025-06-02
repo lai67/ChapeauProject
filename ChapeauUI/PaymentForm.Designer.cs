@@ -68,7 +68,6 @@
             textBox5 = new TextBox();
             btnRemoveAll = new Button();
             textBox6 = new TextBox();
-            btnAddAll = new Button();
             lblSplitEqually = new Label();
             btnFinalizePayment = new Button();
             rdBtnCard = new RadioButton();
@@ -97,9 +96,9 @@
             lblTipPct5 = new Label();
             lblTipPct7 = new Label();
             lblTipPct0 = new Label();
-            listView1 = new ListView();
+            lstViewCompBill = new ListView();
             Item = new ColumnHeader();
-            listView2 = new ListView();
+            listViewSubBill = new ListView();
             columnHeader1 = new ColumnHeader();
             completeBillFields.SuspendLayout();
             panel2.SuspendLayout();
@@ -477,7 +476,7 @@
             btnRemoveAll.BackColor = SystemColors.ButtonShadow;
             btnRemoveAll.Location = new Point(424, 523);
             btnRemoveAll.Name = "btnRemoveAll";
-            btnRemoveAll.Size = new Size(158, 51);
+            btnRemoveAll.Size = new Size(341, 51);
             btnRemoveAll.TabIndex = 32;
             btnRemoveAll.Text = "Remove All";
             btnRemoveAll.UseVisualStyleBackColor = false;
@@ -488,16 +487,6 @@
             textBox6.Name = "textBox6";
             textBox6.Size = new Size(0, 27);
             textBox6.TabIndex = 33;
-            // 
-            // btnAddAll
-            // 
-            btnAddAll.BackColor = SystemColors.ButtonShadow;
-            btnAddAll.Location = new Point(609, 523);
-            btnAddAll.Name = "btnAddAll";
-            btnAddAll.Size = new Size(158, 51);
-            btnAddAll.TabIndex = 34;
-            btnAddAll.Text = "Add All";
-            btnAddAll.UseVisualStyleBackColor = false;
             // 
             // lblSplitEqually
             // 
@@ -784,31 +773,31 @@
             lblTipPct0.TabIndex = 70;
             lblTipPct0.Text = "0";
             // 
-            // listView1
+            // lstViewCompBill
             // 
-            listView1.Columns.AddRange(new ColumnHeader[] { Item });
-            listView1.Location = new Point(32, 197);
-            listView1.Name = "listView1";
-            listView1.Size = new Size(342, 353);
-            listView1.TabIndex = 71;
-            listView1.UseCompatibleStateImageBehavior = false;
+            lstViewCompBill.Columns.AddRange(new ColumnHeader[] { Item });
+            lstViewCompBill.Location = new Point(32, 197);
+            lstViewCompBill.Name = "lstViewCompBill";
+            lstViewCompBill.Size = new Size(342, 353);
+            lstViewCompBill.TabIndex = 71;
+            lstViewCompBill.UseCompatibleStateImageBehavior = false;
             // 
-            // listView2
+            // listViewSubBill
             // 
-            listView2.Columns.AddRange(new ColumnHeader[] { columnHeader1 });
-            listView2.Location = new Point(424, 197);
-            listView2.Name = "listView2";
-            listView2.Size = new Size(342, 320);
-            listView2.TabIndex = 72;
-            listView2.UseCompatibleStateImageBehavior = false;
+            listViewSubBill.Columns.AddRange(new ColumnHeader[] { columnHeader1 });
+            listViewSubBill.Location = new Point(424, 197);
+            listViewSubBill.Name = "listViewSubBill";
+            listViewSubBill.Size = new Size(342, 320);
+            listViewSubBill.TabIndex = 72;
+            listViewSubBill.UseCompatibleStateImageBehavior = false;
             // 
             // PaymentForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1176, 753);
-            Controls.Add(listView2);
-            Controls.Add(listView1);
+            Controls.Add(listViewSubBill);
+            Controls.Add(lstViewCompBill);
             Controls.Add(lblTipPct0);
             Controls.Add(lblTipPct7);
             Controls.Add(lblTipPct5);
@@ -837,7 +826,6 @@
             Controls.Add(rdBtnCard);
             Controls.Add(btnFinalizePayment);
             Controls.Add(lblSplitEqually);
-            Controls.Add(btnAddAll);
             Controls.Add(textBox6);
             Controls.Add(btnRemoveAll);
             Controls.Add(panel2);
@@ -919,7 +907,6 @@
         private Label label2;
         private Button btnRemoveAll;
         private TextBox textBox6;
-        private Button btnAddAll;
         private Label lblSplitEqually;
         private Button btnFinalizePayment;
         private RadioButton rdBtnCard;
@@ -950,9 +937,9 @@
         private Label lblTipPct5;
         private Label lblTipPct7;
         private Label lblTipPct0;
-        private ListView listView1;
+        private ListView lstViewCompBill;
         private ColumnHeader Item;
-        private ListView listView2;
+        private ListView listViewSubBill;
         private ColumnHeader columnHeader1;
     }
 }

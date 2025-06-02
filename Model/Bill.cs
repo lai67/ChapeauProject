@@ -15,5 +15,7 @@ namespace Model
         public int OrderId { get; set; }
         public float Tip { get; set; }
         public string Feedback { get; set; }
+        //navigation property
+        public List<SubBill> SubBills { get; set; }
     }
 }
