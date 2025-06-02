@@ -35,9 +35,25 @@ namespace ChapeauUI
             lblSplitValue.Text = splitValue.ToString();
         }
 
-        private void FillListView(ListView listView, List<Bill> items)
+        private void FillListView(ListView listView, List<Bill> bills)
         {
+            listView.Items.Clear();
 
+            foreach (var bill in bills)
+            {
+                // Get ordered items for this bill
+                List<OrderedMenuItemDTO> orderedItems = billService.GetOrderedItemsForBill(bill.BillId);
+
+                foreach (var item in orderedItems)
+                {
+                    ListViewItem listItem = new ListViewItem(item.Name);
+                    listItem.SubItems.Add(item.Price.ToString("C")); // "C" formats as currency
+                    listItem.SubItems.Add(item.Amount.ToString());
+                    listItem.SubItems.Add((item.Price * item.Amount).ToString("C")); // total for that item
+
+                    listView.Items.Add(listItem);
+                }
+            }
         }
     }
 }
