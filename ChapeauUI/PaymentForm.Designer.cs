@@ -49,7 +49,7 @@
             lblAmtCompBill = new Label();
             lblPriceCompBill = new Label();
             lblItem = new Label();
-            lblTotalPriceValueSubBill = new Label();
+            lblSubBillTotalValue = new Label();
             lblVatHighValueSubBill = new Label();
             lblVatLowValueSubBill = new Label();
             lblTotalPriceSubBill = new Label();
@@ -61,7 +61,7 @@
             label4 = new Label();
             label5 = new Label();
             textBox5 = new TextBox();
-            btnRemoveAll = new Button();
+            btnRemoveAllFromSubBill = new Button();
             textBox6 = new TextBox();
             lblSplitEqually = new Label();
             btnFinalizePayment = new Button();
@@ -96,7 +96,7 @@
             listViewSubBill = new ListView();
             columnHeader1 = new ColumnHeader();
             btnAddToSubBill = new Button();
-            button1 = new Button();
+            btnRemoveFromSubBill = new Button();
             completeBillFields.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -292,14 +292,14 @@
             lblItem.TabIndex = 25;
             lblItem.Text = "Item";
             // 
-            // lblTotalPriceValueSubBill
+            // lblSubBillTotalValue
             // 
-            lblTotalPriceValueSubBill.AutoSize = true;
-            lblTotalPriceValueSubBill.Location = new Point(717, 690);
-            lblTotalPriceValueSubBill.Name = "lblTotalPriceValueSubBill";
-            lblTotalPriceValueSubBill.Size = new Size(25, 20);
-            lblTotalPriceValueSubBill.TabIndex = 30;
-            lblTotalPriceValueSubBill.Text = "€0";
+            lblSubBillTotalValue.AutoSize = true;
+            lblSubBillTotalValue.Location = new Point(717, 690);
+            lblSubBillTotalValue.Name = "lblSubBillTotalValue";
+            lblSubBillTotalValue.Size = new Size(25, 20);
+            lblSubBillTotalValue.TabIndex = 30;
+            lblSubBillTotalValue.Text = "€0";
             // 
             // lblVatHighValueSubBill
             // 
@@ -408,15 +408,16 @@
             textBox5.Size = new Size(0, 27);
             textBox5.TabIndex = 30;
             // 
-            // btnRemoveAll
+            // btnRemoveAllFromSubBill
             // 
-            btnRemoveAll.BackColor = SystemColors.ButtonShadow;
-            btnRemoveAll.Location = new Point(598, 523);
-            btnRemoveAll.Name = "btnRemoveAll";
-            btnRemoveAll.Size = new Size(167, 51);
-            btnRemoveAll.TabIndex = 32;
-            btnRemoveAll.Text = "Remove All";
-            btnRemoveAll.UseVisualStyleBackColor = false;
+            btnRemoveAllFromSubBill.BackColor = SystemColors.ButtonShadow;
+            btnRemoveAllFromSubBill.Location = new Point(598, 523);
+            btnRemoveAllFromSubBill.Name = "btnRemoveAllFromSubBill";
+            btnRemoveAllFromSubBill.Size = new Size(167, 51);
+            btnRemoveAllFromSubBill.TabIndex = 32;
+            btnRemoveAllFromSubBill.Text = "Remove All";
+            btnRemoveAllFromSubBill.UseVisualStyleBackColor = false;
+            btnRemoveAllFromSubBill.Click += btnRemoveAllFromSubBill_Click;
             // 
             // textBox6
             // 
@@ -737,23 +738,25 @@
             btnAddToSubBill.TabIndex = 73;
             btnAddToSubBill.Text = "Add to Sub-Bill";
             btnAddToSubBill.UseVisualStyleBackColor = false;
+            btnAddToSubBill.Click += btnAddToSubBill_Click;
             // 
-            // button1
+            // btnRemoveFromSubBill
             // 
-            button1.BackColor = SystemColors.ButtonShadow;
-            button1.Location = new Point(424, 523);
-            button1.Name = "button1";
-            button1.Size = new Size(168, 51);
-            button1.TabIndex = 74;
-            button1.Text = "Remove";
-            button1.UseVisualStyleBackColor = false;
+            btnRemoveFromSubBill.BackColor = SystemColors.ButtonShadow;
+            btnRemoveFromSubBill.Location = new Point(424, 523);
+            btnRemoveFromSubBill.Name = "btnRemoveFromSubBill";
+            btnRemoveFromSubBill.Size = new Size(168, 51);
+            btnRemoveFromSubBill.TabIndex = 74;
+            btnRemoveFromSubBill.Text = "Remove";
+            btnRemoveFromSubBill.UseVisualStyleBackColor = false;
+            btnRemoveFromSubBill.Click += btnRemoveFromSubBill_Click;
             // 
             // PaymentForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1176, 753);
-            Controls.Add(button1);
+            Controls.Add(btnRemoveFromSubBill);
             Controls.Add(btnAddToSubBill);
             Controls.Add(listViewSubBill);
             Controls.Add(lstViewBill);
@@ -786,10 +789,10 @@
             Controls.Add(btnFinalizePayment);
             Controls.Add(lblSplitEqually);
             Controls.Add(textBox6);
-            Controls.Add(btnRemoveAll);
+            Controls.Add(btnRemoveAllFromSubBill);
             Controls.Add(panel2);
             Controls.Add(textBox5);
-            Controls.Add(lblTotalPriceValueSubBill);
+            Controls.Add(lblSubBillTotalValue);
             Controls.Add(lblVatHighValueSubBill);
             Controls.Add(lblVatLowValueSubBill);
             Controls.Add(lblTotalPriceSubBill);
@@ -847,7 +850,7 @@
         private Panel completeBillFields;
         private Label lblItem;
         private Label lblPriceCompBill;
-        private Label lblTotalPriceValueSubBill;
+        private Label lblSubBillTotalValue;
         private Label lblVatHighValueSubBill;
         private Label lblVatLowValueSubBill;
         private Label lblTotalPriceSubBill;
@@ -860,7 +863,7 @@
         private Label label4;
         private Label label5;
         private TextBox textBox5;
-        private Button btnRemoveAll;
+        private Button btnRemoveAllFromSubBill;
         private TextBox textBox6;
         private Label lblSplitEqually;
         private Button btnFinalizePayment;
@@ -897,6 +900,6 @@
         private ListView listViewSubBill;
         private ColumnHeader columnHeader1;
         private Button btnAddToSubBill;
-        private Button button1;
+        private Button btnRemoveFromSubBill;
     }
 }

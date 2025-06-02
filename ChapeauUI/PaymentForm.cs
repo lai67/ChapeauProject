@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,11 +18,13 @@ namespace ChapeauUI
     {
         private BillService billService;
         private List<Bill> bills;
+        private List<OrderedMenuItemDTO> subBillItems;
         public PaymentForm()
         {
             InitializeComponent();
             billService = new BillService();
             bills = billService.GetAllBills();
+            subBillItems = new List<OrderedMenuItemDTO>();
         }
         private int splitValue = 0;
         private void btnSplitIncrement_Click(object sender, EventArgs e)
@@ -47,7 +51,7 @@ namespace ChapeauUI
         private void FillListView(ListView listView, List<Bill> bills)
         {
             listView.Items.Clear();
-            decimal grandTotal = 0;
+            decimal billTotal = 0;
 
             foreach (var bill in bills)
             {
@@ -57,7 +61,7 @@ namespace ChapeauUI
                 foreach (var item in orderedItems)
                 {
                     decimal itemTotal = item.Price * item.Amount;
-                    grandTotal += itemTotal;
+                    billTotal += itemTotal;
                     ListViewItem listItem = new ListViewItem(item.Name);
                     listItem.SubItems.Add(item.Price.ToString("C")); // "C" formats as currency
                     listItem.SubItems.Add(item.Amount.ToString());
@@ -67,7 +71,7 @@ namespace ChapeauUI
                 }
             }
 
-            lblTotalPriceValueBill.Text = $"Total: €{grandTotal.ToString("0.##")}";
+            lblTotalPriceValueBill.Text = $"Total: €{billTotal.ToString("0.##")}";
         }
 
         private void PaymentForm_Load(object sender, EventArgs e)
@@ -82,6 +86,119 @@ namespace ChapeauUI
 
             // Load and display all bill items
             FillListView(lstViewBill, bills);
+        }
+        private void btnAddToSubBill_Click(object sender, EventArgs e)
+        {
+            subBillItems = new List<OrderedMenuItemDTO>();
+            if (lstViewBill.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Please select an item to add.");
+                return;
+            }
+
+            var selectedItem = lstViewBill.SelectedItems[0];
+
+            string name = selectedItem.SubItems[0].Text;
+            decimal price = decimal.Parse(selectedItem.SubItems[1].Text, NumberStyles.Currency);
+            int amount = int.Parse(selectedItem.SubItems[2].Text);
+
+            OrderedMenuItemDTO existingItem = null;
+            foreach (var item in subBillItems) // checks if item has already been added to sub-bill
+            {
+                if (item.Name == name)
+                {
+                    existingItem = item;
+                    break;
+                }
+            }
+            if (existingItem != null)
+            {
+                existingItem.Amount++;
+            }
+            else
+            {
+                OrderedMenuItemDTO newItem = new OrderedMenuItemDTO
+                {
+                    Name = name,
+                    Price = price,
+                    Amount = 1 // starting with 1 unit
+                };
+
+                subBillItems.Add(newItem);
+            }
+            UpdateSubBillListView();
+            decimal subBillTotal = CalculateSubBillTotal();
+            lblSubBillTotalValue.Text = $"Total: €{subBillTotal.ToString("0.##")}";
+        }
+        private void UpdateSubBillListView()
+        {
+            listViewSubBill.Items.Clear();
+
+            foreach (var item in subBillItems)
+            {
+                ListViewItem listItem = new ListViewItem(item.Name);
+                listItem.SubItems.Add(item.Price.ToString("C"));
+                listItem.SubItems.Add(item.Amount.ToString());
+                listItem.SubItems.Add((item.Price * item.Amount).ToString("C"));
+
+                listViewSubBill.Items.Add(listItem);
+            }
+        }
+        private decimal CalculateSubBillTotal()
+        {
+            decimal total = 0;
+
+            foreach (var item in subBillItems)
+            {
+                total += item.Price * item.Amount;
+            }
+
+            return total;
+        }
+
+        private void btnRemoveFromSubBill_Click(object sender, EventArgs e)
+        {
+            if (listViewSubBill.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Please select an item to remove.");
+                return;
+            }
+
+            var selectedItem = listViewSubBill.SelectedItems[0];
+            string name = selectedItem.SubItems[0].Text;
+
+            OrderedMenuItemDTO itemToRemove = null;
+            foreach (var item in subBillItems)
+            {
+                if (item.Name == name)
+                {
+                    itemToRemove = item;
+                    break;
+                }
+            }
+
+            if (itemToRemove != null)
+            {
+                itemToRemove.Amount--;
+                if (itemToRemove.Amount <= 0)
+                {
+                    subBillItems.Remove(itemToRemove);
+                }
+
+                UpdateSubBillListView();
+                decimal total = CalculateSubBillTotal();
+                lblSubBillTotalValue.Text = $"Total: {total:C}";
+            }
+        }
+
+        private void btnRemoveAllFromSubBill_Click(object sender, EventArgs e)
+        {
+            subBillItems.Clear();
+
+            UpdateSubBillListView();
+
+            decimal total = CalculateSubBillTotal();
+            lblSubBillTotalValue.Text = $"Total: {total:C}";
         }
     }
 }
