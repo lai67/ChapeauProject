@@ -1,118 +1,138 @@
-//using System;
-//using System.Collections.Generic;
-//using System.Data.SqlClient;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using Model;
 
-//using Model;
 
+namespace DAL
+{
+    public class OrderDao : BaseDao
+    {
 
-//namespace DAL
-//{
-//    internal class OrderDao : BaseDao
-//    {
-//        public enum OrderStatus
-//        {
-//            Running,
-//            Preparing,
-//            Ready,
-//            Served
-//        }
+        public Dictionary<int, (string BarStatus, string KitchenStatus)> GetTableLocationPhases()
+        {
+            const string sql = @"
+            SELECT 
+                t.table_number,
+                o.preparation_location,
+                MAX(
+                    CASE oi.status
+                        WHEN 'Placed'    THEN 1    
+                        WHEN 'Preparing' THEN 2
+                        WHEN 'Ready'     THEN 3
+                        ELSE 0
+                    END
+                ) AS phase_code
+            FROM dbo.[Table]      AS t
+            LEFT JOIN dbo.[Order] AS o  ON o.table_id = t.id
+            LEFT JOIN dbo.Order_Item AS oi ON oi.order_id = o.id
+            WHERE oi.status IN ('Placed','Preparing','Ready')
+            GROUP BY 
+                t.table_number, 
+                o.preparation_location;
+        ";
+            var dt = ExecuteSelectQuery(sql);
+            return BuildTableLocationPhaseDictionary(dt);
+        }
+        private Dictionary<int, (string BarStatus, string KitchenStatus)> BuildTableLocationPhaseDictionary(DataTable dt)
+        {
+            var dict = new Dictionary<int, (string Bar, string Kitch)>();
 
-//        public List<Order> GetAllOrders()
-//        {
-//            List<Order> orders = new List<Order>();
-//            string query = "SELECT * FROM [Order]";
+            foreach (DataRow row in dt.Rows)
+            {
+                int tableNumber = row.Field<int>("table_number");
+                string location = row.Field<string>("preparation_location");
+                int code = row.Field<int>("phase_code");
 
-//            using (SqlConnection connection = OpenConnection())
-//            {
-//                SqlCommand command = CreateCommand(connection, query);
-//                SqlDataReader reader = command.ExecuteReader();
+                string status = code switch
+                {
+                    1 => "Placed",
+                    2 => "Preparing",
+                    3 => "Ready",
+                    _ => "None"
+                };
 
-//                while (reader.Read())
-//                {
-//                    orders.Add(MapOrder(reader));
-//                }
-//            }
+                // If we already have an entry for this table, retrieve it; otherwise default to (None,None)
+                dict.TryGetValue(tableNumber, out var current);
 
-//            return orders;
-//        }
+                if (location.Equals("Bar", StringComparison.OrdinalIgnoreCase))
+                    dict[tableNumber] = (status, current.Kitch);
+                else
+                    dict[tableNumber] = (current.Bar, status);
+            }
 
-//        public void AddOrder(Order order)
-//        {
-//            if (!Enum.IsDefined(typeof(OrderStatus), order.Status))
-//            {
-//                throw new ArgumentException("Invalid order status.");
-//            }
+            return dict;
+        }
 
-//            string query = "INSERT INTO [Order] (order_time, preparation_time, status, employee_id, bill_id, preparation_location, table_id) " +
-//                           "VALUES (@orderTime, @prepTime, @status, @employeeId, @billId, @prepLocation, @tableId)";
+        public int CreateOrder(Order order)
+        {
+            string query = @"INSERT INTO [Order] (order_time, preparation_time, 
+                             isCreated, employee_id, preparation_location, table_id) 
+                        OUTPUT INSERTED.id
+                        VALUES (@orderTime, @preparationTime, @isCreated, @employeeId, @preparationLocation, @tableId)";
 
-//            using (SqlConnection connection = OpenConnection())
-//            {
-//                SqlCommand command = CreateCommand(connection, query,
-//                    new SqlParameter("@orderTime", order.OrderTime),
-//                    new SqlParameter("@prepTime", order.PreparationTime),
-//                    new SqlParameter("@status", order.Status),
-//                    new SqlParameter("@employeeId", order.EmployeeId),
-//                    new SqlParameter("@billId", order.BillId),
-//                    new SqlParameter("@prepLocation", order.PreparationLocation),
-//                    new SqlParameter("@tableId", order.TableId));
+            SqlParameter[] parameters = {
+            new SqlParameter("@orderTime", order.OrderTime),
+            new SqlParameter("@preparationTime", order.PreparationTime),
+            new SqlParameter("@isCreated", order.IsCreated),
+            new SqlParameter("@employeeId", order.Employee.Id),
+            new SqlParameter("@preparationLocation", order.PreparationLocation),
+            new SqlParameter("@tableId", order.Table.Id)
+        };
+            using (SqlConnection conn = OpenConnection())
+            using (SqlCommand command = new SqlCommand(query, conn))
+            {
+                command.Parameters.AddRange(parameters);
+                int insertedId = (int)command.ExecuteScalar();
+                return insertedId;
+            }
+        }
 
-//                command.ExecuteNonQuery();
-//            }
-//        }
+        // update order
+        public void UpdateOrderPreparationInfo(int orderId, int preparationTime, string preparationLocation)
+        {
+            string query = @"UPDATE [Order]
+                     SET preparation_time = @preparationTime,
+                         preparation_location = @preparationLocation
+                     WHERE id = @orderId";
+            SqlParameter[] parameters = {
+        new SqlParameter("@preparationTime", preparationTime),
+        new SqlParameter("@preparationLocation", preparationLocation),
+        new SqlParameter("@orderId", orderId)
+    };
+            ExecuteEditQuery(query, parameters);
+        }
 
-//        public void UpdateOrderStatus(int orderId, string newStatus)
-//        {
-//            if (!Enum.IsDefined(typeof(OrderStatus), newStatus))
-//            {
-//                throw new ArgumentException("Invalid order status.");
-//            }
+        public Order GetOrdersForAlreadyOrderedTable(int tableId)
+        {
+            string query = @"SELECT TOP 1 o.*, t.table_number, t.table_status
+                    FROM [Order] o
+               JOIN [Table] t ON o.table_id = t.id
+               WHERE o.table_id = @tableId AND o.isCreated = 0
+               ORDER BY o.order_time DESC";
+            SqlParameter[] parameters = {new SqlParameter("@tableId", tableId)
+            };
+            DataTable dt = ExecuteSelectQuery(query, parameters);
+            if (dt.Rows.Count == 0)
+                return null;
 
-//            string query = "UPDATE [Order] SET status = @newStatus WHERE id = @orderId";
+            DataRow row = dt.Rows[0];
+            return new Order(
+       id: row.Field<int>("id"),
+       orderTime: row.Field<DateTime>("order_time"),
+       preparationTime: row.Field<int>("preparation_time"),
+       isCreated: row.Field<bool>("isCreated"),
+       employee: new Employee { Id = row.Field<int>("employee_id") },
+       bill: null,
+       preparationLocation: row.Field<string>("preparation_location"),
+       table: new Table(
+           row.Field<int>("table_id"),
+           row.Field<int>("table_number"),
+           Enum.Parse<TableStatus>(row.Field<string>("table_status"), true)
+       )
+   );
+        }
 
-//            using (SqlConnection connection = OpenConnection())
-//            {
-//                SqlCommand command = CreateCommand(connection, query,
-//                    new SqlParameter("@newStatus", newStatus),
-//                    new SqlParameter("@orderId", orderId));
-
-//                command.ExecuteNonQuery();
-//            }
-//        }
-
-//        public List<Order> GetRunningOrders()
-//        {
-//            List<Order> runningOrders = new List<Order>();
-//            string query = "SELECT * FROM [Order] WHERE status = @status";
-
-//            using (SqlConnection connection = OpenConnection())
-//            {
-//                SqlCommand command = CreateCommand(connection, query,
-//                    new SqlParameter("@status", OrderStatus.Running.ToString()));
-//                SqlDataReader reader = command.ExecuteReader();
-
-//                while (reader.Read())
-//                {
-//                    runningOrders.Add(MapOrder(reader));
-//                }
-//            }
-
-//            return runningOrders;
-//        }
-
-//        private Order MapOrder(SqlDataReader reader)
-//        {
-//            return new Order
-//            {
-//                Id = reader.GetInt32(0),
-//                OrderTime = reader.GetDateTime(1),
-//                PreparationTime = reader.GetDateTime(2),
-//                Status = reader.GetString(3),
-//                EmployeeId = reader.GetInt32(4),
-//                BillId = reader.GetInt32(5),
-//                PreparationLocation = reader.GetString(6),
-//                TableId = reader.GetInt32(7)
-//            };
-//        }
-//    }
-//}
+    }
+}

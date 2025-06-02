@@ -40,6 +40,10 @@ namespace Service
         {
             return menuItemDao.GetItemsByMenuId(menuId);
         }
+        public void DecreaseMenuItemStock(int menuItemid,int count)
+        {
+            menuItemDao.DecreaseMenuItemStock(menuItemid, count);
+        }
 
     }
 }

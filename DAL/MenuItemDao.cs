@@ -69,6 +69,34 @@ namespace DAL
             }
             return menuItemList;
         }
+
+        //Check menu item stock if there are enough items in stock.
+        public int CheckMenuItemStock(int menuItemId)
+        {
+            string query = "SELECT stock FROM Menu_Item WHERE id = @menuItemId";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@menuItemId", menuItemId)
+            };
+            DataTable dt = ExecuteSelectQuery(query, parameters);
+            if (dt.Rows.Count > 0)
+            {
+                return Convert.ToInt32(dt.Rows[0]["stock"]);
+            }
+            return 0; // Return 0 if no item found
+        }
+        // Method to decrease the stock of a menu item.
+        public void DecreaseMenuItemStock(int menuItemId, int count)
+        {
+            string query = "UPDATE Menu_Item SET stock = stock - @count WHERE id = @menuItemId";
+            SqlParameter[] parameters = {
+            new SqlParameter("@count", count),
+            new SqlParameter("@menuItemId", menuItemId)
+             };
+            ExecuteEditQuery(query, parameters);
+        }
+  
+
     }
 
 

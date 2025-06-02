@@ -10,14 +10,11 @@ using System.Windows.Forms;
 
 namespace ChapeauUI
 {
-    public partial class table : UserControl
+    public partial class FreeTableActionsForm : Form
     {
-        public table()
+        public FreeTableActionsForm()
         {
             InitializeComponent();
         }
-
-     
-
     }
 }

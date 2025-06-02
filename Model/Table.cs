@@ -8,23 +8,22 @@ namespace Model
 {
     public class Table
     {
+        public int Id { get; set; } 
         public int TableNumber {  get; set; }
 
         public TableStatus Status { get; set; }
 
-        public Table()
-        {
-            
-        }
-        public Table(int tableNumber, TableStatus statuse)
+  
+        public Table(int tableId,int tableNumber, TableStatus statuse)
         {
             this.TableNumber = tableNumber;
             this.Status = statuse;
+            this.Id = tableId;
         }
     }
-}
 
-public enum TableStatus
-{
-    Occupied, Free,Booked
+    public enum TableStatus
+    {
+        Occupied, Free, Booked
+    }
 }

@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             lblTableNr = new Label();
-            btnLogOut = new Button();
             btnRemoveCom = new Button();
             btnAddCom = new Button();
             textBoxComment = new TextBox();
@@ -129,19 +128,6 @@
             lblTableNr.TabIndex = 41;
             lblTableNr.Text = "........";
             // 
-            // btnLogOut
-            // 
-            btnLogOut.BackColor = SystemColors.Desktop;
-            btnLogOut.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
-            btnLogOut.ForeColor = SystemColors.ControlLightLight;
-            btnLogOut.Location = new Point(1165, 7);
-            btnLogOut.Margin = new Padding(2, 1, 2, 1);
-            btnLogOut.Name = "btnLogOut";
-            btnLogOut.Size = new Size(80, 58);
-            btnLogOut.TabIndex = 40;
-            btnLogOut.Text = "Log Out";
-            btnLogOut.UseVisualStyleBackColor = false;
-            // 
             // btnRemoveCom
             // 
             btnRemoveCom.BackColor = SystemColors.ActiveCaptionText;
@@ -154,6 +140,7 @@
             btnRemoveCom.TabIndex = 39;
             btnRemoveCom.Text = "Remove comment";
             btnRemoveCom.UseVisualStyleBackColor = false;
+            btnRemoveCom.Click += btnRemoveCom_Click;
             // 
             // btnAddCom
             // 
@@ -167,6 +154,7 @@
             btnAddCom.TabIndex = 38;
             btnAddCom.Text = "Add comment";
             btnAddCom.UseVisualStyleBackColor = false;
+            btnAddCom.Click += btnAddCom_Click;
             // 
             // textBoxComment
             // 
@@ -220,12 +208,12 @@
             // 
             // columnHeader14
             // 
-            columnHeader14.Text = "Price";
+            columnHeader14.Text = "Amount";
             columnHeader14.Width = 250;
             // 
             // columnHeader15
             // 
-            columnHeader15.Text = "Amount";
+            columnHeader15.Text = "Price";
             columnHeader15.Width = 200;
             // 
             // columnHeader16
@@ -287,6 +275,7 @@
             btnPrevious.TabIndex = 46;
             btnPrevious.Text = "Previous page";
             btnPrevious.UseVisualStyleBackColor = false;
+            btnPrevious.Click += btnPrevious_Click;
             // 
             // btnPlus
             // 
@@ -300,6 +289,7 @@
             btnPlus.TabIndex = 45;
             btnPlus.Text = "+";
             btnPlus.UseVisualStyleBackColor = false;
+            btnPlus.Click += btnPlus_Click;
             // 
             // btnMinus
             // 
@@ -313,6 +303,7 @@
             btnMinus.TabIndex = 44;
             btnMinus.Text = "-";
             btnMinus.UseVisualStyleBackColor = false;
+            btnMinus.Click += btnMinus_Click;
             // 
             // btnClearAll
             // 
@@ -326,6 +317,7 @@
             btnClearAll.TabIndex = 42;
             btnClearAll.Text = "Clear All";
             btnClearAll.UseVisualStyleBackColor = false;
+            btnClearAll.Click += btnClearAll_Click;
             // 
             // btnSendOrder
             // 
@@ -339,6 +331,7 @@
             btnSendOrder.TabIndex = 43;
             btnSendOrder.Text = "Send Order";
             btnSendOrder.UseVisualStyleBackColor = false;
+            btnSendOrder.Click += btnSendOrder_Click;
             // 
             // pnlDinner
             // 
@@ -360,6 +353,187 @@
             pnlDinner.TabIndex = 47;
             // 
             // label13
+
+            /**
+            label13.AutoSize = true;
+            
+            label13.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label13.ForeColor = SystemColors.ControlLightLight;
+            label13.Location = new Point(33, 329);
+            
+           label13.Margin = new Padding(4, 0, 4, 0);
+            label13.Name = "label13";
+            label13.Size = new Size(156, 36);
+            label13.TabIndex = 8;
+            label13.Text = "Entremets";
+            // 
+            // listVEntremetsDinner
+            // 
+            listVEntremetsDinner.Columns.AddRange(new ColumnHeader[] { columnHeader21, columnHeader22, columnHeader23 });
+            listVEntremetsDinner.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
+            listVEntremetsDinner.FullRowSelect = true;
+            listVEntremetsDinner.Location = new Point(33, 373);
+            listVEntremetsDinner.Margin = new Padding(4, 2, 4, 2);
+            listVEntremetsDinner.MultiSelect = false;
+            listVEntremetsDinner.Name = "listVEntremetsDinner";
+            listVEntremetsDinner.Size = new Size(801, 166);
+            listVEntremetsDinner.TabIndex = 7;
+            listVEntremetsDinner.UseCompatibleStateImageBehavior = false;
+            listVEntremetsDinner.View = View.Details;
+            // 
+            // columnHeader21
+            // 
+            columnHeader21.Text = "Name";
+            columnHeader21.Width = 250;
+            // 
+            // columnHeader22
+            // 
+            columnHeader22.Text = "Price";
+            columnHeader22.Width = 250;
+            // 
+            // columnHeader23
+            // 
+            columnHeader23.Text = "Stock";
+            columnHeader23.Width = 250;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label9.ForeColor = SystemColors.ControlLightLight;
+            label9.Location = new Point(33, 794);
+            label9.Margin = new Padding(4, 0, 4, 0);
+            label9.Name = "label9";
+            label9.Size = new Size(127, 36);
+            label9.TabIndex = 6;
+            label9.Text = "Desserts";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label10.ForeColor = SystemColors.ControlLightLight;
+            label10.Location = new Point(33, 559);
+            label10.Margin = new Padding(4, 0, 4, 0);
+            label10.Name = "label10";
+            label10.Size = new Size(101, 36);
+            label10.TabIndex = 5;
+            label10.Text = "Mains";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label11.ForeColor = SystemColors.ControlLightLight;
+            label11.Location = new Point(33, 94);
+            label11.Margin = new Padding(4, 0, 4, 0);
+            label11.Name = "label11";
+            label11.Size = new Size(125, 36);
+            label11.TabIndex = 4;
+            label11.Text = "Starters";
+            // 
+            // listVDessertsDinner
+            // 
+            listVDessertsDinner.Columns.AddRange(new ColumnHeader[] { columnHeader17, columnHeader18, columnHeader19 });
+            listVDessertsDinner.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
+            listVDessertsDinner.FullRowSelect = true;
+            listVDessertsDinner.Location = new Point(33, 845);
+            listVDessertsDinner.Margin = new Padding(4, 2, 4, 2);
+            listVDessertsDinner.MultiSelect = false;
+            listVDessertsDinner.Name = "listVDessertsDinner";
+            listVDessertsDinner.Size = new Size(801, 166);
+            listVDessertsDinner.TabIndex = 3;
+            listVDessertsDinner.UseCompatibleStateImageBehavior = false;
+            listVDessertsDinner.View = View.Details;
+            // 
+            // columnHeader17
+            // 
+            columnHeader17.Text = "Name";
+            columnHeader17.Width = 250;
+            // 
+            // columnHeader18
+            // 
+            columnHeader18.Text = "Price";
+            columnHeader18.Width = 250;
+            // 
+            // columnHeader19
+            // 
+            columnHeader19.Text = "Stock";
+            columnHeader19.Width = 250;
+            // 
+            // listVMainsDinner
+            // 
+            listVMainsDinner.Columns.AddRange(new ColumnHeader[] { columnHeader24, columnHeader25, columnHeader26 });
+            listVMainsDinner.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
+            listVMainsDinner.FullRowSelect = true;
+            listVMainsDinner.Location = new Point(33, 610);
+            listVMainsDinner.Margin = new Padding(4, 2, 4, 2);
+            listVMainsDinner.MultiSelect = false;
+            listVMainsDinner.Name = "listVMainsDinner";
+            listVMainsDinner.Size = new Size(801, 166);
+            listVMainsDinner.TabIndex = 2;
+            listVMainsDinner.UseCompatibleStateImageBehavior = false;
+            listVMainsDinner.View = View.Details;
+            // 
+            // columnHeader24
+            // 
+            columnHeader24.Text = "Name";
+            columnHeader24.Width = 250;
+            // 
+            // columnHeader25
+            // 
+            columnHeader25.Text = "Price";
+            columnHeader25.Width = 250;
+            // 
+            // columnHeader26
+            // 
+            columnHeader26.Text = "Stock";
+            columnHeader26.Width = 250;
+            // 
+            // listVStartersDinner
+            // 
+            listVStartersDinner.Columns.AddRange(new ColumnHeader[] { columnHeader32, columnHeader36, columnHeader40 });
+            listVStartersDinner.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
+            listVStartersDinner.FullRowSelect = true;
+            listVStartersDinner.Location = new Point(33, 145);
+            listVStartersDinner.Margin = new Padding(4, 2, 4, 2);
+            listVStartersDinner.MultiSelect = false;
+            listVStartersDinner.Name = "listVStartersDinner";
+            listVStartersDinner.Size = new Size(801, 166);
+            listVStartersDinner.TabIndex = 1;
+            listVStartersDinner.UseCompatibleStateImageBehavior = false;
+            listVStartersDinner.View = View.Details;
+            // 
+            // columnHeader32
+            // 
+            columnHeader32.Text = "Name";
+            columnHeader32.Width = 250;
+            // 
+            // columnHeader36
+            // 
+            columnHeader36.Text = "Price";
+            columnHeader36.Width = 250;
+            // 
+            // columnHeader40
+            // 
+            columnHeader40.Text = "Stock";
+            columnHeader40.Width = 250;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Font = new Font("Times New Roman", 16.125F, FontStyle.Bold, GraphicsUnit.Point);
+            label12.ForeColor = SystemColors.ControlLightLight;
+            label12.Location = new Point(370, 26);
+            label12.Margin = new Padding(4, 0, 4, 0);
+            label12.Name = "label12";
+            label12.Size = new Size(151, 49);
+            label12.TabIndex = 0;
+            label12.Text = "Dinner";
+            // 
+            // pnlDrinks
+            **/
+
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point);
@@ -371,8 +545,10 @@
             label13.TabIndex = 8;
             label13.Text = "Entremets";
             // 
+          
+
             // listVEntremetsDinner
-            // 
+            /**
             listVEntremetsDinner.Columns.AddRange(new ColumnHeader[] { columnHeader21, columnHeader22, columnHeader23 });
             listVEntremetsDinner.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
             listVEntremetsDinner.FullRowSelect = true;
@@ -556,6 +732,8 @@
             pnlDrinks.Size = new Size(550, 960);
             pnlDrinks.TabIndex = 48;
             // 
+            **/
+
             // listVCoffee
             // 
             listVCoffee.Columns.AddRange(new ColumnHeader[] { columnHeader29, columnHeader30, columnHeader31 });
@@ -784,10 +962,19 @@
             pnlLunch.Controls.Add(listVMainsLunch);
             pnlLunch.Controls.Add(listVStartersLunch);
             pnlLunch.Controls.Add(label1);
+
+            /**
             pnlLunch.Location = new Point(5, 11);
             pnlLunch.Margin = new Padding(2, 1, 2, 1);
             pnlLunch.Name = "pnlLunch";
             pnlLunch.Size = new Size(550, 960);
+
+            pnlLunch.Location = new Point(8, 17);
+            pnlLunch.Margin = new Padding(4, 2, 4, 2);
+            pnlLunch.Name = "pnlLunch";
+            pnlLunch.Size = new Size(893, 1534);
+            **/
+
             pnlLunch.TabIndex = 48;
             // 
             // label4
@@ -795,10 +982,19 @@
             label4.AutoSize = true;
             label4.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point);
             label4.ForeColor = SystemColors.ControlLightLight;
+
+            /**
             label4.Location = new Point(20, 427);
             label4.Margin = new Padding(2, 0, 2, 0);
             label4.Name = "label4";
             label4.Size = new Size(83, 23);
+
+            label4.Location = new Point(33, 683);
+            label4.Margin = new Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(127, 36);
+            **/
+
             label4.TabIndex = 6;
             label4.Text = "Desserts";
             // 
@@ -807,10 +1003,19 @@
             label3.AutoSize = true;
             label3.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point);
             label3.ForeColor = SystemColors.ControlLightLight;
+
+            /**
             label3.Location = new Point(20, 242);
             label3.Margin = new Padding(2, 0, 2, 0);
             label3.Name = "label3";
             label3.Size = new Size(61, 23);
+
+            label3.Location = new Point(33, 388);
+            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(101, 36);
+             **/
+
             label3.TabIndex = 5;
             label3.Text = "Mains";
             // 
@@ -819,10 +1024,20 @@
             label2.AutoSize = true;
             label2.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point);
             label2.ForeColor = SystemColors.ControlLightLight;
+
+  
+            /**
             label2.Location = new Point(20, 62);
             label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
             label2.Size = new Size(79, 23);
+
+            label2.Location = new Point(33, 100);
+            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(125, 36);
+             **/
+
             label2.TabIndex = 4;
             label2.Text = "Starters";
             // 
@@ -831,11 +1046,21 @@
             listVDessertsLunch.Columns.AddRange(new ColumnHeader[] { columnHeader4, columnHeader5, columnHeader6 });
             listVDessertsLunch.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
             listVDessertsLunch.FullRowSelect = true;
+
+             /**
             listVDessertsLunch.Location = new Point(20, 461);
             listVDessertsLunch.Margin = new Padding(2, 1, 2, 1);
             listVDessertsLunch.MultiSelect = false;
             listVDessertsLunch.Name = "listVDessertsLunch";
             listVDessertsLunch.Size = new Size(494, 133);
+
+            listVDessertsLunch.Location = new Point(33, 738);
+            listVDessertsLunch.Margin = new Padding(4, 2, 4, 2);
+            listVDessertsLunch.MultiSelect = false;
+            listVDessertsLunch.Name = "listVDessertsLunch";
+            listVDessertsLunch.Size = new Size(801, 211);
+             **/
+
             listVDessertsLunch.TabIndex = 3;
             listVDessertsLunch.UseCompatibleStateImageBehavior = false;
             listVDessertsLunch.View = View.Details;
@@ -860,11 +1085,21 @@
             listVMainsLunch.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3 });
             listVMainsLunch.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
             listVMainsLunch.FullRowSelect = true;
+
+            /**
             listVMainsLunch.Location = new Point(20, 274);
             listVMainsLunch.Margin = new Padding(2, 1, 2, 1);
             listVMainsLunch.MultiSelect = false;
             listVMainsLunch.Name = "listVMainsLunch";
             listVMainsLunch.Size = new Size(494, 133);
+
+            listVMainsLunch.Location = new Point(33, 439);
+            listVMainsLunch.Margin = new Padding(4, 2, 4, 2);
+            listVMainsLunch.MultiSelect = false;
+            listVMainsLunch.Name = "listVMainsLunch";
+            listVMainsLunch.Size = new Size(801, 211);
+            **/
+
             listVMainsLunch.TabIndex = 2;
             listVMainsLunch.UseCompatibleStateImageBehavior = false;
             listVMainsLunch.View = View.Details;
@@ -889,11 +1124,20 @@
             listVStartersLunch.Columns.AddRange(new ColumnHeader[] { columnHeader54, columnHeader55, columnHeader56 });
             listVStartersLunch.Font = new Font("Times New Roman", 10.125F, FontStyle.Regular, GraphicsUnit.Point);
             listVStartersLunch.FullRowSelect = true;
+
+            /**
             listVStartersLunch.Location = new Point(20, 96);
             listVStartersLunch.Margin = new Padding(2, 1, 2, 1);
             listVStartersLunch.MultiSelect = false;
             listVStartersLunch.Name = "listVStartersLunch";
             listVStartersLunch.Size = new Size(494, 133);
+            listVStartersLunch.Location = new Point(33, 154);
+            listVStartersLunch.Margin = new Padding(4, 2, 4, 2);
+            listVStartersLunch.MultiSelect = false;
+            listVStartersLunch.Name = "listVStartersLunch";
+            listVStartersLunch.Size = new Size(801, 211);
+            **/
+
             listVStartersLunch.TabIndex = 1;
             listVStartersLunch.UseCompatibleStateImageBehavior = false;
             listVStartersLunch.View = View.Details;
@@ -918,10 +1162,18 @@
             label1.AutoSize = true;
             label1.Font = new Font("Times New Roman", 16.125F, FontStyle.Bold, GraphicsUnit.Point);
             label1.ForeColor = SystemColors.ControlLightLight;
+
+            /**
             label1.Location = new Point(228, 16);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
             label1.Size = new Size(89, 31);
+            label1.Location = new Point(370, 26);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(142, 49);
+            **/
+
             label1.TabIndex = 0;
             label1.Text = "Lunch";
             // 
@@ -939,7 +1191,6 @@
             Controls.Add(btnClearAll);
             Controls.Add(btnSendOrder);
             Controls.Add(lblTableNr);
-            Controls.Add(btnLogOut);
             Controls.Add(btnRemoveCom);
             Controls.Add(btnAddCom);
             Controls.Add(textBoxComment);
@@ -965,7 +1216,6 @@
         #endregion
 
         private Label lblTableNr;
-        private Button btnLogOut;
         private Button btnRemoveCom;
         private Button btnAddCom;
         private TextBox textBoxComment;
