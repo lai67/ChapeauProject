@@ -38,11 +38,9 @@
             textBox3 = new TextBox();
             textBox4 = new TextBox();
             divider2 = new Panel();
-            lblVatLowCompBill = new Label();
-            lblVatHighCompBill = new Label();
+            lblVatTotalCompBill = new Label();
             lblTotalPriceCompBill = new Label();
-            lblVatLowValueCompBill = new Label();
-            lblVatHighValueCompBill = new Label();
+            lblVatValueCompBill = new Label();
             lblTotalPriceValueBill = new Label();
             lblVatInfoCompBill = new Label();
             completeBillFields = new Panel();
@@ -50,11 +48,9 @@
             lblPriceCompBill = new Label();
             lblItem = new Label();
             lblSubBillTotalValue = new Label();
-            lblVatHighValueSubBill = new Label();
-            lblVatLowValueSubBill = new Label();
+            lblVatValueSubBill = new Label();
             lblTotalPriceSubBill = new Label();
-            lblVatHighSubBill = new Label();
-            lblVatLowSubBill = new Label();
+            lblVatTotalSubBill = new Label();
             label7 = new Label();
             panel2 = new Panel();
             label3 = new Label();
@@ -183,23 +179,14 @@
             divider2.Size = new Size(3, 586);
             divider2.TabIndex = 5;
             // 
-            // lblVatLowCompBill
+            // lblVatTotalCompBill
             // 
-            lblVatLowCompBill.AutoSize = true;
-            lblVatLowCompBill.Location = new Point(48, 611);
-            lblVatLowCompBill.Name = "lblVatLowCompBill";
-            lblVatLowCompBill.Size = new Size(99, 20);
-            lblVatLowCompBill.TabIndex = 10;
-            lblVatLowCompBill.Text = "VAT Low (9%)";
-            // 
-            // lblVatHighCompBill
-            // 
-            lblVatHighCompBill.AutoSize = true;
-            lblVatHighCompBill.Location = new Point(48, 648);
-            lblVatHighCompBill.Name = "lblVatHighCompBill";
-            lblVatHighCompBill.Size = new Size(112, 20);
-            lblVatHighCompBill.TabIndex = 11;
-            lblVatHighCompBill.Text = "VAT High (21%)";
+            lblVatTotalCompBill.AutoSize = true;
+            lblVatTotalCompBill.Location = new Point(48, 611);
+            lblVatTotalCompBill.Name = "lblVatTotalCompBill";
+            lblVatTotalCompBill.Size = new Size(71, 20);
+            lblVatTotalCompBill.TabIndex = 10;
+            lblVatTotalCompBill.Text = "VAT Total";
             // 
             // lblTotalPriceCompBill
             // 
@@ -210,23 +197,14 @@
             lblTotalPriceCompBill.TabIndex = 12;
             lblTotalPriceCompBill.Text = "Total Price";
             // 
-            // lblVatLowValueCompBill
+            // lblVatValueCompBill
             // 
-            lblVatLowValueCompBill.AutoSize = true;
-            lblVatLowValueCompBill.Location = new Point(325, 611);
-            lblVatLowValueCompBill.Name = "lblVatLowValueCompBill";
-            lblVatLowValueCompBill.Size = new Size(25, 20);
-            lblVatLowValueCompBill.TabIndex = 13;
-            lblVatLowValueCompBill.Text = "€0";
-            // 
-            // lblVatHighValueCompBill
-            // 
-            lblVatHighValueCompBill.AutoSize = true;
-            lblVatHighValueCompBill.Location = new Point(325, 648);
-            lblVatHighValueCompBill.Name = "lblVatHighValueCompBill";
-            lblVatHighValueCompBill.Size = new Size(25, 20);
-            lblVatHighValueCompBill.TabIndex = 14;
-            lblVatHighValueCompBill.Text = "€0";
+            lblVatValueCompBill.AutoSize = true;
+            lblVatValueCompBill.Location = new Point(325, 611);
+            lblVatValueCompBill.Name = "lblVatValueCompBill";
+            lblVatValueCompBill.Size = new Size(25, 20);
+            lblVatValueCompBill.TabIndex = 13;
+            lblVatValueCompBill.Text = "€0";
             // 
             // lblTotalPriceValueBill
             // 
@@ -301,23 +279,14 @@
             lblSubBillTotalValue.TabIndex = 30;
             lblSubBillTotalValue.Text = "€0";
             // 
-            // lblVatHighValueSubBill
+            // lblVatValueSubBill
             // 
-            lblVatHighValueSubBill.AutoSize = true;
-            lblVatHighValueSubBill.Location = new Point(717, 648);
-            lblVatHighValueSubBill.Name = "lblVatHighValueSubBill";
-            lblVatHighValueSubBill.Size = new Size(25, 20);
-            lblVatHighValueSubBill.TabIndex = 29;
-            lblVatHighValueSubBill.Text = "€0";
-            // 
-            // lblVatLowValueSubBill
-            // 
-            lblVatLowValueSubBill.AutoSize = true;
-            lblVatLowValueSubBill.Location = new Point(717, 611);
-            lblVatLowValueSubBill.Name = "lblVatLowValueSubBill";
-            lblVatLowValueSubBill.Size = new Size(25, 20);
-            lblVatLowValueSubBill.TabIndex = 28;
-            lblVatLowValueSubBill.Text = "€0";
+            lblVatValueSubBill.AutoSize = true;
+            lblVatValueSubBill.Location = new Point(717, 611);
+            lblVatValueSubBill.Name = "lblVatValueSubBill";
+            lblVatValueSubBill.Size = new Size(25, 20);
+            lblVatValueSubBill.TabIndex = 28;
+            lblVatValueSubBill.Text = "€0";
             // 
             // lblTotalPriceSubBill
             // 
@@ -328,23 +297,14 @@
             lblTotalPriceSubBill.TabIndex = 27;
             lblTotalPriceSubBill.Text = "Total Price";
             // 
-            // lblVatHighSubBill
+            // lblVatTotalSubBill
             // 
-            lblVatHighSubBill.AutoSize = true;
-            lblVatHighSubBill.Location = new Point(440, 648);
-            lblVatHighSubBill.Name = "lblVatHighSubBill";
-            lblVatHighSubBill.Size = new Size(112, 20);
-            lblVatHighSubBill.TabIndex = 26;
-            lblVatHighSubBill.Text = "VAT High (21%)";
-            // 
-            // lblVatLowSubBill
-            // 
-            lblVatLowSubBill.AutoSize = true;
-            lblVatLowSubBill.Location = new Point(440, 611);
-            lblVatLowSubBill.Name = "lblVatLowSubBill";
-            lblVatLowSubBill.Size = new Size(99, 20);
-            lblVatLowSubBill.TabIndex = 25;
-            lblVatLowSubBill.Text = "VAT Low (9%)";
+            lblVatTotalSubBill.AutoSize = true;
+            lblVatTotalSubBill.Location = new Point(440, 611);
+            lblVatTotalSubBill.Name = "lblVatTotalSubBill";
+            lblVatTotalSubBill.Size = new Size(127, 20);
+            lblVatTotalSubBill.TabIndex = 25;
+            lblVatTotalSubBill.Text = "Sub-Bill VAT Total";
             // 
             // label7
             // 
@@ -793,19 +753,15 @@
             Controls.Add(panel2);
             Controls.Add(textBox5);
             Controls.Add(lblSubBillTotalValue);
-            Controls.Add(lblVatHighValueSubBill);
-            Controls.Add(lblVatLowValueSubBill);
+            Controls.Add(lblVatValueSubBill);
             Controls.Add(lblTotalPriceSubBill);
-            Controls.Add(lblVatHighSubBill);
-            Controls.Add(lblVatLowSubBill);
+            Controls.Add(lblVatTotalSubBill);
             Controls.Add(label7);
             Controls.Add(completeBillFields);
             Controls.Add(lblTotalPriceValueBill);
-            Controls.Add(lblVatHighValueCompBill);
-            Controls.Add(lblVatLowValueCompBill);
+            Controls.Add(lblVatValueCompBill);
             Controls.Add(lblTotalPriceCompBill);
-            Controls.Add(lblVatHighCompBill);
-            Controls.Add(lblVatLowCompBill);
+            Controls.Add(lblVatTotalCompBill);
             Controls.Add(lblVatInfoCompBill);
             Controls.Add(divider2);
             Controls.Add(textBox4);
@@ -840,22 +796,18 @@
         private TextBox textBox3;
         private TextBox textBox4;
         private Panel divider2;
-        private Label lblVatLowCompBill;
-        private Label lblVatHighCompBill;
+        private Label lblVatTotalCompBill;
         private Label lblTotalPriceCompBill;
-        private Label lblVatLowValueCompBill;
-        private Label lblVatHighValueCompBill;
+        private Label lblVatValueCompBill;
         private Label lblTotalPriceValueBill;
         public Label lblVatInfoCompBill;
         private Panel completeBillFields;
         private Label lblItem;
         private Label lblPriceCompBill;
         private Label lblSubBillTotalValue;
-        private Label lblVatHighValueSubBill;
-        private Label lblVatLowValueSubBill;
+        private Label lblVatValueSubBill;
         private Label lblTotalPriceSubBill;
-        private Label lblVatHighSubBill;
-        private Label lblVatLowSubBill;
+        private Label lblVatTotalSubBill;
         public Label label7;
         private Label lblAmtCompBill;
         private Panel panel2;
