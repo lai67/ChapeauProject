@@ -54,13 +54,17 @@ namespace ChapeauUI
         {
             listView.Items.Clear();
             decimal billTotal = 0;
+            decimal vatTotal = 0;
 
             List<OrderedMenuItemDTO> orderedItems = billService.GetOrderedItemsForBill(bill.BillId);
 
             foreach (var item in orderedItems)
             {
                 decimal itemTotal = item.Price * item.Amount;
+                decimal decVat = (decimal)item.Vat;
+                vatTotal = decVat * vatTotal;
                 billTotal += itemTotal;
+                vatTotal += decVat;
                 ListViewItem listItem = new ListViewItem(item.Name);
                 listItem.SubItems.Add(item.Price.ToString("C")); // "C" formats as currency
                 listItem.SubItems.Add(item.Amount.ToString());
@@ -70,6 +74,7 @@ namespace ChapeauUI
             }
 
             lblTotalPriceValueBill.Text = $"Total: €{billTotal.ToString("0.##")}";
+            lblVatTotalCompBill.Text = $"Total: €{vatTotal.ToString("0.##")}";
         }
 
         private void PaymentForm_Load(object sender, EventArgs e)
