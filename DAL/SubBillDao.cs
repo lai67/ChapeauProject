@@ -77,6 +77,40 @@ namespace DAL
 
             return ReadTables(ExecuteSelectQuery(query, parameters));
         }
+        public List<OrderedMenuItemDTO> GetMenuItemsBySubBillId(int subBillId)
+        {
+            string query = @"
+                SELECT mi.name, mi.price, oi.amount
+                FROM Sub_Bill sb
+                JOIN Bill b ON sb.bill_id = b.id
+                JOIN [Order] o ON b.order_id = o.id
+                JOIN Order_Item oi ON o.id = oi.order_id
+                JOIN Menu_Item mi ON oi.menu_item_id = mi.id
+                WHERE sb.id = @subBillId;";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@subBillId", subBillId)
+            };
+
+            DataTable table = ExecuteSelectQuery(query, parameters);
+
+            List<OrderedMenuItemDTO> items = new List<OrderedMenuItemDTO>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                OrderedMenuItemDTO item = new OrderedMenuItemDTO
+                {
+                    Name = row["name"].ToString(),
+                    Price = Convert.ToDecimal(row["price"]),
+                    Amount = Convert.ToInt32(row["amount"])
+                };
+                items.Add(item);
+            }
+
+            return items;
+        }
+
         public void CreateSubBill(SubBill subBill)
         {
             string query = @"INSERT INTO [SUB_BILL] (bill_id, price, vat, tip, feedback)

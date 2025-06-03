@@ -43,15 +43,13 @@
             lblTotalPriceCompBill = new Label();
             lblVatLowValueCompBill = new Label();
             lblVatHighValueCompBill = new Label();
-            lblTotalPriceValueCompBill = new Label();
+            lblTotalPriceValueBill = new Label();
             lblVatInfoCompBill = new Label();
             completeBillFields = new Panel();
-            lblAddTo2 = new Label();
-            lblAddTo = new Label();
             lblAmtCompBill = new Label();
             lblPriceCompBill = new Label();
             lblItem = new Label();
-            lblTotalPriceValueSubBill = new Label();
+            lblSubBillTotalValue = new Label();
             lblVatHighValueSubBill = new Label();
             lblVatLowValueSubBill = new Label();
             lblTotalPriceSubBill = new Label();
@@ -59,14 +57,11 @@
             lblVatLowSubBill = new Label();
             label7 = new Label();
             panel2 = new Panel();
-            label2 = new Label();
-            label1 = new Label();
-            lblRemove = new Label();
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
             textBox5 = new TextBox();
-            btnRemoveAll = new Button();
+            btnRemoveAllFromSubBill = new Button();
             textBox6 = new TextBox();
             lblSplitEqually = new Label();
             btnFinalizePayment = new Button();
@@ -96,10 +91,12 @@
             lblTipPct5 = new Label();
             lblTipPct7 = new Label();
             lblTipPct0 = new Label();
-            lstViewCompBill = new ListView();
+            lstViewBill = new ListView();
             Item = new ColumnHeader();
             listViewSubBill = new ListView();
             columnHeader1 = new ColumnHeader();
+            btnAddToSubBill = new Button();
+            btnRemoveFromSubBill = new Button();
             completeBillFields.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -231,14 +228,14 @@
             lblVatHighValueCompBill.TabIndex = 14;
             lblVatHighValueCompBill.Text = "€0";
             // 
-            // lblTotalPriceValueCompBill
+            // lblTotalPriceValueBill
             // 
-            lblTotalPriceValueCompBill.AutoSize = true;
-            lblTotalPriceValueCompBill.Location = new Point(325, 690);
-            lblTotalPriceValueCompBill.Name = "lblTotalPriceValueCompBill";
-            lblTotalPriceValueCompBill.Size = new Size(25, 20);
-            lblTotalPriceValueCompBill.TabIndex = 15;
-            lblTotalPriceValueCompBill.Text = "€0";
+            lblTotalPriceValueBill.AutoSize = true;
+            lblTotalPriceValueBill.Location = new Point(325, 690);
+            lblTotalPriceValueBill.Name = "lblTotalPriceValueBill";
+            lblTotalPriceValueBill.Size = new Size(25, 20);
+            lblTotalPriceValueBill.TabIndex = 15;
+            lblTotalPriceValueBill.Text = "€0";
             // 
             // lblVatInfoCompBill
             // 
@@ -254,8 +251,6 @@
             // completeBillFields
             // 
             completeBillFields.BackColor = SystemColors.Desktop;
-            completeBillFields.Controls.Add(lblAddTo2);
-            completeBillFields.Controls.Add(lblAddTo);
             completeBillFields.Controls.Add(lblAmtCompBill);
             completeBillFields.Controls.Add(lblPriceCompBill);
             completeBillFields.Controls.Add(lblItem);
@@ -264,34 +259,12 @@
             completeBillFields.Size = new Size(342, 60);
             completeBillFields.TabIndex = 24;
             // 
-            // lblAddTo2
-            // 
-            lblAddTo2.AutoSize = true;
-            lblAddTo2.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblAddTo2.ForeColor = SystemColors.Control;
-            lblAddTo2.Location = new Point(273, 31);
-            lblAddTo2.Name = "lblAddTo2";
-            lblAddTo2.Size = new Size(66, 23);
-            lblAddTo2.TabIndex = 29;
-            lblAddTo2.Text = "sub-bill";
-            // 
-            // lblAddTo
-            // 
-            lblAddTo.AutoSize = true;
-            lblAddTo.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblAddTo.ForeColor = SystemColors.Control;
-            lblAddTo.Location = new Point(276, 6);
-            lblAddTo.Name = "lblAddTo";
-            lblAddTo.Size = new Size(62, 23);
-            lblAddTo.TabIndex = 28;
-            lblAddTo.Text = "Add to";
-            // 
             // lblAmtCompBill
             // 
             lblAmtCompBill.AutoSize = true;
             lblAmtCompBill.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             lblAmtCompBill.ForeColor = SystemColors.Control;
-            lblAmtCompBill.Location = new Point(218, 17);
+            lblAmtCompBill.Location = new Point(272, 17);
             lblAmtCompBill.Name = "lblAmtCompBill";
             lblAmtCompBill.Size = new Size(46, 23);
             lblAmtCompBill.TabIndex = 27;
@@ -302,7 +275,7 @@
             lblPriceCompBill.AutoSize = true;
             lblPriceCompBill.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             lblPriceCompBill.ForeColor = SystemColors.Control;
-            lblPriceCompBill.Location = new Point(159, 17);
+            lblPriceCompBill.Location = new Point(179, 17);
             lblPriceCompBill.Name = "lblPriceCompBill";
             lblPriceCompBill.Size = new Size(47, 23);
             lblPriceCompBill.TabIndex = 26;
@@ -319,14 +292,14 @@
             lblItem.TabIndex = 25;
             lblItem.Text = "Item";
             // 
-            // lblTotalPriceValueSubBill
+            // lblSubBillTotalValue
             // 
-            lblTotalPriceValueSubBill.AutoSize = true;
-            lblTotalPriceValueSubBill.Location = new Point(717, 690);
-            lblTotalPriceValueSubBill.Name = "lblTotalPriceValueSubBill";
-            lblTotalPriceValueSubBill.Size = new Size(25, 20);
-            lblTotalPriceValueSubBill.TabIndex = 30;
-            lblTotalPriceValueSubBill.Text = "€0";
+            lblSubBillTotalValue.AutoSize = true;
+            lblSubBillTotalValue.Location = new Point(717, 690);
+            lblSubBillTotalValue.Name = "lblSubBillTotalValue";
+            lblSubBillTotalValue.Size = new Size(25, 20);
+            lblSubBillTotalValue.TabIndex = 30;
+            lblSubBillTotalValue.Text = "€0";
             // 
             // lblVatHighValueSubBill
             // 
@@ -387,9 +360,6 @@
             // panel2
             // 
             panel2.BackColor = SystemColors.Desktop;
-            panel2.Controls.Add(label2);
-            panel2.Controls.Add(label1);
-            panel2.Controls.Add(lblRemove);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(label4);
             panel2.Controls.Add(label5);
@@ -398,45 +368,12 @@
             panel2.Size = new Size(342, 60);
             panel2.TabIndex = 31;
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.ForeColor = SystemColors.Control;
-            label2.Location = new Point(285, 19);
-            label2.Name = "label2";
-            label2.Size = new Size(46, 23);
-            label2.TabIndex = 30;
-            label2.Text = "from";
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.ForeColor = SystemColors.Control;
-            label1.Location = new Point(275, 37);
-            label1.Name = "label1";
-            label1.Size = new Size(66, 23);
-            label1.TabIndex = 29;
-            label1.Text = "sub-bill";
-            // 
-            // lblRemove
-            // 
-            lblRemove.AutoSize = true;
-            lblRemove.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblRemove.ForeColor = SystemColors.Control;
-            lblRemove.Location = new Point(272, 0);
-            lblRemove.Name = "lblRemove";
-            lblRemove.Size = new Size(71, 23);
-            lblRemove.TabIndex = 28;
-            lblRemove.Text = "Remove";
-            // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             label3.ForeColor = SystemColors.Control;
-            label3.Location = new Point(218, 17);
+            label3.Location = new Point(272, 17);
             label3.Name = "label3";
             label3.Size = new Size(46, 23);
             label3.TabIndex = 27;
@@ -447,7 +384,7 @@
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             label4.ForeColor = SystemColors.Control;
-            label4.Location = new Point(159, 17);
+            label4.Location = new Point(174, 17);
             label4.Name = "label4";
             label4.Size = new Size(47, 23);
             label4.TabIndex = 26;
@@ -471,15 +408,16 @@
             textBox5.Size = new Size(0, 27);
             textBox5.TabIndex = 30;
             // 
-            // btnRemoveAll
+            // btnRemoveAllFromSubBill
             // 
-            btnRemoveAll.BackColor = SystemColors.ButtonShadow;
-            btnRemoveAll.Location = new Point(424, 523);
-            btnRemoveAll.Name = "btnRemoveAll";
-            btnRemoveAll.Size = new Size(341, 51);
-            btnRemoveAll.TabIndex = 32;
-            btnRemoveAll.Text = "Remove All";
-            btnRemoveAll.UseVisualStyleBackColor = false;
+            btnRemoveAllFromSubBill.BackColor = SystemColors.ButtonShadow;
+            btnRemoveAllFromSubBill.Location = new Point(598, 523);
+            btnRemoveAllFromSubBill.Name = "btnRemoveAllFromSubBill";
+            btnRemoveAllFromSubBill.Size = new Size(167, 51);
+            btnRemoveAllFromSubBill.TabIndex = 32;
+            btnRemoveAllFromSubBill.Text = "Remove All";
+            btnRemoveAllFromSubBill.UseVisualStyleBackColor = false;
+            btnRemoveAllFromSubBill.Click += btnRemoveAllFromSubBill_Click;
             // 
             // textBox6
             // 
@@ -773,14 +711,14 @@
             lblTipPct0.TabIndex = 70;
             lblTipPct0.Text = "0";
             // 
-            // lstViewCompBill
+            // lstViewBill
             // 
-            lstViewCompBill.Columns.AddRange(new ColumnHeader[] { Item });
-            lstViewCompBill.Location = new Point(32, 197);
-            lstViewCompBill.Name = "lstViewCompBill";
-            lstViewCompBill.Size = new Size(342, 353);
-            lstViewCompBill.TabIndex = 71;
-            lstViewCompBill.UseCompatibleStateImageBehavior = false;
+            lstViewBill.Columns.AddRange(new ColumnHeader[] { Item });
+            lstViewBill.Location = new Point(32, 197);
+            lstViewBill.Name = "lstViewBill";
+            lstViewBill.Size = new Size(342, 320);
+            lstViewBill.TabIndex = 71;
+            lstViewBill.UseCompatibleStateImageBehavior = false;
             // 
             // listViewSubBill
             // 
@@ -791,13 +729,37 @@
             listViewSubBill.TabIndex = 72;
             listViewSubBill.UseCompatibleStateImageBehavior = false;
             // 
+            // btnAddToSubBill
+            // 
+            btnAddToSubBill.BackColor = SystemColors.ButtonShadow;
+            btnAddToSubBill.Location = new Point(32, 523);
+            btnAddToSubBill.Name = "btnAddToSubBill";
+            btnAddToSubBill.Size = new Size(342, 51);
+            btnAddToSubBill.TabIndex = 73;
+            btnAddToSubBill.Text = "Add to Sub-Bill";
+            btnAddToSubBill.UseVisualStyleBackColor = false;
+            btnAddToSubBill.Click += btnAddToSubBill_Click;
+            // 
+            // btnRemoveFromSubBill
+            // 
+            btnRemoveFromSubBill.BackColor = SystemColors.ButtonShadow;
+            btnRemoveFromSubBill.Location = new Point(424, 523);
+            btnRemoveFromSubBill.Name = "btnRemoveFromSubBill";
+            btnRemoveFromSubBill.Size = new Size(168, 51);
+            btnRemoveFromSubBill.TabIndex = 74;
+            btnRemoveFromSubBill.Text = "Remove";
+            btnRemoveFromSubBill.UseVisualStyleBackColor = false;
+            btnRemoveFromSubBill.Click += btnRemoveFromSubBill_Click;
+            // 
             // PaymentForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1176, 753);
+            Controls.Add(btnRemoveFromSubBill);
+            Controls.Add(btnAddToSubBill);
             Controls.Add(listViewSubBill);
-            Controls.Add(lstViewCompBill);
+            Controls.Add(lstViewBill);
             Controls.Add(lblTipPct0);
             Controls.Add(lblTipPct7);
             Controls.Add(lblTipPct5);
@@ -827,10 +789,10 @@
             Controls.Add(btnFinalizePayment);
             Controls.Add(lblSplitEqually);
             Controls.Add(textBox6);
-            Controls.Add(btnRemoveAll);
+            Controls.Add(btnRemoveAllFromSubBill);
             Controls.Add(panel2);
             Controls.Add(textBox5);
-            Controls.Add(lblTotalPriceValueSubBill);
+            Controls.Add(lblSubBillTotalValue);
             Controls.Add(lblVatHighValueSubBill);
             Controls.Add(lblVatLowValueSubBill);
             Controls.Add(lblTotalPriceSubBill);
@@ -838,7 +800,7 @@
             Controls.Add(lblVatLowSubBill);
             Controls.Add(label7);
             Controls.Add(completeBillFields);
-            Controls.Add(lblTotalPriceValueCompBill);
+            Controls.Add(lblTotalPriceValueBill);
             Controls.Add(lblVatHighValueCompBill);
             Controls.Add(lblVatLowValueCompBill);
             Controls.Add(lblTotalPriceCompBill);
@@ -857,6 +819,7 @@
             Controls.Add(lblCompleteBill);
             Name = "PaymentForm";
             Text = "PaymentForm";
+            Load += PaymentForm_Load;
             completeBillFields.ResumeLayout(false);
             completeBillFields.PerformLayout();
             panel2.ResumeLayout(false);
@@ -882,12 +845,12 @@
         private Label lblTotalPriceCompBill;
         private Label lblVatLowValueCompBill;
         private Label lblVatHighValueCompBill;
-        private Label lblTotalPriceValueCompBill;
+        private Label lblTotalPriceValueBill;
         public Label lblVatInfoCompBill;
         private Panel completeBillFields;
         private Label lblItem;
         private Label lblPriceCompBill;
-        private Label lblTotalPriceValueSubBill;
+        private Label lblSubBillTotalValue;
         private Label lblVatHighValueSubBill;
         private Label lblVatLowValueSubBill;
         private Label lblTotalPriceSubBill;
@@ -895,17 +858,12 @@
         private Label lblVatLowSubBill;
         public Label label7;
         private Label lblAmtCompBill;
-        private Label lblAddTo;
-        private Label lblAddTo2;
         private Panel panel2;
-        private Label label1;
-        private Label lblRemove;
         private Label label3;
         private Label label4;
         private Label label5;
         private TextBox textBox5;
-        private Label label2;
-        private Button btnRemoveAll;
+        private Button btnRemoveAllFromSubBill;
         private TextBox textBox6;
         private Label lblSplitEqually;
         private Button btnFinalizePayment;
@@ -937,9 +895,11 @@
         private Label lblTipPct5;
         private Label lblTipPct7;
         private Label lblTipPct0;
-        private ListView lstViewCompBill;
+        private ListView lstViewBill;
         private ColumnHeader Item;
         private ListView listViewSubBill;
         private ColumnHeader columnHeader1;
+        private Button btnAddToSubBill;
+        private Button btnRemoveFromSubBill;
     }
 }

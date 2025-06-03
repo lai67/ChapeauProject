@@ -32,6 +32,16 @@ namespace Service
                 bill.SubBills = subBillService.GetSubBillsByBillId(bill.BillId);
             return bill;
         }
+        public Bill GetBillByOrderId(int orderId)
+        {
+            return billDao.GetBillByOrderId(orderId);
+        }
+        // gets the items ordered in a bill
+        // shows item name, price, and amount
+        public List<OrderedMenuItemDTO> GetOrderedItemsForBill(int billId)
+        {
+            return billDao.GetMenuItemsByBillId(billId);
+        }
         // creates a new bill and saves it to the database
         public void CreateBill(Bill bill)
         {
