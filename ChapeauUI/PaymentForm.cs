@@ -16,15 +16,17 @@ namespace ChapeauUI
 {
     public partial class PaymentForm : Form
     {
+        private int orderId;
         private BillService billService;
         private List<Bill> bills;
         private List<OrderedMenuItemDTO> subBillItems;
-        public PaymentForm()
+        public PaymentForm(int orderId)
         {
             InitializeComponent();
             billService = new BillService();
             bills = billService.GetAllBills();
             subBillItems = new List<OrderedMenuItemDTO>();
+            this.orderId = orderId;
         }
         private int splitValue = 0;
         private void btnSplitIncrement_Click(object sender, EventArgs e)
@@ -48,27 +50,23 @@ namespace ChapeauUI
         {
             lblSplitValue.Text = splitValue.ToString();
         }
-        private void FillListView(ListView listView, List<Bill> bills)
+        private void FillListView(ListView listView, Bill bill)
         {
             listView.Items.Clear();
             decimal billTotal = 0;
 
-            foreach (var bill in bills)
+            List<OrderedMenuItemDTO> orderedItems = billService.GetOrderedItemsForBill(bill.BillId);
+
+            foreach (var item in orderedItems)
             {
-                // Get ordered items for this bill
-                List<OrderedMenuItemDTO> orderedItems = billService.GetOrderedItemsForBill(bill.BillId);
+                decimal itemTotal = item.Price * item.Amount;
+                billTotal += itemTotal;
+                ListViewItem listItem = new ListViewItem(item.Name);
+                listItem.SubItems.Add(item.Price.ToString("C")); // "C" formats as currency
+                listItem.SubItems.Add(item.Amount.ToString());
+                listItem.SubItems.Add((item.Price * item.Amount).ToString("C")); // total for that item
 
-                foreach (var item in orderedItems)
-                {
-                    decimal itemTotal = item.Price * item.Amount;
-                    billTotal += itemTotal;
-                    ListViewItem listItem = new ListViewItem(item.Name);
-                    listItem.SubItems.Add(item.Price.ToString("C")); // "C" formats as currency
-                    listItem.SubItems.Add(item.Amount.ToString());
-                    listItem.SubItems.Add((item.Price * item.Amount).ToString("C")); // total for that item
-
-                    listView.Items.Add(listItem);
-                }
+                listView.Items.Add(listItem);
             }
 
             lblTotalPriceValueBill.Text = $"Total: €{billTotal.ToString("0.##")}";
@@ -84,12 +82,20 @@ namespace ChapeauUI
             lstViewBill.Columns.Add("Price", 85);
             lstViewBill.Columns.Add("Amount", 85);
 
-            // Load and display all bill items
-            FillListView(lstViewBill, bills);
+            // ✅ Get the bill related to this order
+            Bill bill = billService.GetBillByOrderId(orderId);
+
+            if (bill != null)
+            {
+                FillListView(lstViewBill, bill);
+            }
+            else
+            {
+                MessageBox.Show("No bill found for this order.");
+            }
         }
         private void btnAddToSubBill_Click(object sender, EventArgs e)
         {
-            subBillItems = new List<OrderedMenuItemDTO>();
             if (lstViewBill.SelectedItems.Count == 0)
             {
                 MessageBox.Show("Please select an item to add.");

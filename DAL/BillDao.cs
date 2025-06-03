@@ -74,6 +74,26 @@ namespace DAL
             DataTable table = ExecuteSelectQuery(query, parameters);
             return ReadBill(table);
         }
+        public Bill GetBillByOrderId(int orderId)
+        {
+            string query = @"SELECT id, total_price, vat, guest_number, order_id, tip, feedback 
+                     FROM [BILL] 
+                     WHERE order_id = @orderId;";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@orderId", orderId)
+            };
+
+            DataTable table = ExecuteSelectQuery(query, parameters);
+
+            if (table.Rows.Count == 0)
+            {
+                return null;
+            }
+
+            return ReadBill(table); // Reuses your existing method
+        }
         public List<OrderedMenuItemDTO> GetMenuItemsByBillId(int billId)
         {
             string query = @"
