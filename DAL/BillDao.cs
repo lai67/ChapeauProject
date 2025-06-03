@@ -76,9 +76,11 @@ namespace DAL
         }
         public Bill GetBillByOrderId(int orderId)
         {
-            string query = @"SELECT id, total_price, vat, guest_number, order_id, tip, feedback 
-                     FROM [BILL] 
-                     WHERE order_id = @orderId;";
+            string query = @"
+                            SELECT b.id, b.total_price, b.vat, b.guest_number, b.order_id, b.tip, b.feedback
+                            FROM [BILL] b
+                            JOIN [ORDER] o ON b.order_id = o.id
+                            WHERE b.order_id = @orderId AND o.isCreated = 1;";
 
             SqlParameter[] parameters = new SqlParameter[]
             {

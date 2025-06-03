@@ -36,15 +36,15 @@ namespace ChapeauUI
         }
         private void btnSplitDecrement_Click(object sender, EventArgs e)
         {
-            if (splitValue < 0)
+            if (splitValue > 0)
             {
-                MessageBox.Show("split value cannot be negative.");
+                splitValue--;
+                DisplaySplitValue();
             }
             else
             {
-                splitValue--;
+                MessageBox.Show("Split value cannot be negative.");
             }
-            DisplaySplitValue();
         }
         private void DisplaySplitValue()
         {
@@ -82,7 +82,7 @@ namespace ChapeauUI
             lstViewBill.Columns.Add("Price", 85);
             lstViewBill.Columns.Add("Amount", 85);
 
-            // ✅ Get the bill related to this order
+            // Get the bill related to this order
             Bill bill = billService.GetBillByOrderId(orderId);
 
             if (bill != null)
