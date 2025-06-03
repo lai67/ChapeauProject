@@ -39,7 +39,7 @@ namespace Service
 
         public Order GetOrdersForAlreadyOrderedTable(int tableId)
         {
-            return _orderDao.GetOrdersForAllReadyOrderedTable(tableId);
+            return _orderDao.GetOrdersForAlreadyOrderedTable(tableId);
         }
         
 
