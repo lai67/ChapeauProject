@@ -609,6 +609,7 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(796, 328);
             panel1.TabIndex = 41;
+            panel1.Paint += panel1_Paint;
             // 
             // RestaurantOverviewForm
             // 
