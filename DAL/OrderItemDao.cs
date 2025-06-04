@@ -148,7 +148,7 @@ namespace DAL
                 int count = Convert.ToInt32(row["count"]);
                 int orderId = Convert.ToInt32(row["order_id"]);
                 string comment = row["comment"].ToString();
-                OrderItem.OrderStatus status = (OrderItem.OrderStatus)Enum.Parse(typeof(OrderItem.OrderStatus), row["status"].ToString());
+                OrderStatus status = (OrderStatus)Enum.Parse(typeof(OrderStatus), row["status"].ToString());
                 MenuItemModel menuItem = new MenuItemModel { Menu_Id = menuItemId };
                 OrderItem orderItem = new OrderItem(id, menuItem, comment, status, count, orderId);
                 orderItems.Add(orderItem);
