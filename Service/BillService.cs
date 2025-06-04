@@ -38,9 +38,17 @@ namespace Service
         }
         // gets the items ordered in a bill
         // shows item name, price, and amount
-        public List<OrderedMenuItemDTO> GetOrderedItemsForBill(int billId)
+        public List<BillItem> GetOrderedItemsForBill(int billId)
         {
-            return billDao.GetMenuItemsByBillId(billId);
+            List<OrderItem> orderItems = billDao.GetOrderItemsByBillId(billId);
+
+            return orderItems.Select(o => new BillItem
+            {
+                Name = o.MenuItem.Name,
+                Price = o.MenuItem.Price,
+                Vat = o.MenuItem.Vat,
+                Amount = o.Count
+            }).ToList();
         }
         // creates a new bill and saves it to the database
         public void CreateBill(Bill bill)

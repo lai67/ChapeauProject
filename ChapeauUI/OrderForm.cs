@@ -285,9 +285,6 @@ namespace ChapeauUI
 
             MessageBox.Show("Order sent!");
 
-            PaymentForm paymentForm = new PaymentForm(currentOrder.Id);
-            paymentForm.ShowDialog();
-
             this.Close();
 
         }
