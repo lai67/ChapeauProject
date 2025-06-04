@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class OrderedMenuItemDTO
+    public class BillItem
     {
         public string Name { get; set; }
         public decimal Price { get; set; }

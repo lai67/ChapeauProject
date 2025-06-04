@@ -20,13 +20,13 @@ namespace ChapeauUI
         private int orderId;
         private BillService billService;
         private List<Bill> bills;
-        private List<OrderedMenuItemDTO> subBillItems;
+        private List<BillItem> subBillItems;
         public BillForm(int orderId)
         {
             InitializeComponent();
             billService = new BillService();
             bills = billService.GetAllBills();
-            subBillItems = new List<OrderedMenuItemDTO>();
+            subBillItems = new List<BillItem>();
             this.orderId = orderId;
         }
         private int splitValue = 0;
@@ -57,14 +57,17 @@ namespace ChapeauUI
             decimal billTotal = 0;
             decimal vatTotal = 0;
 
-            List<OrderedMenuItemDTO> orderedItems = billService.GetOrderedItemsForBill(bill.BillId);
+            List<BillItem> billItems = billService.GetOrderedItemsForBill(bill.BillId);
 
-            foreach (var item in orderedItems)
+            foreach (var item in billItems)
             {
                 decimal itemTotal = item.Price * item.Amount;
-                vatTotal = item.Vat * vatTotal;
+
+                // Add VAT for this item
+                decimal itemVat = itemTotal * item.Vat; // Assuming Vat is a percentage like 0.21 for 21%
+                vatTotal += itemVat;
                 billTotal += itemTotal;
-                vatTotal += vatTotal;
+
                 ListViewItem listItem = new ListViewItem(item.Name);
                 listItem.SubItems.Add(item.Price.ToString("C")); // "C" formats as currency
                 listItem.SubItems.Add(item.Amount.ToString());
@@ -113,7 +116,7 @@ namespace ChapeauUI
             decimal price = decimal.Parse(selectedItem.SubItems[1].Text, NumberStyles.Currency);
             int amount = int.Parse(selectedItem.SubItems[2].Text);
 
-            OrderedMenuItemDTO existingItem = null;
+            BillItem existingItem = null;
             foreach (var item in subBillItems) // checks if item has already been added to sub-bill
             {
                 if (item.Name == name)
@@ -128,7 +131,7 @@ namespace ChapeauUI
             }
             else
             {
-                OrderedMenuItemDTO newItem = new OrderedMenuItemDTO
+                BillItem newItem = new BillItem
                 {
                     Name = name,
                     Price = price,
@@ -178,7 +181,7 @@ namespace ChapeauUI
             var selectedItem = listViewSubBill.SelectedItems[0];
             string name = selectedItem.SubItems[0].Text;
 
-            OrderedMenuItemDTO itemToRemove = null;
+            BillItem itemToRemove = null;
             foreach (var item in subBillItems)
             {
                 if (item.Name == name)
