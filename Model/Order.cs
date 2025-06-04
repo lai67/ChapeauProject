@@ -15,7 +15,6 @@ namespace Model
 
         public Bill Bill { get; set; }
 
-        public bool Completed { get; set; } // Indicates if the order is completed
 
         public OrderStatus Status;
 
@@ -29,7 +28,7 @@ namespace Model
             PreparationLocation = preparationLocation;
             Table = table;
             Items = new List<OrderItem>();
-            Completed = false; // New orders are not completed by default
+        
             Status = OrderStatus.Placed; // Default status for a new order
         }
 

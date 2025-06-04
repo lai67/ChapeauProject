@@ -79,7 +79,7 @@ namespace DAL
             new SqlParameter("@employeeId", order.Employee.Id),
             new SqlParameter("@preparationLocation", order.PreparationLocation),
             new SqlParameter("@tableId", order.Table.Id),
-            new SqlParameter("@completed", order.Completed)
+         
         };
             using (SqlConnection conn = OpenConnection())
             using (SqlCommand command = new SqlCommand(query, conn))
