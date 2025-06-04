@@ -48,8 +48,9 @@ namespace ChapeauUI
             }
 
             // 2) Instantiate the overview with the employee
-            var overview = new RestaurantOverviewForm(employee);
-            overview.Show();
+/*              var overview = new RestaurantOverviewForm(employee);
+             overview.Show(); */
+            BarOrders.Show();
 
             // 3) Hide login
             this.Hide();
