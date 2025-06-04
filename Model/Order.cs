@@ -33,7 +33,7 @@ namespace Model
         }
 
         // for for loading an existing order - This constructor is used when loading an existing order from the database.
-        public Order(int id, DateTime orderTime, int preparationTime, bool isCreated, Employee employee, Bill bill, string preparationLocation, Table table, bool completed)
+        public Order(int id, DateTime orderTime, int preparationTime, bool isCreated, Employee employee, Bill bill, string preparationLocation, Table table)
         {
             Id = id;
             OrderTime = orderTime;
@@ -44,7 +44,7 @@ namespace Model
             PreparationLocation = preparationLocation;
             Table = table;
             Items = new List<OrderItem>();
-            Completed = completed; // Indicates if the order is completed
+          
 
         }
 

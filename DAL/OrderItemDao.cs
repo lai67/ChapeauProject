@@ -56,7 +56,7 @@ namespace DAL
                     (int)row["id"],
                     menuItem,
                     row["comment"].ToString(),
-                    (OrderItem.OrderStatus)Enum.Parse(typeof(OrderItem.OrderStatus), row["status"].ToString()),
+                    (OrderStatus)Enum.Parse(typeof(OrderStatus), row["status"].ToString()),
                     (int)row["count"],
                     (int)row["order_id"]
                 );
