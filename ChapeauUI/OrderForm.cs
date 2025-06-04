@@ -18,7 +18,7 @@ namespace ChapeauUI
         private OrderItemService orderItemService;
         private Order currentOrder;
         private List<OrderItem> currentOrderItems;
-        private Menu_Service menuService;
+        private MenuService menuService;
         private Table table;
         private Employee employee;
 
@@ -27,7 +27,7 @@ namespace ChapeauUI
         {
             InitializeComponent();
             ClickEventForAllMenuListItems();
-            menuService = new Menu_Service();
+            menuService = new MenuService();
             orderService = new OrderService();
             orderItemService = new OrderItemService();
             this.table = table;
@@ -53,7 +53,7 @@ namespace ChapeauUI
         }
 
         // general load method to fill lists with items.
-        private void FillListView(ListView listView, List<Menu_Item_Model> items)
+        private void FillListView(ListView listView, List<MenuItemModel> items)
         {
             listView.Items.Clear();
 
@@ -141,7 +141,7 @@ namespace ChapeauUI
             if (listView == null || listView.SelectedItems.Count == 0) return;
 
             var selectedItem = listView.SelectedItems[0];
-            var menuItem = (Menu_Item_Model)selectedItem.Tag;
+            var menuItem = (MenuItemModel)selectedItem.Tag;
 
             var orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Id == menuItem.Id);
             if (orderItem != null)
@@ -180,7 +180,7 @@ namespace ChapeauUI
         {
             if (menuListView.SelectedItems.Count == 0) return false;
             var selectedItem = menuListView.SelectedItems[0];
-            var menuItem = (Menu_Item_Model)selectedItem.Tag;
+            var menuItem = (MenuItemModel)selectedItem.Tag;
 
             var orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Id == menuItem.Id);
             if (orderItem != null)
@@ -261,19 +261,19 @@ namespace ChapeauUI
             if (foodItems.Any() && !drinkItems.Any())
             {
                 currentOrder.PreparationLocation = "Kitchen";
-                currentOrder.PreparationTime = foodItems.Max(i => i.MenuItem.Preperation_Time);
+                currentOrder.PreparationTime = foodItems.Max(i => i.MenuItem.PreparationTime);
             }
             else if (!foodItems.Any() && drinkItems.Any())
             {
                 currentOrder.PreparationLocation = "Bar";
-                currentOrder.PreparationTime = drinkItems.Max(i => i.MenuItem.Preperation_Time);
+                currentOrder.PreparationTime = drinkItems.Max(i => i.MenuItem.PreparationTime);
             }
             else if (foodItems.Any() && drinkItems.Any())
             {
                 currentOrder.PreparationLocation = "Kitchen & Bar";
                 currentOrder.PreparationTime = Math.Max(
-                    foodItems.Max(i => i.MenuItem.Preperation_Time),
-                    drinkItems.Max(i => i.MenuItem.Preperation_Time)
+                    foodItems.Max(i => i.MenuItem.PreparationTime),
+                    drinkItems.Max(i => i.MenuItem.PreparationTime)
                 );
             }
         }

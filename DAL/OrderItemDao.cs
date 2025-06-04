@@ -40,7 +40,7 @@ namespace DAL
             foreach (DataRow row in dt.Rows)
             {
                
-                var menuItem = new Menu_Item_Model
+                var menuItem = new MenuItemModel
                 {
                     Id = (int)row["menu_item_id"],
                     Name = row["name"].ToString(),
@@ -48,7 +48,7 @@ namespace DAL
                     Stock = (int)row["stock"],
                     Vat = Convert.ToDouble(row["vat"]),
                     Price = (decimal)row["price"],
-                    Preperation_Time = (int)row["preparation_time"],
+                    PreparationTime = (int)row["preparation_time"],
                     Menu_Id = (int)row["menu_id"]
                 };
 
@@ -149,7 +149,7 @@ namespace DAL
                 int orderId = Convert.ToInt32(row["order_id"]);
                 string comment = row["comment"].ToString();
                 OrderItem.OrderStatus status = (OrderItem.OrderStatus)Enum.Parse(typeof(OrderItem.OrderStatus), row["status"].ToString());
-                Menu_Item_Model menuItem = new Menu_Item_Model { Menu_Id = menuItemId };
+                MenuItemModel menuItem = new MenuItemModel { Menu_Id = menuItemId };
                 OrderItem orderItem = new OrderItem(id, menuItem, comment, status, count, orderId);
                 orderItems.Add(orderItem);
             }

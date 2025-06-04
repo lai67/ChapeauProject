@@ -78,7 +78,8 @@ namespace DAL
             new SqlParameter("@isCreated", order.IsCreated),
             new SqlParameter("@employeeId", order.Employee.Id),
             new SqlParameter("@preparationLocation", order.PreparationLocation),
-            new SqlParameter("@tableId", order.Table.Id)
+            new SqlParameter("@tableId", order.Table.Id),
+            new SqlParameter("@completed", order.Completed)
         };
             using (SqlConnection conn = OpenConnection())
             using (SqlCommand command = new SqlCommand(query, conn))
@@ -107,7 +108,7 @@ namespace DAL
         public Order GetOrdersForAlreadyOrderedTable(int tableId)
         {
             string query = @"SELECT TOP 1 o.*, t.table_number, t.table_status
-                    FROM [Order] o
+                    FROM [Order] o 
                JOIN [Table] t ON o.table_id = t.id
                WHERE o.table_id = @tableId AND o.isCreated = 0
                ORDER BY o.order_time DESC";

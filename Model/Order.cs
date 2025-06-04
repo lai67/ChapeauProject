@@ -15,7 +15,11 @@ namespace Model
 
         public Bill Bill { get; set; }
 
-        // ctor for creating a new order - This constructor is used when creating a new order in the system.
+        public bool Completed { get; set; } // Indicates if the order is completed
+
+        public OrderStatus Status;
+
+        // for for creating a new order - This constructor is used when creating a new order in the system.
         public Order(DateTime orderTime, int preparationTime, bool isCreated, Employee employee, string preparationLocation, Table table)
         {
             OrderTime = orderTime;
@@ -25,10 +29,12 @@ namespace Model
             PreparationLocation = preparationLocation;
             Table = table;
             Items = new List<OrderItem>();
+            Completed = false; // New orders are not completed by default
+            Status = OrderStatus.Placed; // Default status for a new order
         }
 
-        // ctor for loading an existing order - This constructor is used when loading an existing order from the database.
-        public Order(int id, DateTime orderTime, int preparationTime, bool isCreated, Employee employee, Bill bill, string preparationLocation, Table table)
+        // for for loading an existing order - This constructor is used when loading an existing order from the database.
+        public Order(int id, DateTime orderTime, int preparationTime, bool isCreated, Employee employee, Bill bill, string preparationLocation, Table table, bool completed)
         {
             Id = id;
             OrderTime = orderTime;
@@ -39,6 +45,8 @@ namespace Model
             PreparationLocation = preparationLocation;
             Table = table;
             Items = new List<OrderItem>();
+            Completed = completed; // Indicates if the order is completed
+
         }
 
   

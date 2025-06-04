@@ -39,13 +39,14 @@ namespace Service
         }
         // updates an existing bill in the databasecr
         public void UpdateBill(Bill bill)
-        { 
+        {
             billDao.UpdateBill(bill);
         }
         // deletes a bill from the database using its ID
         public void DeleteBill(int billId)
         {
             billDao.DeleteBill(billId);
-        } 
+        }
+
     }
 }

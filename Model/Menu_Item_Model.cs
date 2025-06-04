@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class Menu_Item_Model
+    public class MenuItemModel
     {
         public int Id { get; set; }
 
@@ -20,7 +20,7 @@ namespace Model
         public double Vat { get; set; }      
         public decimal Price { get; set; }   
 
-        public int Preperation_Time { get; set; }
+        public int PreparationTime { get; set; }
 
         public int Menu_Id { get; set; }
     }
