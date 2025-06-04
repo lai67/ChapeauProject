@@ -47,7 +47,7 @@ namespace ChapeauUI
             }
             else
             {
-                currentOrder = new Order(DateTime.Now, 0, false, employee, "", table);
+                currentOrder = new Order(DateTime.Now, 0, false, employee, table);
                 currentOrderItems = new List<OrderItem>();
             }
         }
@@ -253,34 +253,10 @@ namespace ChapeauUI
             ClearAllMenuSelections();
             RefreshOrderItemsList();
         }
-        private void SetOrderPreparationInfo()
-        {
-            var foodItems = currentOrderItems.Where(i => i.MenuItem.Menu_Id == 1 || i.MenuItem.Menu_Id == 2).ToList();
-            var drinkItems = currentOrderItems.Where(i => i.MenuItem.Menu_Id == 3).ToList();
-
-            if (foodItems.Any() && !drinkItems.Any())
-            {
-                currentOrder.PreparationLocation = "Kitchen";
-                currentOrder.PreparationTime = foodItems.Max(i => i.MenuItem.Preperation_Time);
-            }
-            else if (!foodItems.Any() && drinkItems.Any())
-            {
-                currentOrder.PreparationLocation = "Bar";
-                currentOrder.PreparationTime = drinkItems.Max(i => i.MenuItem.Preperation_Time);
-            }
-            else if (foodItems.Any() && drinkItems.Any())
-            {
-                currentOrder.PreparationLocation = "Kitchen & Bar";
-                currentOrder.PreparationTime = Math.Max(
-                    foodItems.Max(i => i.MenuItem.Preperation_Time),
-                    drinkItems.Max(i => i.MenuItem.Preperation_Time)
-                );
-            }
-        }
+       
 
         private void btnSendOrder_Click(object sender, EventArgs e)
         {
-            SetOrderPreparationInfo();
             currentOrder.Items = currentOrderItems;
 
             if (currentOrder.Id == 0)

@@ -45,7 +45,6 @@ namespace DAL
         }
 
 
-        // This method is used to convert the DataTable to a List of MenuItemModel
         private List<MenuItemModel> ConvertToList(DataTable dataTable)
         {
             List<MenuItemModel> menuItemList = new List<MenuItemModel>();
