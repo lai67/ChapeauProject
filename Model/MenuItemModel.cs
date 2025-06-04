@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class Menu_Item_Model
+    public class MenuItemModel
     {
         public int Id { get; set; }
 

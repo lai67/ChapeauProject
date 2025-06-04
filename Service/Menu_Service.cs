@@ -17,13 +17,13 @@ namespace Service
             menuItemDao = new MenuItemDao();
         }
         // This method is used to get all menus(Lunch, Dinner, Drinks)
-        public List<Menu_Model> GetAllMenus()
+        public List<MenuModel> GetAllMenus()
         {
-            var menus = new List<Menu_Model>();
+            var menus = new List<MenuModel>();
 
             foreach (MenuType menuType in System.Enum.GetValues(typeof(MenuType)))
             {
-                menus.Add(new Menu_Model
+                menus.Add(new MenuModel
                 {
                     Id = (int)menuType,
                     Name = menuType.ToString()
@@ -32,11 +32,11 @@ namespace Service
             return menus;
         }
        
-        public List<Menu_Item_Model> GetItemsByMenuAndCategory(int menuId,string menuCategory)
+        public List<MenuItemModel> GetItemsByMenuAndCategory(int menuId,string menuCategory)
         {
             return menuItemDao.GetItemsByMenuAndCategory(menuId, menuCategory);
         }
-        public List<Menu_Item_Model> GetItemsByMenuId(int menuId)
+        public List<MenuItemModel> GetItemsByMenuId(int menuId)
         {
             return menuItemDao.GetItemsByMenuId(menuId);
         }
