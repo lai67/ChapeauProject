@@ -14,7 +14,7 @@ namespace DAL
     public class MenuItemDao : BaseDao
     {
         // This method is used to get all items by menu and category
-        public List<Menu_Item_Model> GetItemsByMenuAndCategory(int menuId, string itemCategory)
+        public List<MenuItemModel> GetItemsByMenuAndCategory(int menuId, string itemCategory)
         {
             string query = @"
             SELECT mi.*
@@ -33,7 +33,7 @@ namespace DAL
         }
 
         // This method is used to get all items by menu id.
-        public List<Menu_Item_Model> GetItemsByMenuId(int menuId)
+        public List<MenuItemModel> GetItemsByMenuId(int menuId)
         {
             string query = "SELECT * FROM Menu_Item WHERE menu_id = @menuId";
             SqlParameter[] parameters = new SqlParameter[]
@@ -45,13 +45,13 @@ namespace DAL
         }
 
 
-        // This method is used to convert the DataTable to a List of Menu_Item_Model
-        private List<Menu_Item_Model> ConvertToList(DataTable dataTable)
+        // This method is used to convert the DataTable to a List of MenuItemModel
+        private List<MenuItemModel> ConvertToList(DataTable dataTable)
         {
-            List<Menu_Item_Model> menuItemList = new List<Menu_Item_Model>();
+            List<MenuItemModel> menuItemList = new List<MenuItemModel>();
             foreach (DataRow row in dataTable.Rows)
             {
-                Menu_Item_Model menuItem = new Menu_Item_Model
+                MenuItemModel menuItem = new MenuItemModel
                 {
                     Id = Convert.ToInt32(row["id"]),
                     Name = row["name"].ToString(),

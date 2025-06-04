@@ -118,8 +118,8 @@ namespace DAL
 
             foreach (DataRow row in table.Rows)
             {
-                // Build Menu_Item_Model first
-                Menu_Item_Model menuItem = new Menu_Item_Model
+                // Build MenuItemModel first
+                MenuItemModel menuItem = new MenuItemModel
                 {
                     Id = Convert.ToInt32(row["menu_item_id"]),
                     Name = row["name"].ToString(),

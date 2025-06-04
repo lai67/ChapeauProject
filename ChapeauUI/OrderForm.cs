@@ -53,7 +53,7 @@ namespace ChapeauUI
         }
 
         // general load method to fill lists with items.
-        private void FillListView(ListView listView, List<Menu_Item_Model> items)
+        private void FillListView(ListView listView, List<MenuItemModel> items)
         {
             listView.Items.Clear();
 
@@ -141,7 +141,7 @@ namespace ChapeauUI
             if (listView == null || listView.SelectedItems.Count == 0) return;
 
             var selectedItem = listView.SelectedItems[0];
-            var menuItem = (Menu_Item_Model)selectedItem.Tag;
+            var menuItem = (MenuItemModel)selectedItem.Tag;
 
             var orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Id == menuItem.Id);
             if (orderItem != null)
@@ -180,7 +180,7 @@ namespace ChapeauUI
         {
             if (menuListView.SelectedItems.Count == 0) return false;
             var selectedItem = menuListView.SelectedItems[0];
-            var menuItem = (Menu_Item_Model)selectedItem.Tag;
+            var menuItem = (MenuItemModel)selectedItem.Tag;
 
             var orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Id == menuItem.Id);
             if (orderItem != null)
