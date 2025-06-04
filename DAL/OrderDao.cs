@@ -91,16 +91,15 @@ namespace DAL
         public int CreateOrder(Order order)
         {
             string query = @"INSERT INTO [Order] (order_time, preparation_time, 
-                             isCreated, employee_id, preparation_location, table_id) 
+                             isCreated, employee_id, table_id) 
                         OUTPUT INSERTED.id
-                        VALUES (@orderTime, @preparationTime, @isCreated, @employeeId, @preparationLocation, @tableId)";
+                        VALUES (@orderTime, @preparationTime, @isCreated, @employeeId, @tableId)";
 
             SqlParameter[] parameters = {
             new SqlParameter("@orderTime", order.OrderTime),
             new SqlParameter("@preparationTime", order.PreparationTime),
             new SqlParameter("@isCreated", order.IsCreated),
             new SqlParameter("@employeeId", order.Employee.Id),
-            new SqlParameter("@preparationLocation", order.PreparationLocation),
             new SqlParameter("@tableId", order.Table.Id)
         };
             using (SqlConnection conn = OpenConnection())
@@ -113,15 +112,13 @@ namespace DAL
         }
 
         // update order
-        public void UpdateOrderPreparationInfo(int orderId, int preparationTime, string preparationLocation)
+        public void UpdateOrderPreparationInfo(int orderId, int preparationTime)
         {
             string query = @"UPDATE [Order]
-                     SET preparation_time = @preparationTime,
-                         preparation_location = @preparationLocation
+                     SET preparation_time = @preparationTime
                      WHERE id = @orderId";
             SqlParameter[] parameters = {
         new SqlParameter("@preparationTime", preparationTime),
-        new SqlParameter("@preparationLocation", preparationLocation),
         new SqlParameter("@orderId", orderId)
     };
             ExecuteEditQuery(query, parameters);
@@ -148,7 +145,6 @@ namespace DAL
        isCreated: row.Field<bool>("isCreated"),
        employee: new Employee { Id = row.Field<int>("employee_id") },
        bill: null,
-       preparationLocation: row.Field<string>("preparation_location"),
        table: new Table(
            row.Field<int>("table_id"),
            row.Field<int>("table_number"),

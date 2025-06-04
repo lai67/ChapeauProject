@@ -34,7 +34,7 @@ namespace Service
         }
         public void UpdateOrder(Order order)
         {
-            _orderDao.UpdateOrderPreparationInfo(order.Id, order.PreparationTime, order.PreparationLocation);
+            _orderDao.UpdateOrderPreparationInfo(order.Id, order.PreparationTime);
         }   
 
         public Order GetOrdersForAlreadyOrderedTable(int tableId)
