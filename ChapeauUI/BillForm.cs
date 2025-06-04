@@ -212,14 +212,14 @@ namespace ChapeauUI
             lblSubBillTotalValue.Text = $"Total: {total:C}";
         }
 
-        private void btnFinalizePayment_Click(object sender, EventArgs e)
+        private void btnPayBill_Click(object sender, EventArgs e)
         {
-
+            PaymentFormCompleteBill paymentForm = new PaymentFormCompleteBill();
         }
 
-        private void lblSplitValue_Click(object sender, EventArgs e)
+        private void btnPaySubBill_Click(object sender, EventArgs e)
         {
-
+            PaymentFormSubBill paymentForm = new PaymentFormSubBill();
         }
     }
 }

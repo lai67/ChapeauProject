@@ -68,7 +68,7 @@
             columnHeader1 = new ColumnHeader();
             btnAddToSubBill = new Button();
             btnRemoveFromSubBill = new Button();
-            btnPayForBill = new Button();
+            btnPayBill = new Button();
             completeBillFields.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -363,7 +363,7 @@
             btnPaySubBill.TabIndex = 38;
             btnPaySubBill.Text = "Pay Sub-Bill";
             btnPaySubBill.UseVisualStyleBackColor = false;
-            btnPaySubBill.Click += btnFinalizePayment_Click;
+            btnPaySubBill.Click += btnPaySubBill_Click;
             // 
             // lblSplitValue
             // 
@@ -374,7 +374,6 @@
             lblSplitValue.Size = new Size(33, 38);
             lblSplitValue.TabIndex = 50;
             lblSplitValue.Text = "0";
-            lblSplitValue.Click += lblSplitValue_Click;
             // 
             // btnSplitDecrement
             // 
@@ -438,22 +437,23 @@
             btnRemoveFromSubBill.UseVisualStyleBackColor = false;
             btnRemoveFromSubBill.Click += btnRemoveFromSubBill_Click;
             // 
-            // btnPayForBill
+            // btnPayBill
             // 
-            btnPayForBill.BackColor = SystemColors.ButtonShadow;
-            btnPayForBill.Location = new Point(424, 690);
-            btnPayForBill.Name = "btnPayForBill";
-            btnPayForBill.Size = new Size(168, 49);
-            btnPayForBill.TabIndex = 75;
-            btnPayForBill.Text = "Pay Bill";
-            btnPayForBill.UseVisualStyleBackColor = false;
+            btnPayBill.BackColor = SystemColors.ButtonShadow;
+            btnPayBill.Location = new Point(424, 690);
+            btnPayBill.Name = "btnPayBill";
+            btnPayBill.Size = new Size(168, 49);
+            btnPayBill.TabIndex = 75;
+            btnPayBill.Text = "Pay Bill";
+            btnPayBill.UseVisualStyleBackColor = false;
+            btnPayBill.Click += btnPayBill_Click;
             // 
             // BillForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(801, 753);
-            Controls.Add(btnPayForBill);
+            Controls.Add(btnPayBill);
             Controls.Add(btnRemoveFromSubBill);
             Controls.Add(btnAddToSubBill);
             Controls.Add(listViewSubBill);
@@ -541,6 +541,6 @@
         private ColumnHeader columnHeader1;
         private Button btnAddToSubBill;
         private Button btnRemoveFromSubBill;
-        private Button btnPayForBill;
+        private Button btnPayBill;
     }
 }
