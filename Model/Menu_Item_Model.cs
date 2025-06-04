@@ -17,7 +17,7 @@ namespace Model
 
         public int Stock { get; set; }
 
-        public double Vat { get; set; }      
+        public decimal Vat { get; set; }      
         public decimal Price { get; set; }   
 
         public int Preperation_Time { get; set; }

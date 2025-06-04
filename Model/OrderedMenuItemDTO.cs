@@ -11,6 +11,6 @@ namespace Model
         public string Name { get; set; }
         public decimal Price { get; set; }
         public int Amount { get; set; }
-        public float Vat { get; set; }
+        public decimal Vat { get; set; }
     }
 }

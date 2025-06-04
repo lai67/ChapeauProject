@@ -1,6 +1,6 @@
 ﻿namespace ChapeauUI
 {
-    partial class PaymentForm
+    partial class BillForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,6 @@
         {
             lblCompleteBill = new Label();
             lblSubBill = new Label();
-            lblPaymentOptions = new Label();
             divider1 = new Panel();
             panel1 = new Panel();
             textBox1 = new TextBox();
@@ -59,39 +58,17 @@
             btnRemoveAllFromSubBill = new Button();
             textBox6 = new TextBox();
             lblSplitEqually = new Label();
-            btnFinalizePayment = new Button();
-            rdBtnCard = new RadioButton();
-            rdBtnCash = new RadioButton();
-            lblTipPercent = new Label();
-            richTextBoxFeedback = new RichTextBox();
-            lblFeedbackFromCustomer = new Label();
+            btnPaySubBill = new Button();
             lblSplitValue = new Label();
             btnSplitDecrement = new Button();
             btnSplitIncrement = new Button();
-            rdBtnTipPct0 = new RadioButton();
-            rdBtnTipPct25 = new RadioButton();
-            rdBtnTipPct20 = new RadioButton();
-            rdBtnTipPct15 = new RadioButton();
-            rdBtnTipPct12 = new RadioButton();
-            rdBtnTipPct10 = new RadioButton();
-            rdBtnTipPct7 = new RadioButton();
-            rdBtnTipPct5 = new RadioButton();
-            rdBtnTipPct2 = new RadioButton();
-            lblTipPct2 = new Label();
-            lblTipPct15 = new Label();
-            lblTipPct20 = new Label();
-            lblTipPct25 = new Label();
-            lblTipPct12 = new Label();
-            lblTipPct10 = new Label();
-            lblTipPct5 = new Label();
-            lblTipPct7 = new Label();
-            lblTipPct0 = new Label();
             lstViewBill = new ListView();
             Item = new ColumnHeader();
             listViewSubBill = new ListView();
             columnHeader1 = new ColumnHeader();
             btnAddToSubBill = new Button();
             btnRemoveFromSubBill = new Button();
+            btnPayForBill = new Button();
             completeBillFields.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -116,16 +93,6 @@
             lblSubBill.TabIndex = 1;
             lblSubBill.Text = "Sub-Bill";
             // 
-            // lblPaymentOptions
-            // 
-            lblPaymentOptions.AutoSize = true;
-            lblPaymentOptions.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            lblPaymentOptions.Location = new Point(908, 73);
-            lblPaymentOptions.Name = "lblPaymentOptions";
-            lblPaymentOptions.Size = new Size(162, 28);
-            lblPaymentOptions.TabIndex = 2;
-            lblPaymentOptions.Text = "Payment Options";
-            // 
             // divider1
             // 
             divider1.BackColor = SystemColors.Desktop;
@@ -139,7 +106,7 @@
             panel1.BackColor = Color.Red;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1180, 37);
+            panel1.Size = new Size(804, 37);
             panel1.TabIndex = 5;
             // 
             // textBox1
@@ -387,69 +354,16 @@
             lblSplitEqually.TabIndex = 35;
             lblSplitEqually.Text = "Split equally:";
             // 
-            // btnFinalizePayment
+            // btnPaySubBill
             // 
-            btnFinalizePayment.BackColor = SystemColors.ButtonShadow;
-            btnFinalizePayment.Location = new Point(424, 692);
-            btnFinalizePayment.Name = "btnFinalizePayment";
-            btnFinalizePayment.Size = new Size(339, 49);
-            btnFinalizePayment.TabIndex = 38;
-            btnFinalizePayment.Text = "Finalize Sub-Bill";
-            btnFinalizePayment.UseVisualStyleBackColor = false;
-            btnFinalizePayment.Click += btnFinalizePayment_Click;
-            // 
-            // rdBtnCard
-            // 
-            rdBtnCard.BackColor = SystemColors.ButtonShadow;
-            rdBtnCard.Location = new Point(825, 588);
-            rdBtnCard.Name = "rdBtnCard";
-            rdBtnCard.Size = new Size(158, 51);
-            rdBtnCard.TabIndex = 39;
-            rdBtnCard.TabStop = true;
-            rdBtnCard.Text = "Card";
-            rdBtnCard.TextAlign = ContentAlignment.MiddleCenter;
-            rdBtnCard.UseVisualStyleBackColor = false;
-            // 
-            // rdBtnCash
-            // 
-            rdBtnCash.BackColor = SystemColors.ButtonShadow;
-            rdBtnCash.Location = new Point(1006, 588);
-            rdBtnCash.Name = "rdBtnCash";
-            rdBtnCash.Size = new Size(158, 51);
-            rdBtnCash.TabIndex = 40;
-            rdBtnCash.TabStop = true;
-            rdBtnCash.Text = "Cash";
-            rdBtnCash.TextAlign = ContentAlignment.MiddleCenter;
-            rdBtnCash.UseVisualStyleBackColor = false;
-            // 
-            // lblTipPercent
-            // 
-            lblTipPercent.AutoSize = true;
-            lblTipPercent.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblTipPercent.Location = new Point(825, 242);
-            lblTipPercent.Name = "lblTipPercent";
-            lblTipPercent.Size = new Size(100, 23);
-            lblTipPercent.TabIndex = 42;
-            lblTipPercent.Text = "Tip percent:";
-            // 
-            // richTextBoxFeedback
-            // 
-            richTextBoxFeedback.ForeColor = SystemColors.WindowFrame;
-            richTextBoxFeedback.Location = new Point(825, 340);
-            richTextBoxFeedback.Name = "richTextBoxFeedback";
-            richTextBoxFeedback.Size = new Size(339, 234);
-            richTextBoxFeedback.TabIndex = 45;
-            richTextBoxFeedback.Text = "placeholder";
-            // 
-            // lblFeedbackFromCustomer
-            // 
-            lblFeedbackFromCustomer.AutoSize = true;
-            lblFeedbackFromCustomer.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblFeedbackFromCustomer.Location = new Point(825, 314);
-            lblFeedbackFromCustomer.Name = "lblFeedbackFromCustomer";
-            lblFeedbackFromCustomer.Size = new Size(202, 23);
-            lblFeedbackFromCustomer.TabIndex = 44;
-            lblFeedbackFromCustomer.Text = "Feedback from customer:";
+            btnPaySubBill.BackColor = SystemColors.ButtonShadow;
+            btnPaySubBill.Location = new Point(597, 690);
+            btnPaySubBill.Name = "btnPaySubBill";
+            btnPaySubBill.Size = new Size(168, 49);
+            btnPaySubBill.TabIndex = 38;
+            btnPaySubBill.Text = "Pay Sub-Bill";
+            btnPaySubBill.UseVisualStyleBackColor = false;
+            btnPaySubBill.Click += btnFinalizePayment_Click;
             // 
             // lblSplitValue
             // 
@@ -483,186 +397,6 @@
             btnSplitIncrement.Text = "+";
             btnSplitIncrement.UseVisualStyleBackColor = true;
             btnSplitIncrement.Click += btnSplitIncrement_Click;
-            // 
-            // rdBtnTipPct0
-            // 
-            rdBtnTipPct0.AutoSize = true;
-            rdBtnTipPct0.Location = new Point(833, 295);
-            rdBtnTipPct0.Name = "rdBtnTipPct0";
-            rdBtnTipPct0.Size = new Size(17, 16);
-            rdBtnTipPct0.TabIndex = 53;
-            rdBtnTipPct0.TabStop = true;
-            rdBtnTipPct0.UseVisualStyleBackColor = true;
-            // 
-            // rdBtnTipPct25
-            // 
-            rdBtnTipPct25.AutoSize = true;
-            rdBtnTipPct25.Location = new Point(1141, 295);
-            rdBtnTipPct25.Name = "rdBtnTipPct25";
-            rdBtnTipPct25.Size = new Size(17, 16);
-            rdBtnTipPct25.TabIndex = 54;
-            rdBtnTipPct25.TabStop = true;
-            rdBtnTipPct25.UseVisualStyleBackColor = true;
-            // 
-            // rdBtnTipPct20
-            // 
-            rdBtnTipPct20.AutoSize = true;
-            rdBtnTipPct20.Location = new Point(1101, 295);
-            rdBtnTipPct20.Name = "rdBtnTipPct20";
-            rdBtnTipPct20.Size = new Size(17, 16);
-            rdBtnTipPct20.TabIndex = 55;
-            rdBtnTipPct20.TabStop = true;
-            rdBtnTipPct20.UseVisualStyleBackColor = true;
-            // 
-            // rdBtnTipPct15
-            // 
-            rdBtnTipPct15.AutoSize = true;
-            rdBtnTipPct15.Location = new Point(1063, 295);
-            rdBtnTipPct15.Name = "rdBtnTipPct15";
-            rdBtnTipPct15.Size = new Size(17, 16);
-            rdBtnTipPct15.TabIndex = 56;
-            rdBtnTipPct15.TabStop = true;
-            rdBtnTipPct15.UseVisualStyleBackColor = true;
-            // 
-            // rdBtnTipPct12
-            // 
-            rdBtnTipPct12.AutoSize = true;
-            rdBtnTipPct12.Location = new Point(1027, 295);
-            rdBtnTipPct12.Name = "rdBtnTipPct12";
-            rdBtnTipPct12.Size = new Size(17, 16);
-            rdBtnTipPct12.TabIndex = 57;
-            rdBtnTipPct12.TabStop = true;
-            rdBtnTipPct12.UseVisualStyleBackColor = true;
-            // 
-            // rdBtnTipPct10
-            // 
-            rdBtnTipPct10.AutoSize = true;
-            rdBtnTipPct10.Location = new Point(988, 295);
-            rdBtnTipPct10.Name = "rdBtnTipPct10";
-            rdBtnTipPct10.Size = new Size(17, 16);
-            rdBtnTipPct10.TabIndex = 58;
-            rdBtnTipPct10.TabStop = true;
-            rdBtnTipPct10.UseVisualStyleBackColor = true;
-            // 
-            // rdBtnTipPct7
-            // 
-            rdBtnTipPct7.AutoSize = true;
-            rdBtnTipPct7.Location = new Point(948, 295);
-            rdBtnTipPct7.Name = "rdBtnTipPct7";
-            rdBtnTipPct7.Size = new Size(17, 16);
-            rdBtnTipPct7.TabIndex = 59;
-            rdBtnTipPct7.TabStop = true;
-            rdBtnTipPct7.UseVisualStyleBackColor = true;
-            // 
-            // rdBtnTipPct5
-            // 
-            rdBtnTipPct5.AutoSize = true;
-            rdBtnTipPct5.Location = new Point(910, 295);
-            rdBtnTipPct5.Name = "rdBtnTipPct5";
-            rdBtnTipPct5.Size = new Size(17, 16);
-            rdBtnTipPct5.TabIndex = 60;
-            rdBtnTipPct5.TabStop = true;
-            rdBtnTipPct5.UseVisualStyleBackColor = true;
-            // 
-            // rdBtnTipPct2
-            // 
-            rdBtnTipPct2.AutoSize = true;
-            rdBtnTipPct2.Location = new Point(870, 295);
-            rdBtnTipPct2.Name = "rdBtnTipPct2";
-            rdBtnTipPct2.Size = new Size(17, 16);
-            rdBtnTipPct2.TabIndex = 61;
-            rdBtnTipPct2.TabStop = true;
-            rdBtnTipPct2.UseVisualStyleBackColor = true;
-            // 
-            // lblTipPct2
-            // 
-            lblTipPct2.AutoSize = true;
-            lblTipPct2.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblTipPct2.Location = new Point(869, 269);
-            lblTipPct2.Name = "lblTipPct2";
-            lblTipPct2.Size = new Size(19, 23);
-            lblTipPct2.TabIndex = 62;
-            lblTipPct2.Text = "2";
-            // 
-            // lblTipPct15
-            // 
-            lblTipPct15.AutoSize = true;
-            lblTipPct15.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblTipPct15.Location = new Point(1057, 269);
-            lblTipPct15.Name = "lblTipPct15";
-            lblTipPct15.Size = new Size(28, 23);
-            lblTipPct15.TabIndex = 63;
-            lblTipPct15.Text = "15";
-            // 
-            // lblTipPct20
-            // 
-            lblTipPct20.AutoSize = true;
-            lblTipPct20.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblTipPct20.Location = new Point(1096, 269);
-            lblTipPct20.Name = "lblTipPct20";
-            lblTipPct20.Size = new Size(28, 23);
-            lblTipPct20.TabIndex = 64;
-            lblTipPct20.Text = "20";
-            // 
-            // lblTipPct25
-            // 
-            lblTipPct25.AutoSize = true;
-            lblTipPct25.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblTipPct25.Location = new Point(1136, 269);
-            lblTipPct25.Name = "lblTipPct25";
-            lblTipPct25.Size = new Size(28, 23);
-            lblTipPct25.TabIndex = 65;
-            lblTipPct25.Text = "25";
-            // 
-            // lblTipPct12
-            // 
-            lblTipPct12.AutoSize = true;
-            lblTipPct12.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblTipPct12.Location = new Point(1020, 269);
-            lblTipPct12.Name = "lblTipPct12";
-            lblTipPct12.Size = new Size(28, 23);
-            lblTipPct12.TabIndex = 66;
-            lblTipPct12.Text = "12";
-            // 
-            // lblTipPct10
-            // 
-            lblTipPct10.AutoSize = true;
-            lblTipPct10.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblTipPct10.Location = new Point(982, 269);
-            lblTipPct10.Name = "lblTipPct10";
-            lblTipPct10.Size = new Size(28, 23);
-            lblTipPct10.TabIndex = 67;
-            lblTipPct10.Text = "10";
-            // 
-            // lblTipPct5
-            // 
-            lblTipPct5.AutoSize = true;
-            lblTipPct5.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblTipPct5.Location = new Point(909, 269);
-            lblTipPct5.Name = "lblTipPct5";
-            lblTipPct5.Size = new Size(19, 23);
-            lblTipPct5.TabIndex = 68;
-            lblTipPct5.Text = "5";
-            // 
-            // lblTipPct7
-            // 
-            lblTipPct7.AutoSize = true;
-            lblTipPct7.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblTipPct7.Location = new Point(947, 269);
-            lblTipPct7.Name = "lblTipPct7";
-            lblTipPct7.Size = new Size(19, 23);
-            lblTipPct7.TabIndex = 69;
-            lblTipPct7.Text = "7";
-            // 
-            // lblTipPct0
-            // 
-            lblTipPct0.AutoSize = true;
-            lblTipPct0.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblTipPct0.Location = new Point(832, 269);
-            lblTipPct0.Name = "lblTipPct0";
-            lblTipPct0.Size = new Size(19, 23);
-            lblTipPct0.TabIndex = 70;
-            lblTipPct0.Text = "0";
             // 
             // lstViewBill
             // 
@@ -704,42 +438,30 @@
             btnRemoveFromSubBill.UseVisualStyleBackColor = false;
             btnRemoveFromSubBill.Click += btnRemoveFromSubBill_Click;
             // 
-            // PaymentForm
+            // btnPayForBill
+            // 
+            btnPayForBill.BackColor = SystemColors.ButtonShadow;
+            btnPayForBill.Location = new Point(424, 690);
+            btnPayForBill.Name = "btnPayForBill";
+            btnPayForBill.Size = new Size(168, 49);
+            btnPayForBill.TabIndex = 75;
+            btnPayForBill.Text = "Pay Bill";
+            btnPayForBill.UseVisualStyleBackColor = false;
+            // 
+            // BillForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1176, 753);
+            ClientSize = new Size(801, 753);
+            Controls.Add(btnPayForBill);
             Controls.Add(btnRemoveFromSubBill);
             Controls.Add(btnAddToSubBill);
             Controls.Add(listViewSubBill);
             Controls.Add(lstViewBill);
-            Controls.Add(lblTipPct0);
-            Controls.Add(lblTipPct7);
-            Controls.Add(lblTipPct5);
-            Controls.Add(lblTipPct10);
-            Controls.Add(lblTipPct12);
-            Controls.Add(lblTipPct25);
-            Controls.Add(lblTipPct20);
-            Controls.Add(lblTipPct15);
-            Controls.Add(lblTipPct2);
-            Controls.Add(rdBtnTipPct2);
-            Controls.Add(rdBtnTipPct5);
-            Controls.Add(rdBtnTipPct7);
-            Controls.Add(rdBtnTipPct10);
-            Controls.Add(rdBtnTipPct12);
-            Controls.Add(rdBtnTipPct15);
-            Controls.Add(rdBtnTipPct20);
-            Controls.Add(rdBtnTipPct25);
-            Controls.Add(rdBtnTipPct0);
             Controls.Add(btnSplitIncrement);
             Controls.Add(btnSplitDecrement);
             Controls.Add(lblSplitValue);
-            Controls.Add(richTextBoxFeedback);
-            Controls.Add(lblFeedbackFromCustomer);
-            Controls.Add(lblTipPercent);
-            Controls.Add(rdBtnCash);
-            Controls.Add(rdBtnCard);
-            Controls.Add(btnFinalizePayment);
+            Controls.Add(btnPaySubBill);
             Controls.Add(lblSplitEqually);
             Controls.Add(textBox6);
             Controls.Add(btnRemoveAllFromSubBill);
@@ -762,12 +484,11 @@
             Controls.Add(textBox1);
             Controls.Add(panel1);
             Controls.Add(divider1);
-            Controls.Add(lblPaymentOptions);
             Controls.Add(lblSubBill);
             Controls.Add(lblCompleteBill);
-            Name = "PaymentForm";
-            Text = "PaymentForm";
-            Load += PaymentForm_Load;
+            Name = "BillForm";
+            Text = "BillForm";
+            Load += BillForm_Load;
             completeBillFields.ResumeLayout(false);
             completeBillFields.PerformLayout();
             panel2.ResumeLayout(false);
@@ -780,7 +501,6 @@
 
         private Label lblCompleteBill;
         private Label lblSubBill;
-        private Label lblPaymentOptions;
         private Panel divider1;
         private Panel panel1;
         private TextBox textBox1;
@@ -809,40 +529,18 @@
         private Button btnRemoveAllFromSubBill;
         private TextBox textBox6;
         private Label lblSplitEqually;
-        private Button btnFinalizePayment;
-        private RadioButton rdBtnCard;
-        private RadioButton rdBtnCash;
+        private Button btnPaySubBill;
         private RichTextBox richTextBox1;
         private RichTextBox richTextBox2;
-        private Label lblTipPercent;
-        private RichTextBox richTextBoxFeedback;
-        private Label lblFeedbackFromCustomer;
-        private Label lblTipPct2;
         private Label lblSplitValue;
         private Button btnSplitDecrement;
         private Button btnSplitIncrement;
-        private Label lblTipPct20;
-        private RadioButton rdBtnTipPct0;
-        private RadioButton rdBtnTipPct25;
-        private RadioButton rdBtnTipPct20;
-        private RadioButton rdBtnTipPct15;
-        private RadioButton rdBtnTipPct12;
-        private RadioButton rdBtnTipPct10;
-        private RadioButton rdBtnTipPct7;
-        private RadioButton rdBtnTipPct5;
-        private RadioButton rdBtnTipPct2;
-        private Label lblTipPct15;
-        private Label lblTipPct25;
-        private Label lblTipPct12;
-        private Label lblTipPct10;
-        private Label lblTipPct5;
-        private Label lblTipPct7;
-        private Label lblTipPct0;
         private ListView lstViewBill;
         private ColumnHeader Item;
         private ListView listViewSubBill;
         private ColumnHeader columnHeader1;
         private Button btnAddToSubBill;
         private Button btnRemoveFromSubBill;
+        private Button btnPayForBill;
     }
 }

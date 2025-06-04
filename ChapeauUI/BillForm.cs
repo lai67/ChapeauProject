@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -14,13 +15,13 @@ using System.Windows.Forms;
 
 namespace ChapeauUI
 {
-    public partial class PaymentForm : Form
+    public partial class BillForm : Form
     {
         private int orderId;
         private BillService billService;
         private List<Bill> bills;
         private List<OrderedMenuItemDTO> subBillItems;
-        public PaymentForm(int orderId)
+        public BillForm(int orderId)
         {
             InitializeComponent();
             billService = new BillService();
@@ -61,10 +62,9 @@ namespace ChapeauUI
             foreach (var item in orderedItems)
             {
                 decimal itemTotal = item.Price * item.Amount;
-                decimal decVat = (decimal)item.Vat;
-                vatTotal = decVat * vatTotal;
+                vatTotal = item.Vat * vatTotal;
                 billTotal += itemTotal;
-                vatTotal += decVat;
+                vatTotal += vatTotal;
                 ListViewItem listItem = new ListViewItem(item.Name);
                 listItem.SubItems.Add(item.Price.ToString("C")); // "C" formats as currency
                 listItem.SubItems.Add(item.Amount.ToString());
@@ -77,7 +77,7 @@ namespace ChapeauUI
             lblVatTotalCompBill.Text = $"Total: €{vatTotal.ToString("0.##")}";
         }
 
-        private void PaymentForm_Load(object sender, EventArgs e)
+        private void BillForm_Load(object sender, EventArgs e)
         {
             // Setup ListView columns
             lstViewBill.View = View.Details;
