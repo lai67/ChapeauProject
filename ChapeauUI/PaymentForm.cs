@@ -211,5 +211,15 @@ namespace ChapeauUI
             decimal total = CalculateSubBillTotal();
             lblSubBillTotalValue.Text = $"Total: {total:C}";
         }
+
+        private void btnFinalizePayment_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblSplitValue_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

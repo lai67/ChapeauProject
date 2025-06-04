@@ -37,7 +37,6 @@
             textBox2 = new TextBox();
             textBox3 = new TextBox();
             textBox4 = new TextBox();
-            divider2 = new Panel();
             lblVatTotalCompBill = new Label();
             lblTotalPriceCompBill = new Label();
             lblVatValueCompBill = new Label();
@@ -132,7 +131,7 @@
             divider1.BackColor = SystemColors.Desktop;
             divider1.Location = new Point(398, 134);
             divider1.Name = "divider1";
-            divider1.Size = new Size(3, 586);
+            divider1.Size = new Size(3, 545);
             divider1.TabIndex = 4;
             // 
             // panel1
@@ -171,18 +170,10 @@
             textBox4.Size = new Size(0, 27);
             textBox4.TabIndex = 9;
             // 
-            // divider2
-            // 
-            divider2.BackColor = SystemColors.Desktop;
-            divider2.Location = new Point(796, 134);
-            divider2.Name = "divider2";
-            divider2.Size = new Size(3, 586);
-            divider2.TabIndex = 5;
-            // 
             // lblVatTotalCompBill
             // 
             lblVatTotalCompBill.AutoSize = true;
-            lblVatTotalCompBill.Location = new Point(48, 611);
+            lblVatTotalCompBill.Location = new Point(48, 604);
             lblVatTotalCompBill.Name = "lblVatTotalCompBill";
             lblVatTotalCompBill.Size = new Size(71, 20);
             lblVatTotalCompBill.TabIndex = 10;
@@ -191,7 +182,7 @@
             // lblTotalPriceCompBill
             // 
             lblTotalPriceCompBill.AutoSize = true;
-            lblTotalPriceCompBill.Location = new Point(48, 690);
+            lblTotalPriceCompBill.Location = new Point(48, 646);
             lblTotalPriceCompBill.Name = "lblTotalPriceCompBill";
             lblTotalPriceCompBill.Size = new Size(78, 20);
             lblTotalPriceCompBill.TabIndex = 12;
@@ -200,7 +191,7 @@
             // lblVatValueCompBill
             // 
             lblVatValueCompBill.AutoSize = true;
-            lblVatValueCompBill.Location = new Point(325, 611);
+            lblVatValueCompBill.Location = new Point(325, 603);
             lblVatValueCompBill.Name = "lblVatValueCompBill";
             lblVatValueCompBill.Size = new Size(25, 20);
             lblVatValueCompBill.TabIndex = 13;
@@ -209,7 +200,7 @@
             // lblTotalPriceValueBill
             // 
             lblTotalPriceValueBill.AutoSize = true;
-            lblTotalPriceValueBill.Location = new Point(325, 690);
+            lblTotalPriceValueBill.Location = new Point(325, 646);
             lblTotalPriceValueBill.Name = "lblTotalPriceValueBill";
             lblTotalPriceValueBill.Size = new Size(25, 20);
             lblTotalPriceValueBill.TabIndex = 15;
@@ -222,7 +213,7 @@
             lblVatInfoCompBill.ForeColor = Color.Transparent;
             lblVatInfoCompBill.Location = new Point(32, 588);
             lblVatInfoCompBill.Name = "lblVatInfoCompBill";
-            lblVatInfoCompBill.Size = new Size(342, 139);
+            lblVatInfoCompBill.Size = new Size(342, 91);
             lblVatInfoCompBill.TabIndex = 16;
             lblVatInfoCompBill.Text = "label1";
             // 
@@ -273,7 +264,7 @@
             // lblSubBillTotalValue
             // 
             lblSubBillTotalValue.AutoSize = true;
-            lblSubBillTotalValue.Location = new Point(717, 690);
+            lblSubBillTotalValue.Location = new Point(717, 646);
             lblSubBillTotalValue.Name = "lblSubBillTotalValue";
             lblSubBillTotalValue.Size = new Size(25, 20);
             lblSubBillTotalValue.TabIndex = 30;
@@ -282,7 +273,7 @@
             // lblVatValueSubBill
             // 
             lblVatValueSubBill.AutoSize = true;
-            lblVatValueSubBill.Location = new Point(717, 611);
+            lblVatValueSubBill.Location = new Point(717, 603);
             lblVatValueSubBill.Name = "lblVatValueSubBill";
             lblVatValueSubBill.Size = new Size(25, 20);
             lblVatValueSubBill.TabIndex = 28;
@@ -291,7 +282,7 @@
             // lblTotalPriceSubBill
             // 
             lblTotalPriceSubBill.AutoSize = true;
-            lblTotalPriceSubBill.Location = new Point(440, 690);
+            lblTotalPriceSubBill.Location = new Point(440, 646);
             lblTotalPriceSubBill.Name = "lblTotalPriceSubBill";
             lblTotalPriceSubBill.Size = new Size(78, 20);
             lblTotalPriceSubBill.TabIndex = 27;
@@ -300,7 +291,7 @@
             // lblVatTotalSubBill
             // 
             lblVatTotalSubBill.AutoSize = true;
-            lblVatTotalSubBill.Location = new Point(440, 611);
+            lblVatTotalSubBill.Location = new Point(440, 603);
             lblVatTotalSubBill.Name = "lblVatTotalSubBill";
             lblVatTotalSubBill.Size = new Size(127, 20);
             lblVatTotalSubBill.TabIndex = 25;
@@ -313,7 +304,7 @@
             label7.ForeColor = Color.Transparent;
             label7.Location = new Point(424, 588);
             label7.Name = "label7";
-            label7.Size = new Size(342, 139);
+            label7.Size = new Size(342, 91);
             label7.TabIndex = 31;
             label7.Text = "label1";
             // 
@@ -389,22 +380,23 @@
             // lblSplitEqually
             // 
             lblSplitEqually.AutoSize = true;
-            lblSplitEqually.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblSplitEqually.Location = new Point(825, 171);
+            lblSplitEqually.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            lblSplitEqually.Location = new Point(154, 681);
             lblSplitEqually.Name = "lblSplitEqually";
-            lblSplitEqually.Size = new Size(106, 23);
+            lblSplitEqually.Size = new Size(94, 20);
             lblSplitEqually.TabIndex = 35;
             lblSplitEqually.Text = "Split equally:";
             // 
             // btnFinalizePayment
             // 
             btnFinalizePayment.BackColor = SystemColors.ButtonShadow;
-            btnFinalizePayment.Location = new Point(825, 659);
+            btnFinalizePayment.Location = new Point(424, 692);
             btnFinalizePayment.Name = "btnFinalizePayment";
-            btnFinalizePayment.Size = new Size(339, 68);
+            btnFinalizePayment.Size = new Size(339, 49);
             btnFinalizePayment.TabIndex = 38;
-            btnFinalizePayment.Text = "Finalize Payment";
+            btnFinalizePayment.Text = "Finalize Sub-Bill";
             btnFinalizePayment.UseVisualStyleBackColor = false;
+            btnFinalizePayment.Click += btnFinalizePayment_Click;
             // 
             // rdBtnCard
             // 
@@ -463,18 +455,19 @@
             // 
             lblSplitValue.AutoSize = true;
             lblSplitValue.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
-            lblSplitValue.Location = new Point(975, 198);
+            lblSplitValue.Location = new Point(182, 699);
             lblSplitValue.Name = "lblSplitValue";
             lblSplitValue.Size = new Size(33, 38);
             lblSplitValue.TabIndex = 50;
             lblSplitValue.Text = "0";
+            lblSplitValue.Click += lblSplitValue_Click;
             // 
             // btnSplitDecrement
             // 
             btnSplitDecrement.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
-            btnSplitDecrement.Location = new Point(825, 197);
+            btnSplitDecrement.Location = new Point(32, 703);
             btnSplitDecrement.Name = "btnSplitDecrement";
-            btnSplitDecrement.Size = new Size(100, 42);
+            btnSplitDecrement.Size = new Size(100, 36);
             btnSplitDecrement.TabIndex = 51;
             btnSplitDecrement.Text = " - ";
             btnSplitDecrement.UseVisualStyleBackColor = true;
@@ -483,9 +476,9 @@
             // btnSplitIncrement
             // 
             btnSplitIncrement.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
-            btnSplitIncrement.Location = new Point(1064, 197);
+            btnSplitIncrement.Location = new Point(271, 703);
             btnSplitIncrement.Name = "btnSplitIncrement";
-            btnSplitIncrement.Size = new Size(100, 42);
+            btnSplitIncrement.Size = new Size(100, 36);
             btnSplitIncrement.TabIndex = 52;
             btnSplitIncrement.Text = "+";
             btnSplitIncrement.UseVisualStyleBackColor = true;
@@ -763,7 +756,6 @@
             Controls.Add(lblTotalPriceCompBill);
             Controls.Add(lblVatTotalCompBill);
             Controls.Add(lblVatInfoCompBill);
-            Controls.Add(divider2);
             Controls.Add(textBox4);
             Controls.Add(textBox3);
             Controls.Add(textBox2);
@@ -795,7 +787,6 @@
         private TextBox textBox2;
         private TextBox textBox3;
         private TextBox textBox4;
-        private Panel divider2;
         private Label lblVatTotalCompBill;
         private Label lblTotalPriceCompBill;
         private Label lblVatValueCompBill;
