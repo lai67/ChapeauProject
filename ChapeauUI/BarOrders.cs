@@ -146,7 +146,7 @@ namespace ChapeauUI
             }
             else
             {
-                return $"{item.MenuItem.Name}  Amount: {item.MenuItem.Price} Status: {item.MenuItem.orderStatus}";
+                return $"{item.MenuItem.Name}  Amount: {item.MenuItem.Price} Status: {item.orderStatus}";
             }
         }
 
