@@ -9,10 +9,9 @@ namespace Model
         public int PreparationTime { get; set; } 
         public bool IsCreated { get; set; }
         public Employee Employee { get; set; }
-        public string PreparationLocation { get; set; }
+  
         public Table Table { get; set; }
         public List<OrderItem> Items { get; set; }
-
         public Bill Bill { get; set; }
 
 
@@ -25,7 +24,6 @@ namespace Model
             PreparationTime = preparationTime;
             IsCreated = isCreated;
             Employee = employee;
-            PreparationLocation = preparationLocation;
             Table = table;
             Items = new List<OrderItem>();
         
@@ -41,7 +39,6 @@ namespace Model
             IsCreated = isCreated;
             Employee = employee;
             Bill = bill;
-            PreparationLocation = preparationLocation;
             Table = table;
             Items = new List<OrderItem>();
           

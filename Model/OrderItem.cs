@@ -24,7 +24,7 @@ namespace Model
             OrderId = orderId;
         }
         // Constructor for loading an existing order item - This constructor is used when loading an existing order item from the database.
-        public OrderItem(int id, MenuItemModel menuItem, string comment, OrderStatus orderStatus, int count, int orderId)
+        public OrderItem(int id, MenuItemModel menuItem, string comment, OrderStatus orderStatus, int count,int orderId)
         {
             Id = id;
             MenuItem = menuItem;

@@ -31,8 +31,8 @@ namespace Service
             }
             return menus;
         }
-
-        public List<MenuItemModel> GetItemsByMenuAndCategory(int menuId, string menuCategory)
+       
+        public List<MenuItemModel> GetItemsByMenuAndCategory(int menuId,string menuCategory)
         {
             return menuItemDao.GetItemsByMenuAndCategory(menuId, menuCategory);
         }

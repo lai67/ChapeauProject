@@ -46,7 +46,7 @@ namespace DAL
                     Name = row["name"].ToString(),
                     Item_Category = row["item_category"].ToString(),
                     Stock = (int)row["stock"],
-                    Vat = Convert.ToDouble(row["vat"]),
+                    Vat = Convert.ToDecimal(row["vat"]),
                     Price = (decimal)row["price"],
                     PreparationTime = (int)row["preparation_time"],
                     Menu_Id = (int)row["menu_id"]

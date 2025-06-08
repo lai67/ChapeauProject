@@ -47,7 +47,7 @@ namespace ChapeauUI
             }
             else
             {
-                currentOrder = new Order(DateTime.Now, 0, false, employee, "", table);
+                currentOrder = new Order(DateTime.Now, 0, false, employee, table);
                 currentOrderItems = new List<OrderItem>();
             }
         }
@@ -280,7 +280,6 @@ namespace ChapeauUI
 
         private void btnSendOrder_Click(object sender, EventArgs e)
         {
-            SetOrderPreparationInfo();
             currentOrder.Items = currentOrderItems;
 
             if (currentOrder.Id == 0)
@@ -308,6 +307,7 @@ namespace ChapeauUI
             }
 
             MessageBox.Show("Order sent!");
+
             this.Close();
 
         }
