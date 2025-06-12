@@ -20,6 +20,7 @@ namespace ChapeauUI
         private int orderId;
         private BillService billService;
         private List<Bill> bills;
+        private List<BillItem> billItems; // Cached full bill items with VAT
         private List<BillItem> subBillItems;
         public BillForm(int orderId)
         {
@@ -51,33 +52,30 @@ namespace ChapeauUI
         {
             lblSplitValue.Text = splitValue.ToString();
         }
-        private void FillListView(ListView listView, Bill bill)
+        private void FillListView(ListView listView, List<BillItem> billItems)
         {
             listView.Items.Clear();
             decimal billTotal = 0;
             decimal vatTotal = 0;
 
-            List<BillItem> billItems = billService.GetOrderedItemsForBill(bill.BillId);
-
             foreach (var item in billItems)
             {
                 decimal itemTotal = item.Price * item.Amount;
+                decimal itemVat = itemTotal * item.Vat;
 
-                // Add VAT for this item
-                decimal itemVat = itemTotal * item.Vat; // Assuming Vat is a percentage like 0.21 for 21%
                 vatTotal += itemVat;
                 billTotal += itemTotal;
 
                 ListViewItem listItem = new ListViewItem(item.Name);
-                listItem.SubItems.Add(item.Price.ToString("C")); // "C" formats as currency
+                listItem.SubItems.Add(item.Price.ToString("C"));
                 listItem.SubItems.Add(item.Amount.ToString());
-                listItem.SubItems.Add((item.Price * item.Amount).ToString("C")); // total for that item
+                listItem.SubItems.Add(itemTotal.ToString("C"));
 
                 listView.Items.Add(listItem);
             }
 
-            lblTotalPriceValueBill.Text = $"Total: €{billTotal.ToString("0.##")}";
-            lblVatTotalCompBill.Text = $"Total: €{vatTotal.ToString("0.##")}";
+            lblTotalPriceValueBill.Text = $"Total: €{billTotal:0.##}";
+            lblVatTotalCompBill.Text = $"Total: €{vatTotal:0.##}";
         }
 
         private void BillForm_Load(object sender, EventArgs e)
@@ -89,13 +87,15 @@ namespace ChapeauUI
             lstViewBill.Columns.Add("Name", 171);
             lstViewBill.Columns.Add("Price", 85);
             lstViewBill.Columns.Add("Amount", 85);
+            lstViewBill.Columns.Add("Total", 85);
 
             // Get the bill related to this order
             Bill bill = billService.GetBillByOrderId(orderId);
 
             if (bill != null)
             {
-                FillListView(lstViewBill, bill);
+                billItems = billService.GetOrderedItemsForBill(bill.BillId);
+                FillListView(lstViewBill, billItems);
             }
             else
             {
@@ -116,33 +116,39 @@ namespace ChapeauUI
             decimal price = decimal.Parse(selectedItem.SubItems[1].Text, NumberStyles.Currency);
             int amount = int.Parse(selectedItem.SubItems[2].Text);
 
-            BillItem existingItem = null;
-            foreach (var item in subBillItems) // checks if item has already been added to sub-bill
-            {
-                if (item.Name == name)
-                {
-                    existingItem = item;
-                    break;
-                }
-            }
+            // Check if the item already exists in the sub-bill
+            BillItem existingItem = subBillItems.FirstOrDefault(i => i.Name == name);
+
             if (existingItem != null)
             {
                 existingItem.Amount++;
             }
             else
             {
+                // Find the full original BillItem (with VAT) from the cached list
+                BillItem originalItem = billItems.FirstOrDefault(i => i.Name == name);
+
+                if (originalItem == null)
+                {
+                    MessageBox.Show("Original item data could not be found.");
+                    return;
+                }
+
                 BillItem newItem = new BillItem
                 {
                     Name = name,
                     Price = price,
-                    Amount = 1 // starting with 1 unit
+                    Vat = originalItem.Vat,  // ✅ Correct VAT
+                    Amount = 1
                 };
 
                 subBillItems.Add(newItem);
             }
+
             UpdateSubBillListView();
-            decimal subBillTotal = CalculateSubBillTotal();
-            lblSubBillTotalValue.Text = $"Total: €{subBillTotal.ToString("0.##")}";
+
+            decimal subBillTotal = CalculateSubBillTotal(); // Should now include VAT
+            lblSubBillTotalValue.Text = $"Total: €{subBillTotal:0.##}";
         }
         private void UpdateSubBillListView()
         {
@@ -164,7 +170,9 @@ namespace ChapeauUI
 
             foreach (var item in subBillItems)
             {
-                total += item.Price * item.Amount;
+                decimal itemTotal = item.Price * item.Amount;
+                decimal itemVat = itemTotal * item.Vat;
+                total += itemTotal + itemVat; // VAT included
             }
 
             return total;
