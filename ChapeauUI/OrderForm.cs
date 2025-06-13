@@ -297,7 +297,7 @@ namespace ChapeauUI
                 }
             }
 
-            MessageBox.Show("Order sent!");
+            MessageBox.Show("Order sent!");;
 
             this.Close();
         }
