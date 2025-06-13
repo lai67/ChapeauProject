@@ -41,15 +41,12 @@ namespace ChapeauUI
         private void CreateOrder()
         {
             currentOrder = orderService.GetOrdersForAlreadyOrderedTable(table.Id);
-            if (currentOrder != null)
-            {
-                currentOrderItems = orderItemService.GetOrderItemsByOrderId(currentOrder.Id);
-            }
-            else
+            if (currentOrder == null)
             {
                 currentOrder = new Order(DateTime.Now, 0, false, employee, table);
-                currentOrderItems = new List<OrderItem>();
             }
+            // Always start with an empty list for new items to be added in this session
+            currentOrderItems = new List<OrderItem>();
         }
 
         // general load method to fill lists with items.
@@ -257,15 +254,32 @@ namespace ChapeauUI
 
         private void btnSendOrder_Click(object sender, EventArgs e)
         {
+            if (currentOrderItems == null || currentOrderItems.Count == 0)
+            {
+                MessageBox.Show("Please add at least one item before sending the order.");
+                return;
+            }
+
             currentOrder.Items = currentOrderItems;
 
             if (currentOrder.Id == 0)
             {
-
                 int orderId = orderService.CreateOrder(currentOrder);
                 currentOrder.Id = orderId;
                 foreach (var item in currentOrderItems)
                     item.OrderId = orderId;
+
+                BillService billservice = new BillService();
+                Bill bill = new Bill
+                {
+                    OrderId = orderId,
+                    TotalPrice = 0,
+                    Vat = 0,       
+                    GuestNumber = 1,
+                    Tip = 0,
+                    Feedback = ""
+                };
+                billservice.CreateBill(bill);
             }
             else
             {
@@ -286,7 +300,6 @@ namespace ChapeauUI
             MessageBox.Show("Order sent!");
 
             this.Close();
-
         }
 
         private void btnPrevious_Click(object sender, EventArgs e)
