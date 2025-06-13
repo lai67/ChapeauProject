@@ -80,7 +80,7 @@ namespace DAL
                             SELECT b.id, b.total_price, b.vat, b.guest_number, b.order_id, b.tip, b.feedback
                             FROM [Bill] b
                             JOIN [ORDER] o ON b.order_id = o.id
-                            WHERE b.order_id = @orderId AND o.isCreated = 1;";
+                            WHERE b.order_id = @orderId AND o.isCreated = 0;";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
@@ -100,7 +100,7 @@ namespace DAL
         {
             string query = @"
                 SELECT oi.id AS order_item_id, oi.count, oi.order_id, oi.comment, oi.status,
-                mi.id AS menu_item_id, mi.name, mi.price, mi.vat, mi.item_category, mi.stock, mi.preperation_time, mi.menu_id
+                mi.id AS menu_item_id, mi.name, mi.price, mi.vat, mi.item_category, mi.stock, mi.preparation_time, mi.menu_id
                 FROM Bill b
                 JOIN [Order] o ON b.order_id = o.id
                 JOIN Order_Item oi ON o.id = oi.order_id
@@ -127,7 +127,7 @@ namespace DAL
                     Vat = Convert.ToDecimal(row["vat"]),
                     Item_Category = row["item_category"].ToString(),
                     Stock = Convert.ToInt32(row["stock"]),
-                    Preperation_Time = Convert.ToInt32(row["preperation_time"]),
+                    Preperation_Time = Convert.ToInt32(row["preparation_time"]),
                     Menu_Id = Convert.ToInt32(row["menu_id"])
                 };
 
