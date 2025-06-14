@@ -64,6 +64,7 @@
             picKitch8 = new PictureBox();
             picKitch10 = new PictureBox();
             panelOccActions = new Panel();
+            btnPayment = new Button();
             btnCancelOcc = new Button();
             btnFreeHere = new Button();
             btnMarkAllServed = new Button();
@@ -445,6 +446,7 @@
             // panelOccActions
             // 
             panelOccActions.BackColor = SystemColors.ControlLight;
+            panelOccActions.Controls.Add(btnPayment);
             panelOccActions.Controls.Add(btnCancelOcc);
             panelOccActions.Controls.Add(btnFreeHere);
             panelOccActions.Controls.Add(btnMarkAllServed);
@@ -457,6 +459,16 @@
             panelOccActions.Size = new Size(746, 295);
             panelOccActions.TabIndex = 40;
             panelOccActions.Visible = false;
+            // 
+            // btnPayment
+            // 
+            btnPayment.Location = new Point(645, 263);
+            btnPayment.Name = "btnPayment";
+            btnPayment.Size = new Size(94, 29);
+            btnPayment.TabIndex = 42;
+            btnPayment.Text = "Payment";
+            btnPayment.UseVisualStyleBackColor = true;
+            btnPayment.Click += btnPayment_Click;
             // 
             // btnCancelOcc
             // 
@@ -530,9 +542,9 @@
             panelFreeActions.Controls.Add(btnOccupyHere);
             panelFreeActions.Controls.Add(pictureBox2);
             panelFreeActions.Controls.Add(lblFreeHeader);
-            panelFreeActions.Location = new Point(50, 155);
+            panelFreeActions.Location = new Point(43, 158);
             panelFreeActions.Name = "panelFreeActions";
-            panelFreeActions.Size = new Size(746, 295);
+            panelFreeActions.Size = new Size(753, 295);
             panelFreeActions.TabIndex = 41;
             panelFreeActions.Visible = false;
             // 
@@ -605,7 +617,7 @@
             panel1.Controls.Add(picBar9);
             panel1.Controls.Add(picBar4);
             panel1.Controls.Add(picBar2);
-            panel1.Location = new Point(41, 128);
+            panel1.Location = new Point(32, 158);
             panel1.Name = "panel1";
             panel1.Size = new Size(796, 328);
             panel1.TabIndex = 41;
@@ -707,5 +719,6 @@
         private PictureBox pictureBox2;
         private Label lblFreeHeader;
         private Panel panel1;
+        private Button btnPayment;
     }
 }
