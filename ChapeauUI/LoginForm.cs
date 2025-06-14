@@ -47,45 +47,38 @@ namespace ChapeauUI
                 return;
             }
 
-            // 2) Instantiate the overview with the employee
-            var overview = new RestaurantOverviewForm(employee);
-            overview.Show();
+            // var overview = new RestaurantOverviewForm(employee);
+            // overview.Show();
+            // this.Hide();
 
-            // 3) Hide login
-            this.Hide();
+            RedirectEmployeeRole(employee);
         }
 
-        //GlobalVariables.CurrentEmployee = employee;
-        //RedirectEmployeeRole();
+        // role-based redirection
+        private void RedirectEmployeeRole(Employee employee)
+        {
+            Form next;
+            switch (employee.Role)
+            {
+                case Role.Waiter:
+                    next = new RestaurantOverviewForm(employee);
+                    break;
+                case Role.Barman:
+                    next = new RestaurantOverviewForm(employee);
+                    break;
+                case Role.Chef:
+                    next = new RestaurantOverviewForm(employee);
+                    break;
 
+                default:
+                    MessageBox.Show("Unknown role. Cannot redirect.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+            }
 
-        //private void RedirectEmployeeRole()
-        //{
-        //    Form next;
-        //    switch (employee.Role)
-        //    {
-        //        case Role.Waiter:
-        //            next = new RestaurantOverviewForm(employee);
-        //            break;
-        //        case Role.Barman:
-        //            next = new BarOrdersForm(employee);
-        //            break;
-        //        case Role.Chef:
-        //            next = new KitchenOrdersForm(employee);
-        //            break;
-        //        case Role.Manager:
-        //            next = new ManagerForm(employee);
-        //            break;
-        //        default:
-        //            next = new RestaurantOverviewForm(employee);
-        //            break;
-        //           
-        //    }
-
-        //    this.Hide();
-        //    next.Closed += (s, _) => this.Close();
-        //    next.Show();
-        //}
+            this.Hide();
+            next.Closed += (s, _) => this.Close();
+            next.Show();
+        }
 
         //Number buttons
 
