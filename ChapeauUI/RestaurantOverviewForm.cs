@@ -17,6 +17,7 @@ namespace ChapeauUI
         private readonly Employee _currentEmpoyee;
         private readonly TableService _tableService = new();
         private readonly OrderService orderService = new();
+        public int OrderId { get; set; } = 0; // Default value, can be set later
 
         private List<Table> _tables = new();
         private int _selectedTableNumber;
@@ -326,9 +327,25 @@ namespace ChapeauUI
 
         private void btnPayment_Click(object sender, EventArgs e)
         {
-            var payment = new PaymentFormCompleteBill();
-            payment.Show();
-            this.Hide(); 
+            int tableNumber = _selectedTableNumber;
+
+            int tableId = _tableService.GetTableById(_selectedTableNumber).TableNumber;
+
+            Order order = orderService.GetOrdersForAlreadyOrderedTable(tableId);
+
+            if (order != null)
+            {
+                int orderId = order.Id;
+
+                // Step 3: Pass order ID to BillForm
+                var billForm = new BillForm(orderId);
+                billForm.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("No active order found for this table.");
+            }
         }
     }
 }

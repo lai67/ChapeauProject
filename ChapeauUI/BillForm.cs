@@ -18,6 +18,11 @@ namespace ChapeauUI
     public partial class BillForm : Form
     {
         private int orderId;
+        public int OrderId
+        {
+            get { return orderId; }
+            set { orderId = value; }
+        }
         private BillService billService;
         private List<Bill> bills;
         private List<BillItem> billItems; // Cached full bill items with VAT
