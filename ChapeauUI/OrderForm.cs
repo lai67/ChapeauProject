@@ -312,8 +312,6 @@ namespace ChapeauUI
 
 
             MessageBox.Show("Order sent!");;
-            BillForm billForm = new BillForm(currentOrder.Id);
-            billForm.Show();
             this.Close();
         }
 
