@@ -216,11 +216,11 @@ namespace ChapeauUI
 
         private void BtnMarkAllServed_Click(object sender, EventArgs e)
         {
-            if (lstReadyItems.SelectedItem == null) return;
             int tableNumber = int.Parse(lblOccHeader.Text.Split(' ')[1]);
             orderService.MarkAllReadyServedByTableId(tableNumber);
             lstReadyItems.Items.Clear();
             btnMarkAllServed.Enabled = false;
+            RefreshTables();
         }
         //free table button click
         private void BtnFreeHere_Click(object sender, EventArgs e)
