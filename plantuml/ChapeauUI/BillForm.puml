@@ -1,0 +1,24 @@
+@startuml
+class BillForm <<partial>> {
+    - orderId : int
+    - billService : BillService
+    - bills : List<Bill>
+    - billItems : List<BillItem>
+    - subBillItems : List<BillItem>
+    + BillForm(orderId:int)
+    - splitValue : int = 0
+    - btnSplitIncrement_Click(sender:object, e:EventArgs) : void
+    - btnSplitDecrement_Click(sender:object, e:EventArgs) : void
+    - DisplaySplitValue() : void
+    - FillListView(listView:ListView, billItems:List<BillItem>) : void
+    - BillForm_Load(sender:object, e:EventArgs) : void
+    - btnAddToSubBill_Click(sender:object, e:EventArgs) : void
+    - UpdateSubBillListView() : void
+    - CalculateSubBillTotal() : decimal
+    - btnRemoveFromSubBill_Click(sender:object, e:EventArgs) : void
+    - btnRemoveAllFromSubBill_Click(sender:object, e:EventArgs) : void
+    - btnPayBill_Click(sender:object, e:EventArgs) : void
+    - btnPaySubBill_Click(sender:object, e:EventArgs) : void
+}
+Form <|-- BillForm
+@enduml

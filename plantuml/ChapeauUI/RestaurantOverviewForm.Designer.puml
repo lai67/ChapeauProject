@@ -1,0 +1,57 @@
+@startuml
+class RestaurantOverviewForm <<partial>> {
+    - components : System.ComponentModel.IContainer = null
+    # <<override>> Dispose(disposing:bool) : void
+    - InitializeComponent() : void
+    - lblTime : Label
+    - lblDate : Label
+    - lblName : Label
+    - legendPanel : Panel
+    - btnTable1 : Button
+    - btnTable3 : Button
+    - btnTable5 : Button
+    - btnTable7 : Button
+    - btnTable9 : Button
+    - btnTable2 : Button
+    - btnTable10 : Button
+    - btnTable4 : Button
+    - btnTable8 : Button
+    - btnTable6 : Button
+    - btnLogOutNew : Button
+    - picBar1 : PictureBox
+    - picBar3 : PictureBox
+    - picBar5 : PictureBox
+    - picBar7 : PictureBox
+    - picBar9 : PictureBox
+    - picBar2 : PictureBox
+    - picBar4 : PictureBox
+    - picBar6 : PictureBox
+    - picBar8 : PictureBox
+    - picBar10 : PictureBox
+    - picKitch1 : PictureBox
+    - picKitch3 : PictureBox
+    - picKitch5 : PictureBox
+    - picKitch7 : PictureBox
+    - picKitch9 : PictureBox
+    - picKitch2 : PictureBox
+    - picKitch4 : PictureBox
+    - picKitch6 : PictureBox
+    - picKitch8 : PictureBox
+    - picKitch10 : PictureBox
+    - panelOccActions : Panel
+    - lblOccHeader : Label
+    - pictureBox1 : PictureBox
+    - btnGoToOrders : Button
+    - btnFreeHere : Button
+    - btnMarkAllServed : Button
+    - lstReadyItems : ListBox
+    - btnCancelOcc : Button
+    - panelFreeActions : Panel
+    - btnCancelFree : Button
+    - btnOccupyHere : Button
+    - pictureBox2 : PictureBox
+    - lblFreeHeader : Label
+    - panel1 : Panel
+    - btnPayment : Button
+}
+@enduml

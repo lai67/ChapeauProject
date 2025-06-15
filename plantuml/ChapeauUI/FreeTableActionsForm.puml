@@ -1,0 +1,6 @@
+@startuml
+class FreeTableActionsForm <<partial>> {
+    + FreeTableActionsForm()
+}
+Form <|-- FreeTableActionsForm
+@enduml

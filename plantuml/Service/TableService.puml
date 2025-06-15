@@ -1,0 +1,9 @@
+@startuml
+class TableService {
+    - <<readonly>> tableDao : TableDao
+    + TableService()
+    + GetAllTables() : List<Table>
+    + GetTableById(tableId:int) : Table
+    + UpdateTableStatus(tableId:int, status:TableStatus) : void
+}
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+class LoginForm <<partial>> {
+    - employeeService : EmployeeService
+    - activeTextBox : TextBox
+    + LoginForm()
+    - btnLogin_Click(sender:object, e:EventArgs) : void
+    - RedirectEmployeeRole(employee:Employee) : void
+    - TextBox_Click(sender:object, e:EventArgs) : void
+    - btnNumber_Click(sender:object, e:EventArgs) : void
+    - btnDelete_Click(sender:object, e:EventArgs) : void
+    - TryGetCredentials(userId:int, password:string) : bool
+    - ShowLoginError(message:string) : void
+}
+Form <|-- LoginForm
+@enduml

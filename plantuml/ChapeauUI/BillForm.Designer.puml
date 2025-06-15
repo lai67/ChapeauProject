@@ -1,0 +1,50 @@
+@startuml
+class BillForm <<partial>> {
+    - components : System.ComponentModel.IContainer = null
+    # <<override>> Dispose(disposing:bool) : void
+    - InitializeComponent() : void
+    - lblCompleteBill : Label
+    - lblSubBill : Label
+    - divider1 : Panel
+    - panel1 : Panel
+    - textBox1 : TextBox
+    - textBox2 : TextBox
+    - textBox3 : TextBox
+    - textBox4 : TextBox
+    - lblVatTotalCompBill : Label
+    - lblTotalPriceCompBill : Label
+    - lblVatValueCompBill : Label
+    - lblTotalPriceValueBill : Label
+    + lblVatInfoCompBill : Label
+    - completeBillFields : Panel
+    - lblItem : Label
+    - lblPriceCompBill : Label
+    - lblSubBillTotalValue : Label
+    - lblVatValueSubBill : Label
+    - lblTotalPriceSubBill : Label
+    - lblVatTotalSubBill : Label
+    + label7 : Label
+    - lblAmtCompBill : Label
+    - panel2 : Panel
+    - label3 : Label
+    - label4 : Label
+    - label5 : Label
+    - textBox5 : TextBox
+    - btnRemoveAllFromSubBill : Button
+    - textBox6 : TextBox
+    - lblSplitEqually : Label
+    - btnPaySubBill : Button
+    - richTextBox1 : RichTextBox
+    - richTextBox2 : RichTextBox
+    - lblSplitValue : Label
+    - btnSplitDecrement : Button
+    - btnSplitIncrement : Button
+    - lstViewBill : ListView
+    - Item : ColumnHeader
+    - listViewSubBill : ListView
+    - columnHeader1 : ColumnHeader
+    - btnAddToSubBill : Button
+    - btnRemoveFromSubBill : Button
+    - btnPayBill : Button
+}
+@enduml

@@ -1,0 +1,11 @@
+@startuml
+class SubBill {
+    + SubBillId : int <<get>> <<set>>
+    + BillId : int <<get>> <<set>>
+    + Price : float <<get>> <<set>>
+    + Vat : float <<get>> <<set>>
+    + Tip : float <<get>> <<set>>
+    + Feedback : string <<get>> <<set>>
+    + Bill : Bill <<get>> <<set>>
+}
+@enduml

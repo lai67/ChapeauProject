@@ -1,0 +1,6 @@
+@startuml
+class OccupiedTableActionsForm <<partial>> {
+    + OccupiedTableActionsForm()
+}
+Form <|-- OccupiedTableActionsForm
+@enduml

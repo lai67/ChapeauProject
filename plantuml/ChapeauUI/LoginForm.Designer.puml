@@ -1,0 +1,25 @@
+@startuml
+class LoginForm <<partial>> {
+    - components : System.ComponentModel.IContainer = null
+    # <<override>> Dispose(disposing:bool) : void
+    - InitializeComponent() : void
+    - panel1 : Panel
+    - btnNumber1 : Button
+    - btnLogin : Button
+    - txtPassword : TextBox
+    - txtUserId : TextBox
+    - label2 : Label
+    - labUserID : Label
+    - btnDelete : Button
+    - btnNumber0 : Button
+    - btnNumber9 : Button
+    - btnNumber8 : Button
+    - btnNumber7 : Button
+    - btnNumber6 : Button
+    - btnNumber5 : Button
+    - btnNumber4 : Button
+    - btnNumber3 : Button
+    - btnNumber2 : Button
+    - LogoPanel : Panel
+}
+@enduml

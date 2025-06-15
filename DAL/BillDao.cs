@@ -13,7 +13,7 @@ namespace DAL
     {
         public List<Bill> GetAllBills()
         {
-            string querySelect = "SELECT id, total_price, vat, guest_number, order_id, tip, feedback FROM [BILL] ORDER BY order_id;";
+            string querySelect = "SELECT id, total_price, vat, guest_number, order_id, tip, feedback FROM [Bill] ORDER BY order_id;";
             SqlParameter[] sqlParameters = new SqlParameter[0];
             return ReadTables(ExecuteSelectQuery(querySelect, sqlParameters));
         }
@@ -29,12 +29,12 @@ namespace DAL
                 Bill bill = new Bill()
                 {
                     BillId = billId,
-                    TotalPrice = (float)dr["total_price"],
+                    TotalPrice = (decimal)dr["total_price"],
                     Vat = (decimal)dr["vat"],
                     GuestNumber = (int)dr["guest_number"],
                     OrderId = (int)dr["order_id"],
                     Feedback = dr["feedback"].ToString(),
-                    Tip = (float)dr["tip"],
+                    Tip = (decimal)dr["tip"],
                     SubBills = subBillDao.GetSubBillsByBillId(billId)
                 };
                 bills.Add(bill);
@@ -53,19 +53,19 @@ namespace DAL
             Bill bill = new Bill()
             {
                 BillId = billId,
-                TotalPrice = (float)dr["total_price"],
+                TotalPrice = (decimal)dr["total_price"],
                 Vat = (decimal)dr["vat"],
                 GuestNumber = (int)dr["guest_number"],
                 OrderId = (int)dr["order_id"],
                 Feedback = dr["feedback"].ToString(),
-                Tip = (float)dr["tip"],
+                Tip = (decimal)dr["tip"],
                 SubBills = subBillDao.GetSubBillsByBillId(billId)
             };
             return bill;
         }
         public Bill GetBillById(int billId)
         {
-            string query = "SELECT id, total_price, vat, guest_number, order_id, tip, feedback FROM [BILL] WHERE id = @id;";
+            string query = "SELECT id, total_price, vat, guest_number, order_id, tip, feedback FROM [Bill] WHERE id = @id;";
             SqlParameter[] parameters = new SqlParameter[]
             {
                 new SqlParameter("@id", billId)
@@ -78,9 +78,9 @@ namespace DAL
         {
             string query = @"
                             SELECT b.id, b.total_price, b.vat, b.guest_number, b.order_id, b.tip, b.feedback
-                            FROM [BILL] b
+                            FROM [Bill] b
                             JOIN [ORDER] o ON b.order_id = o.id
-                            WHERE b.order_id = @orderId AND o.isCreated = 1;";
+                            WHERE b.order_id = @orderId AND o.isCreated = 0;";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
@@ -100,7 +100,7 @@ namespace DAL
         {
             string query = @"
                 SELECT oi.id AS order_item_id, oi.count, oi.order_id, oi.comment, oi.status,
-                mi.id AS menu_item_id, mi.name, mi.price, mi.vat, mi.item_category, mi.stock, mi.preperation_time, mi.menu_id
+                mi.id AS menu_item_id, mi.name, mi.price, mi.vat, mi.item_category, mi.stock, mi.preparation_time, mi.menu_id
                 FROM Bill b
                 JOIN [Order] o ON b.order_id = o.id
                 JOIN Order_Item oi ON o.id = oi.order_id
@@ -127,7 +127,7 @@ namespace DAL
                     Vat = Convert.ToDecimal(row["vat"]),
                     Item_Category = row["item_category"].ToString(),
                     Stock = Convert.ToInt32(row["stock"]),
-                    Preperation_Time = Convert.ToInt32(row["preperation_time"]),
+                    Preperation_Time = Convert.ToInt32(row["preparation_time"]),
                     Menu_Id = Convert.ToInt32(row["menu_id"])
                 };
 
@@ -149,24 +149,26 @@ namespace DAL
 
         public void CreateBill(Bill bill)
         {
-            string query = @"INSERT INTO [BILL] (total_price, vat, guest_number, order_id, tip, feedback)
-                     VALUES (@total_price, @vat, @guest_number, @order_id, @tip, @feedback);";
+            int nextId = GetNextBillId();
+            string query = @"INSERT INTO [Bill] (id, total_price, vat, guest_number, order_id, tip, feedback)
+                     VALUES (@id, @total_price, @vat, @guest_number, @order_id, @tip, @feedback);";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@total_price", bill.TotalPrice),
-                new SqlParameter("@vat", bill.Vat),
-                new SqlParameter("@guest_number", bill.GuestNumber),
-                new SqlParameter("@order_id", bill.OrderId),
-                new SqlParameter("@tip", bill.Tip),
-                new SqlParameter("@feedback", bill.Feedback ?? (object)DBNull.Value)
+        new SqlParameter("@id", nextId),
+        new SqlParameter("@total_price", bill.TotalPrice),
+        new SqlParameter("@vat", bill.Vat),
+        new SqlParameter("@guest_number", bill.GuestNumber),
+        new SqlParameter("@order_id", bill.OrderId),
+        new SqlParameter("@tip", bill.Tip),
+        new SqlParameter("@feedback", bill.Feedback ?? (object)DBNull.Value)
             };
 
             ExecuteEditQuery(query, parameters);
         }
         public void UpdateBill(Bill bill)
         {
-            string query = @"UPDATE [BILL]
+            string query = @"UPDATE [Bill]
                      SET total_price = @total_price,
                          vat = @vat,
                          guest_number = @guest_number,
@@ -190,7 +192,7 @@ namespace DAL
         }
         public void DeleteBill(int billId)
         {
-            string query = "DELETE FROM [BILL] WHERE id = @id;";
+            string query = "DELETE FROM [Bill] WHERE id = @id;";
             SqlParameter[] parameters = new SqlParameter[]
             {
                 new SqlParameter("@id", billId)
@@ -198,6 +200,11 @@ namespace DAL
 
             ExecuteEditQuery(query, parameters);
         }
-
+        public int GetNextBillId()
+        {
+            string query = "SELECT ISNULL(MAX(id), 0) + 1 FROM [Bill]";
+            object result = ExecuteSelectQuery(query).Rows[0][0];
+            return Convert.ToInt32(result);
+        }
     }
 }

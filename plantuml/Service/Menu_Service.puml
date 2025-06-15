@@ -1,0 +1,10 @@
+@startuml
+class Menu_Service {
+    - menuItemDao : MenuItemDao
+    + Menu_Service()
+    + GetAllMenus() : List<MenuModel>
+    + GetItemsByMenuAndCategory(menuId:int, menuCategory:string) : List<MenuItemModel>
+    + GetItemsByMenuId(menuId:int) : List<MenuItemModel>
+    + DecreaseMenuItemStock(menuItemid:int, count:int) : void
+}
+@enduml

@@ -1,0 +1,11 @@
+@startuml
+class MenuModel {
+    + Id : int <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+}
+enum MenuType {
+    Lunch=1,
+    Dinner=2,
+    Drinks=3,
+}
+@enduml

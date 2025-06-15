@@ -1,0 +1,12 @@
+@startuml
+class Bill {
+    + BillId : int <<get>> <<set>>
+    + TotalPrice : decimal <<get>> <<set>>
+    + Vat : decimal <<get>> <<set>>
+    + GuestNumber : int <<get>> <<set>>
+    + OrderId : int <<get>> <<set>>
+    + Tip : decimal <<get>> <<set>>
+    + Feedback : string <<get>> <<set>>
+    + SubBills : List<SubBill> <<get>> <<set>>
+}
+@enduml

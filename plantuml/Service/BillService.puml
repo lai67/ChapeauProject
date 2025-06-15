@@ -1,0 +1,14 @@
+@startuml
+class BillService {
+    - billDao : BillDao
+    - subBillService : SubBillService
+    + BillService()
+    + GetAllBills() : List<Bill>
+    + GetBillById(billId:int) : Bill
+    + GetBillByOrderId(orderId:int) : Bill
+    + GetOrderedItemsForBill(billId:int) : List<BillItem>
+    + CreateBill(bill:Bill) : void
+    + UpdateBill(bill:Bill) : void
+    + DeleteBill(billId:int) : void
+}
+@enduml

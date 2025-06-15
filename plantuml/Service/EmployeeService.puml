@@ -1,0 +1,8 @@
+@startuml
+class EmployeeService {
+    - employeeDao : EmployeeDao
+    + EmployeeService()
+    + Authenticate(id:int, password:string) : Employee
+    - HashPassword(password:string) : string
+}
+@enduml

@@ -1,0 +1,36 @@
+@startuml
+class RestaurantOverviewForm <<partial>> {
+    - <<readonly>> _currentEmpoyee : Employee
+    - <<readonly>> _tableService : TableService
+    - <<readonly>> orderService : OrderService
+    - _tables : List<Table>
+    - _selectedTableNumber : int
+    - <<readonly>> _refreshTimer : System.Windows.Forms.Timer
+    + RestaurantOverviewForm(currentEmpoyee:Employee)
+    - RestaurantOverviewForm_Load(sender:object, e:EventArgs) : void
+    - RefreshTimer_Tick(sender:object, e:EventArgs) : void
+    - RefreshTables() : void
+    - HideAllPanels() : void
+    - TableButton_Click(sender:object, e:EventArgs) : void
+    - ShowFreePanel(tableNumber:int) : void
+    - btnOccupyHere_Click(sender:object, e:EventArgs) : void
+    - BtnCancelFree_Click(sender:object, e:EventArgs) : void
+    - CloseFreePanel1() : void
+    - CloseFreePanelAndRefresh() : void
+    - ShowOccupiedPanel(tableNumber:int) : void
+    - BtnGoToOrders_Click(sender:object, e:EventArgs) : void
+    - BtnMarkAllServed_Click(sender:object, e:EventArgs) : void
+    - BtnFreeHere_Click(sender:object, e:EventArgs) : void
+    - BtnCancelOcc_Click(sender:object, e:EventArgs) : void
+    - CloseOccPanel() : void
+    - CloseOccPanelAndRefresh() : void
+    - UpdateDateTime() : void
+    - UpdateTableButtonColors() : void
+    - UpdateOrderIcons(phases:Dictionary<int, (string BarStatus, string KitchenStatus)>) : void
+    - GetBarIcon(status:string) : Image
+    - GetKitchenIcon(status:string) : Image
+    - btnLogOutNew_Click(sender:object, e:EventArgs) : void
+    - btnPayment_Click(sender:object, e:EventArgs) : void
+}
+Form <|-- RestaurantOverviewForm
+@enduml

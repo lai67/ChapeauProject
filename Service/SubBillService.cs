@@ -32,9 +32,9 @@ namespace Service
         }
         // gets the items in a SubBill
         // shows item name, price, and amount
-        public List<OrderedMenuItemDTO> GetOrderedItemsForSubBill(int subBillId)
+        public List<BillItem> GetOrderedItemsForSubBill(int subBillId)
         {
-            return subBillDao.GetMenuItemsBySubBillId(subBillId);
+            return subBillDao.GetBillItemsBySubBillId(subBillId);
         }
         // creates a new sub bill and saves it to the database
         public void CreateSubBill(SubBill subBill)

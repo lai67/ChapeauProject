@@ -1,0 +1,13 @@
+@startuml
+class SubBillService {
+    - subBillDao : SubBillDao
+    + SubBillService()
+    + GetAllSubBills(subBill:SubBill) : List<SubBill>
+    + GetSubBillById(subBillId:int) : SubBill
+    + GetSubBillsByBillId(billId:int) : List<SubBill>
+    + GetOrderedItemsForSubBill(subBillId:int) : List<BillItem>
+    + CreateSubBill(subBill:SubBill) : void
+    + UpdateSubBill(subBill:SubBill) : void
+    + DeleteSubBill(subBillId:int) : void
+}
+@enduml

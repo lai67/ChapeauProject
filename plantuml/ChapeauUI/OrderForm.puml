@@ -1,0 +1,34 @@
+@startuml
+class OrderForm <<partial>> {
+    - orderService : OrderService
+    - orderItemService : OrderItemService
+    - currentOrder : Order
+    - currentOrderItems : List<OrderItem>
+    - menuService : Menu_Service
+    - table : Table
+    - employee : Employee
+    + OrderForm(table:Table, employee:Employee)
+    - CreateOrder() : void
+    - FillListView(listView:ListView, items:List<MenuItemModel>) : void
+    - LoadDrinkItems() : void
+    - LoadLunchItems() : void
+    - LoadDinnerItems() : void
+    - hideAllPanels() : void
+    - btnDrinksM_Click(sender:object, e:EventArgs) : void
+    - btnLunchM_Click(sender:object, e:EventArgs) : void
+    - btnDinnerM_Click(sender:object, e:EventArgs) : void
+    - RefreshOrderItemsList() : void
+    - MenuListView_DoubleClick(sender:object, e:EventArgs) : void
+    - ClickEventForAllMenuListItems() : void
+    - AddSelectedMenuItemToOrder(menuListView:ListView) : bool
+    - ClearAllMenuSelections() : void
+    - btnPlus_Click(sender:object, e:EventArgs) : void
+    - btnMinus_Click(sender:object, e:EventArgs) : void
+    - btnSendOrder_Click(sender:object, e:EventArgs) : void
+    - btnPrevious_Click(sender:object, e:EventArgs) : void
+    - btnRemoveCom_Click(sender:object, e:EventArgs) : void
+    - btnAddCom_Click(sender:object, e:EventArgs) : void
+    - btnClearAll_Click(sender:object, e:EventArgs) : void
+}
+Form <|-- OrderForm
+@enduml

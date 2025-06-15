@@ -1,0 +1,7 @@
+@startuml
+class EmployeeDao {
+    + GetEmployee(id:int, password:string) : Employee
+    - MapEmployee(dr:DataRow) : Employee
+}
+BaseDao <|-- EmployeeDao
+@enduml

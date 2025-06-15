@@ -207,10 +207,10 @@ namespace ChapeauUI
 
             OrderForm ordersForm = new OrderForm(table, _currentEmpoyee);
             CloseOccPanel();
-           ordersForm.ShowDialog(this);
+            ordersForm.ShowDialog(this);
 
             _tables = _tableService.GetAllTables();
-             UpdateTableButtonColors();
+            UpdateTableButtonColors();
         }
         //mark all served button click
 
@@ -266,15 +266,15 @@ namespace ChapeauUI
                 var table = _tables.FirstOrDefault(t => t.TableNumber == i);
                 if (table == null) continue;
 
-                
-                    btn.UseVisualStyleBackColor = false;
-                    btn.BackColor = table.Status switch
-                    {
-                        TableStatus.Free => Color.Green,
-                        TableStatus.Booked => Color.Blue,
-                        TableStatus.Occupied => Color.Red,
-                        _ => SystemColors.Control
-                    };
+
+                btn.UseVisualStyleBackColor = false;
+                btn.BackColor = table.Status switch
+                {
+                    TableStatus.Free => Color.Green,
+                    TableStatus.Booked => Color.Blue,
+                    TableStatus.Occupied => Color.Red,
+                    _ => SystemColors.Control
+                };
                 btn.Tag = table;
             }
         }
@@ -324,6 +324,12 @@ namespace ChapeauUI
             loginForm.Show();
         }
 
+        private void btnPayment_Click(object sender, EventArgs e)
+        {
+            var payment = new PaymentFormCompleteBill();
+            payment.Show();
+            this.Hide(); 
+        }
     }
 }
 

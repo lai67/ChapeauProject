@@ -1,0 +1,9 @@
+@startuml
+class FreeTableActionsForm <<partial>> {
+    - components : System.ComponentModel.IContainer = null
+    # <<override>> Dispose(disposing:bool) : void
+    - InitializeComponent() : void
+    - btnOccupy : Button
+    - lblTableNumber : Label
+}
+@enduml

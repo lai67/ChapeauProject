@@ -1,0 +1,17 @@
+@startuml
+enum Role {
+    Waiter,
+    Chef,
+    Barman,
+    Manager,
+}
+class Employee {
+    + Id : int <<get>> <<set>>
+    + FirstName : string <<get>> <<set>>
+    + LastName : string <<get>> <<set>>
+    + Password : string <<get>> <<set>>
+    + Role : Role <<get>> <<set>>
+    + Employee(id:int, firstName:string, lastName:string, password:string, role:Role)
+    + Employee()
+}
+@enduml
