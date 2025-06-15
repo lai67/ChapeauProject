@@ -64,6 +64,7 @@
             picKitch8 = new PictureBox();
             picKitch10 = new PictureBox();
             panelOccActions = new Panel();
+            lstReadyItems = new ListView();
             btnPayment = new Button();
             btnCancelOcc = new Button();
             btnFreeHere = new Button();
@@ -77,7 +78,6 @@
             pictureBox2 = new PictureBox();
             lblFreeHeader = new Label();
             panel1 = new Panel();
-            lstReadyItems = new ListView();
             ((System.ComponentModel.ISupportInitialize)picBar1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picBar3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picBar5).BeginInit();
@@ -460,6 +460,14 @@
             panelOccActions.TabIndex = 40;
             panelOccActions.Visible = false;
             // 
+            // lstReadyItems
+            // 
+            lstReadyItems.Location = new Point(496, 4);
+            lstReadyItems.Name = "lstReadyItems";
+            lstReadyItems.Size = new Size(245, 121);
+            lstReadyItems.TabIndex = 43;
+            lstReadyItems.UseCompatibleStateImageBehavior = false;
+            // 
             // btnPayment
             // 
             btnPayment.Location = new Point(645, 263);
@@ -533,9 +541,9 @@
             panelFreeActions.Controls.Add(btnOccupyHere);
             panelFreeActions.Controls.Add(pictureBox2);
             panelFreeActions.Controls.Add(lblFreeHeader);
-            panelFreeActions.Location = new Point(852, 158);
+            panelFreeActions.Location = new Point(44, 158);
             panelFreeActions.Name = "panelFreeActions";
-            panelFreeActions.Size = new Size(753, 295);
+            panelFreeActions.Size = new Size(753, 298);
             panelFreeActions.TabIndex = 41;
             panelFreeActions.Visible = false;
             // 
@@ -608,18 +616,10 @@
             panel1.Controls.Add(picBar9);
             panel1.Controls.Add(picBar4);
             panel1.Controls.Add(picBar2);
-            panel1.Location = new Point(32, 535);
+            panel1.Location = new Point(32, 158);
             panel1.Name = "panel1";
             panel1.Size = new Size(796, 328);
             panel1.TabIndex = 41;
-            // 
-            // lstReadyItems
-            // 
-            lstReadyItems.Location = new Point(546, 4);
-            lstReadyItems.Name = "lstReadyItems";
-            lstReadyItems.Size = new Size(195, 121);
-            lstReadyItems.TabIndex = 43;
-            lstReadyItems.UseCompatibleStateImageBehavior = false;
             // 
             // RestaurantOverviewForm
             // 

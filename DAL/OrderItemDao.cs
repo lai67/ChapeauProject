@@ -132,10 +132,14 @@ namespace DAL
 
         public List<OrderItem> GetReadyItemsByTableId(int tableId)
         {
-            string query = @"SELECT oi.id, oi.menu_item_id, oi.count, oi.order_id, oi.comment, oi.status 
-                             FROM Order_Item oi
-                             JOIN [Order] o ON oi.order_id = o.id
-                             WHERE o.table_id = @tableId AND oi.status = 'Ready'";
+            string query = @"
+                SELECT 
+                    oi.id, oi.menu_item_id, oi.count, oi.order_id, oi.comment, oi.status,
+                    mi.name, mi.item_category, mi.stock, mi.vat, mi.price, mi.preparation_time, mi.menu_id
+                FROM Order_Item oi
+                JOIN [Order] o ON oi.order_id = o.id
+                JOIN Menu_Item mi ON oi.menu_item_id = mi.id
+                WHERE o.table_id = @tableId AND oi.status = 'Ready'";
             SqlParameter[] parameters = {
                 new SqlParameter("@tableId", tableId)
             };
@@ -149,7 +153,17 @@ namespace DAL
                 int orderId = Convert.ToInt32(row["order_id"]);
                 string comment = row["comment"].ToString();
                 OrderItem.OrderStatus status = (OrderItem.OrderStatus)Enum.Parse(typeof(OrderItem.OrderStatus), row["status"].ToString());
-                MenuItemModel menuItem = new MenuItemModel { Menu_Id = menuItemId };
+                MenuItemModel menuItem = new MenuItemModel
+                {
+                    Id = menuItemId,
+                    Name = row["name"].ToString(),
+                    Item_Category = row["item_category"].ToString(),
+                    Stock = Convert.ToInt32(row["stock"]),
+                    Vat = Convert.ToDecimal(row["vat"]),
+                    Price = Convert.ToDecimal(row["price"]),
+                    Preperation_Time = Convert.ToInt32(row["preparation_time"]),
+                    Menu_Id = Convert.ToInt32(row["menu_id"])
+                };
                 OrderItem orderItem = new OrderItem(id, menuItem, comment, status, count, orderId);
                 orderItems.Add(orderItem);
             }
