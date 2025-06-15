@@ -54,6 +54,11 @@
             btnFinalizePayment = new Button();
             lblTotalPriceValueBill = new Label();
             lblTotalPriceCompBill = new Label();
+            btnSplitIncrement = new Button();
+            btnSplitDecrement = new Button();
+            lblSplitValue = new Label();
+            lblSplitEqually = new Label();
+            lblTotalPerPerson = new Label();
             SuspendLayout();
             // 
             // lblTipPct0
@@ -313,17 +318,74 @@
             // 
             lblTotalPriceCompBill.AutoSize = true;
             lblTotalPriceCompBill.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            lblTotalPriceCompBill.Location = new Point(162, 81);
+            lblTotalPriceCompBill.Location = new Point(177, 9);
             lblTotalPriceCompBill.Name = "lblTotalPriceCompBill";
             lblTotalPriceCompBill.Size = new Size(128, 28);
             lblTotalPriceCompBill.TabIndex = 96;
             lblTotalPriceCompBill.Text = "Total Price €0";
+            // 
+            // btnSplitIncrement
+            // 
+            btnSplitIncrement.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
+            btnSplitIncrement.Location = new Point(312, 63);
+            btnSplitIncrement.Name = "btnSplitIncrement";
+            btnSplitIncrement.Size = new Size(100, 36);
+            btnSplitIncrement.TabIndex = 101;
+            btnSplitIncrement.Text = "+";
+            btnSplitIncrement.UseVisualStyleBackColor = true;
+            btnSplitIncrement.Click += btnSplitIncrement_Click_1;
+            // 
+            // btnSplitDecrement
+            // 
+            btnSplitDecrement.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
+            btnSplitDecrement.Location = new Point(73, 63);
+            btnSplitDecrement.Name = "btnSplitDecrement";
+            btnSplitDecrement.Size = new Size(100, 36);
+            btnSplitDecrement.TabIndex = 100;
+            btnSplitDecrement.Text = " - ";
+            btnSplitDecrement.UseVisualStyleBackColor = true;
+            btnSplitDecrement.Click += btnSplitDecrement_Click_1;
+            // 
+            // lblSplitValue
+            // 
+            lblSplitValue.AutoSize = true;
+            lblSplitValue.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSplitValue.Location = new Point(223, 59);
+            lblSplitValue.Name = "lblSplitValue";
+            lblSplitValue.Size = new Size(33, 38);
+            lblSplitValue.TabIndex = 99;
+            lblSplitValue.Text = "0";
+            // 
+            // lblSplitEqually
+            // 
+            lblSplitEqually.AutoSize = true;
+            lblSplitEqually.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            lblSplitEqually.Location = new Point(195, 41);
+            lblSplitEqually.Name = "lblSplitEqually";
+            lblSplitEqually.Size = new Size(94, 20);
+            lblSplitEqually.TabIndex = 98;
+            lblSplitEqually.Text = "Split equally:";
+            // 
+            // lblTotalPerPerson
+            // 
+            lblTotalPerPerson.AutoSize = true;
+            lblTotalPerPerson.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTotalPerPerson.Location = new Point(146, 120);
+            lblTotalPerPerson.Name = "lblTotalPerPerson";
+            lblTotalPerPerson.Size = new Size(180, 28);
+            lblTotalPerPerson.TabIndex = 102;
+            lblTotalPerPerson.Text = "Total Per Person: €0";
             // 
             // PaymentFormCompleteBill
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(521, 651);
+            Controls.Add(lblTotalPerPerson);
+            Controls.Add(btnSplitIncrement);
+            Controls.Add(btnSplitDecrement);
+            Controls.Add(lblSplitValue);
+            Controls.Add(lblSplitEqually);
             Controls.Add(lblTotalPriceValueBill);
             Controls.Add(lblTotalPriceCompBill);
             Controls.Add(btnFinalizePayment);
@@ -384,5 +446,10 @@
         private Button btnFinalizePayment;
         private Label lblTotalPriceValueBill;
         private Label lblTotalPriceCompBill;
+        private Button btnSplitIncrement;
+        private Button btnSplitDecrement;
+        private Label lblSplitValue;
+        private Label lblSplitEqually;
+        private Label lblTotalPerPerson;
     }
 }
