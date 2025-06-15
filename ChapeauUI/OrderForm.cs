@@ -80,7 +80,7 @@ namespace ChapeauUI
         }
         private void LoadDinnerItems()
         {
-            var allDinnerItems = menuService.GetItemsByMenuId((int)MenuType.Dinner);
+            
             FillListView(listVStartersDinner, menuService.GetItemsByMenuAndCategory((int)MenuType.Dinner, "Starter"));
             FillListView(listVEntremetsDinner, menuService.GetItemsByMenuAndCategory((int)MenuType.Dinner, "Entremet"));
             FillListView(listVMainsDinner, menuService.GetItemsByMenuAndCategory((int)MenuType.Dinner, "Main"));
@@ -211,6 +211,19 @@ namespace ChapeauUI
 
         private void btnPlus_Click(object sender, EventArgs e)
         {
+            if (listVOrder.SelectedItems.Count > 0)
+            {
+                var selectedItem = listVOrder.SelectedItems[0];
+                var menuItemName = selectedItem.Text;
+                var orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Name == menuItemName);
+                if (orderItem != null)
+                {
+                    orderItem.Count++;
+                    RefreshOrderItemsList();
+                    return;
+                }
+            }
+
             // Lunch
             if (AddSelectedMenuItemToOrder(listVStartersLunch)) return;
             if (AddSelectedMenuItemToOrder(listVMainsLunch)) return;
@@ -308,7 +321,6 @@ namespace ChapeauUI
         {
             this.Close();
         }
-
 
 
         private void btnRemoveCom_Click(object sender, EventArgs e)
