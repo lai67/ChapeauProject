@@ -65,6 +65,14 @@
             btnAddToSubBill = new Button();
             btnRemoveFromSubBill = new Button();
             btnPayBill = new Button();
+            lblVatLowBill = new Label();
+            lblVatHighBill = new Label();
+            lblVatHighBillValue = new Label();
+            lblVatLowBillValue = new Label();
+            lblVatLowValueSubBill = new Label();
+            lblVatHighValueSubBill = new Label();
+            lblVatHighSubBill = new Label();
+            lblVatLowSubBill = new Label();
             completeBillFields.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -136,7 +144,7 @@
             // lblVatTotalCompBill
             // 
             lblVatTotalCompBill.AutoSize = true;
-            lblVatTotalCompBill.Location = new Point(48, 604);
+            lblVatTotalCompBill.Location = new Point(42, 651);
             lblVatTotalCompBill.Name = "lblVatTotalCompBill";
             lblVatTotalCompBill.Size = new Size(71, 20);
             lblVatTotalCompBill.TabIndex = 10;
@@ -145,7 +153,7 @@
             // lblTotalPriceCompBill
             // 
             lblTotalPriceCompBill.AutoSize = true;
-            lblTotalPriceCompBill.Location = new Point(48, 646);
+            lblTotalPriceCompBill.Location = new Point(42, 676);
             lblTotalPriceCompBill.Name = "lblTotalPriceCompBill";
             lblTotalPriceCompBill.Size = new Size(78, 20);
             lblTotalPriceCompBill.TabIndex = 12;
@@ -154,16 +162,17 @@
             // lblVatValueCompBill
             // 
             lblVatValueCompBill.AutoSize = true;
-            lblVatValueCompBill.Location = new Point(317, 603);
+            lblVatValueCompBill.Location = new Point(317, 651);
             lblVatValueCompBill.Name = "lblVatValueCompBill";
             lblVatValueCompBill.Size = new Size(44, 20);
             lblVatValueCompBill.TabIndex = 13;
             lblVatValueCompBill.Text = "€0,00";
+            lblVatValueCompBill.Click += lblVatValueCompBill_Click;
             // 
             // lblTotalPriceValueBill
             // 
             lblTotalPriceValueBill.AutoSize = true;
-            lblTotalPriceValueBill.Location = new Point(317, 646);
+            lblTotalPriceValueBill.Location = new Point(317, 676);
             lblTotalPriceValueBill.Name = "lblTotalPriceValueBill";
             lblTotalPriceValueBill.Size = new Size(44, 20);
             lblTotalPriceValueBill.TabIndex = 15;
@@ -176,7 +185,7 @@
             lblVatInfoCompBill.ForeColor = Color.Transparent;
             lblVatInfoCompBill.Location = new Point(32, 588);
             lblVatInfoCompBill.Name = "lblVatInfoCompBill";
-            lblVatInfoCompBill.Size = new Size(342, 91);
+            lblVatInfoCompBill.Size = new Size(342, 120);
             lblVatInfoCompBill.TabIndex = 16;
             lblVatInfoCompBill.Text = "label1";
             // 
@@ -227,7 +236,7 @@
             // lblSubBillTotalValue
             // 
             lblSubBillTotalValue.AutoSize = true;
-            lblSubBillTotalValue.Location = new Point(709, 646);
+            lblSubBillTotalValue.Location = new Point(709, 677);
             lblSubBillTotalValue.Name = "lblSubBillTotalValue";
             lblSubBillTotalValue.Size = new Size(44, 20);
             lblSubBillTotalValue.TabIndex = 30;
@@ -236,7 +245,7 @@
             // lblVatValueSubBill
             // 
             lblVatValueSubBill.AutoSize = true;
-            lblVatValueSubBill.Location = new Point(709, 603);
+            lblVatValueSubBill.Location = new Point(709, 651);
             lblVatValueSubBill.Name = "lblVatValueSubBill";
             lblVatValueSubBill.Size = new Size(44, 20);
             lblVatValueSubBill.TabIndex = 28;
@@ -245,7 +254,7 @@
             // lblTotalPriceSubBill
             // 
             lblTotalPriceSubBill.AutoSize = true;
-            lblTotalPriceSubBill.Location = new Point(440, 646);
+            lblTotalPriceSubBill.Location = new Point(435, 676);
             lblTotalPriceSubBill.Name = "lblTotalPriceSubBill";
             lblTotalPriceSubBill.Size = new Size(78, 20);
             lblTotalPriceSubBill.TabIndex = 27;
@@ -254,7 +263,7 @@
             // lblVatTotalSubBill
             // 
             lblVatTotalSubBill.AutoSize = true;
-            lblVatTotalSubBill.Location = new Point(440, 603);
+            lblVatTotalSubBill.Location = new Point(435, 651);
             lblVatTotalSubBill.Name = "lblVatTotalSubBill";
             lblVatTotalSubBill.Size = new Size(127, 20);
             lblVatTotalSubBill.TabIndex = 25;
@@ -267,7 +276,7 @@
             label7.ForeColor = Color.Transparent;
             label7.Location = new Point(424, 588);
             label7.Name = "label7";
-            label7.Size = new Size(342, 91);
+            label7.Size = new Size(342, 120);
             label7.TabIndex = 31;
             label7.Text = "label1";
             // 
@@ -343,7 +352,7 @@
             // btnPaySubBill
             // 
             btnPaySubBill.BackColor = SystemColors.ButtonShadow;
-            btnPaySubBill.Location = new Point(424, 690);
+            btnPaySubBill.Location = new Point(424, 711);
             btnPaySubBill.Name = "btnPaySubBill";
             btnPaySubBill.Size = new Size(342, 49);
             btnPaySubBill.TabIndex = 38;
@@ -396,7 +405,7 @@
             // btnPayBill
             // 
             btnPayBill.BackColor = SystemColors.ButtonShadow;
-            btnPayBill.Location = new Point(32, 690);
+            btnPayBill.Location = new Point(32, 711);
             btnPayBill.Name = "btnPayBill";
             btnPayBill.Size = new Size(342, 49);
             btnPayBill.TabIndex = 75;
@@ -404,11 +413,91 @@
             btnPayBill.UseVisualStyleBackColor = false;
             btnPayBill.Click += btnPayBill_Click;
             // 
+            // lblVatLowBill
+            // 
+            lblVatLowBill.AutoSize = true;
+            lblVatLowBill.Location = new Point(42, 599);
+            lblVatLowBill.Name = "lblVatLowBill";
+            lblVatLowBill.Size = new Size(62, 20);
+            lblVatLowBill.TabIndex = 76;
+            lblVatLowBill.Text = "VAT low";
+            // 
+            // lblVatHighBill
+            // 
+            lblVatHighBill.AutoSize = true;
+            lblVatHighBill.Location = new Point(42, 624);
+            lblVatHighBill.Name = "lblVatHighBill";
+            lblVatHighBill.Size = new Size(67, 20);
+            lblVatHighBill.TabIndex = 77;
+            lblVatHighBill.Text = "VAT high";
+            // 
+            // lblVatHighBillValue
+            // 
+            lblVatHighBillValue.AutoSize = true;
+            lblVatHighBillValue.Location = new Point(317, 624);
+            lblVatHighBillValue.Name = "lblVatHighBillValue";
+            lblVatHighBillValue.Size = new Size(44, 20);
+            lblVatHighBillValue.TabIndex = 78;
+            lblVatHighBillValue.Text = "€0,00";
+            // 
+            // lblVatLowBillValue
+            // 
+            lblVatLowBillValue.AutoSize = true;
+            lblVatLowBillValue.Location = new Point(317, 599);
+            lblVatLowBillValue.Name = "lblVatLowBillValue";
+            lblVatLowBillValue.Size = new Size(44, 20);
+            lblVatLowBillValue.TabIndex = 79;
+            lblVatLowBillValue.Text = "€0,00";
+            // 
+            // lblVatLowValueSubBill
+            // 
+            lblVatLowValueSubBill.AutoSize = true;
+            lblVatLowValueSubBill.Location = new Point(709, 599);
+            lblVatLowValueSubBill.Name = "lblVatLowValueSubBill";
+            lblVatLowValueSubBill.Size = new Size(44, 20);
+            lblVatLowValueSubBill.TabIndex = 83;
+            lblVatLowValueSubBill.Text = "€0,00";
+            // 
+            // lblVatHighValueSubBill
+            // 
+            lblVatHighValueSubBill.AutoSize = true;
+            lblVatHighValueSubBill.Location = new Point(709, 624);
+            lblVatHighValueSubBill.Name = "lblVatHighValueSubBill";
+            lblVatHighValueSubBill.Size = new Size(44, 20);
+            lblVatHighValueSubBill.TabIndex = 82;
+            lblVatHighValueSubBill.Text = "€0,00";
+            // 
+            // lblVatHighSubBill
+            // 
+            lblVatHighSubBill.AutoSize = true;
+            lblVatHighSubBill.Location = new Point(434, 624);
+            lblVatHighSubBill.Name = "lblVatHighSubBill";
+            lblVatHighSubBill.Size = new Size(67, 20);
+            lblVatHighSubBill.TabIndex = 81;
+            lblVatHighSubBill.Text = "VAT high";
+            // 
+            // lblVatLowSubBill
+            // 
+            lblVatLowSubBill.AutoSize = true;
+            lblVatLowSubBill.Location = new Point(434, 599);
+            lblVatLowSubBill.Name = "lblVatLowSubBill";
+            lblVatLowSubBill.Size = new Size(62, 20);
+            lblVatLowSubBill.TabIndex = 80;
+            lblVatLowSubBill.Text = "VAT low";
+            // 
             // BillForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(801, 772);
+            Controls.Add(lblVatLowValueSubBill);
+            Controls.Add(lblVatHighValueSubBill);
+            Controls.Add(lblVatHighSubBill);
+            Controls.Add(lblVatLowSubBill);
+            Controls.Add(lblVatLowBillValue);
+            Controls.Add(lblVatHighBillValue);
+            Controls.Add(lblVatHighBill);
+            Controls.Add(lblVatLowBill);
             Controls.Add(btnPayBill);
             Controls.Add(btnRemoveFromSubBill);
             Controls.Add(btnAddToSubBill);
@@ -490,5 +579,13 @@
         private Button btnAddToSubBill;
         private Button btnRemoveFromSubBill;
         private Button btnPayBill;
+        private Label lblVatLowBill;
+        private Label lblVatHighBill;
+        private Label lblVatHighBillValue;
+        private Label lblVatLowBillValue;
+        private Label lblVatLowValueSubBill;
+        private Label lblVatHighValueSubBill;
+        private Label lblVatHighSubBill;
+        private Label lblVatLowSubBill;
     }
 }

@@ -27,10 +27,10 @@ namespace DAL
                 {
                     SubBillId = (int)dr["id"],
                     BillId = (int)dr["bill_id"],
-                    Price = (float)dr["price"],
-                    Vat = (float)dr["vat"],
+                    Price = (decimal)dr["price"],
+                    Vat = (decimal)dr["vat"],
                     Feedback = dr["feedback"].ToString(),
-                    Tip = (float)dr["tip"],
+                    Tip = (decimal)dr["tip"],
                 };
                 subBills.Add(subBill);
             }
@@ -48,10 +48,10 @@ namespace DAL
             {
                 SubBillId = (int)dr["id"],
                 BillId = billId,
-                Price = (float)dr["price"],
-                Vat = (float)dr["vat"],
+                Price = (decimal)dr["price"],
+                Vat = (decimal)dr["vat"],
                 Feedback = dr["feedback"].ToString(),
-                Tip = (float)dr["tip"],
+                Tip = (decimal)dr["tip"],
                 Bill = new BillDao().GetBillById(billId) // only if parent Bill needs to be loaded for SubBill
             };
             return subBill;

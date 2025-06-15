@@ -101,7 +101,7 @@
             lblSplitValue.Name = "lblSplitValue";
             lblSplitValue.Size = new Size(33, 38);
             lblSplitValue.TabIndex = 130;
-            lblSplitValue.Text = "0";
+            lblSplitValue.Text = "1";
             // 
             // lblSplitEqually
             // 

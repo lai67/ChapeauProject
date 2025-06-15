@@ -19,14 +19,12 @@ namespace ChapeauUI
     {
         private int orderId;
         private BillService billService;
-        private List<Bill> bills;
         private List<BillItem> billItems; // Cached full bill items with VAT
         private List<BillItem> subBillItems;
         public BillForm(int orderId)
         {
             InitializeComponent();
             billService = new BillService();
-            bills = billService.GetAllBills();
             subBillItems = new List<BillItem>();
             this.orderId = orderId;
         }
@@ -35,7 +33,9 @@ namespace ChapeauUI
             listView.Items.Clear();
 
             decimal vatTotal;
+            decimal vatHighTotal;
             decimal billTotal = CalculateTotal(billItems, out vatTotal);
+            decimal vatLowTotal = CalculateLowAndHighVat(billItems, out vatLowTotal, out vatHighTotal);
 
             foreach (var item in billItems)
             {
@@ -49,6 +49,8 @@ namespace ChapeauUI
 
             lblTotalPriceValueBill.Text = $"€{(billTotal + vatTotal):0.00}"; // Grand total (including VAT)
             lblVatValueCompBill.Text = $"€{vatTotal:0.00}";
+            lblVatLowBillValue.Text = $"€{vatLowTotal:0.00}";
+            lblVatHighBillValue.Text = $"€{vatHighTotal:0.00}";
         }
 
         private void BillForm_Load(object sender, EventArgs e)
@@ -79,6 +81,9 @@ namespace ChapeauUI
             lstViewBill.Columns.Add("Amount", 85);
             lstViewBill.Columns.Add("Total", 85);
         }
+
+        // create method LoadColumns with a listView parameter
+
         private void LoadSubBillColumns()
         {
             // Setup ListView columns for sub-bill
@@ -138,7 +143,10 @@ namespace ChapeauUI
 
             // Remove from main bill if amount is zero
             if (mainItem.Amount == 0)
+            {
                 billItems.Remove(mainItem);
+            }
+
             FillListView(lstViewBill, billItems);
             UpdateSubBillListView();
             UpdateSubBillVatAndTotalLabels();
@@ -233,13 +241,25 @@ namespace ChapeauUI
 
         private void btnPayBill_Click(object sender, EventArgs e)
         {
-            PaymentFormCompleteBill paymentForm = new PaymentFormCompleteBill();
+            decimal billTotal = CalculateTotal(billItems, out decimal vatTotal);
+
+            PaymentFormCompleteBill paymentForm = new PaymentFormCompleteBill(billTotal);
             paymentForm.ShowDialog();
         }
 
+        // combine methods above and below
+
         private void btnPaySubBill_Click(object sender, EventArgs e)
         {
-            PaymentFormSubBill paymentForm = new PaymentFormSubBill();
+            decimal subBillTotalExclVat = CalculateTotal(subBillItems, out decimal vatTotal);
+
+            // Create a Bill object with the sub-bill total
+            SubBill subBill = new SubBill();
+
+            subBill.Price = subBillTotalExclVat + vatTotal;
+
+            // Pass the Bill object to the payment form
+            PaymentFormSubBill paymentForm = new PaymentFormSubBill(subBill);
             paymentForm.ShowDialog();
         }
         private decimal CalculateTotal(List<BillItem> items, out decimal vatTotal)
@@ -260,9 +280,41 @@ namespace ChapeauUI
         private void UpdateSubBillVatAndTotalLabels()
         {
             decimal vatTotal;
+            decimal highVatTotal;
             decimal subBillTotal = CalculateTotal(subBillItems, out vatTotal);
+            decimal lowVatTotal = CalculateLowAndHighVat(subBillItems, out lowVatTotal, out highVatTotal);
             lblSubBillTotalValue.Text = $"€{(subBillTotal + vatTotal):0.00}";
             lblVatValueSubBill.Text = $"€{vatTotal:0.00}";
+            lblVatLowValueSubBill.Text = $"€{lowVatTotal:0.00}"; // Low VAT total (9%)
+            lblVatHighValueSubBill.Text = $"€{highVatTotal:0.00}"; // High VAT total (21%)
+        }
+        private decimal CalculateLowAndHighVat(List<BillItem> items, out decimal lowVatTotal, out decimal highVatTotal)
+        {
+            lowVatTotal = 0;
+            highVatTotal = 0;
+
+            foreach (var item in items)
+            {
+                decimal itemTotal = item.Price * item.Amount;
+                // Check for low VAT (9%)
+                if (item.Vat == 9)
+                {
+                    lowVatTotal += (itemTotal * item.Vat) / 100;
+                }
+                // Check for high VAT (21%)
+                else if (item.Vat == 21)
+                {
+                    highVatTotal += (itemTotal * item.Vat) / 100;
+                }
+                // Optionally handle other VAT rates if needed
+            }
+
+            return lowVatTotal;
+        }
+
+        private void lblVatValueCompBill_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
