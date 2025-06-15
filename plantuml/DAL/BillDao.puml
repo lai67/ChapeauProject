@@ -1,0 +1,15 @@
+@startuml
+class BillDao {
+    + GetAllBills() : List<Bill>
+    - ReadTables(dataTable:DataTable) : List<Bill>
+    - ReadBill(dataTable:DataTable) : Bill
+    + GetBillById(billId:int) : Bill
+    + GetBillByOrderId(orderId:int) : Bill
+    + GetOrderItemsByBillId(billId:int) : List<OrderItem>
+    + CreateBill(bill:Bill) : void
+    + UpdateBill(bill:Bill) : void
+    + DeleteBill(billId:int) : void
+    + GetNextBillId() : int
+}
+BaseDao <|-- BillDao
+@enduml

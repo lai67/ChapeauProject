@@ -1,0 +1,10 @@
+@startuml
+class OccupiedTableActionsForm <<partial>> {
+    - components : System.ComponentModel.IContainer = null
+    # <<override>> Dispose(disposing:bool) : void
+    - InitializeComponent() : void
+    - btnFree : Button
+    - btnTakeOrder : Button
+    - lblTableNumber : Label
+}
+@enduml

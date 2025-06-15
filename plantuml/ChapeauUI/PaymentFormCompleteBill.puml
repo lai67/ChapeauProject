@@ -1,0 +1,7 @@
+@startuml
+class PaymentFormCompleteBill <<partial>> {
+    + PaymentFormCompleteBill()
+    - btnFinalizePayment_Click(sender:object, e:EventArgs) : void
+}
+Form <|-- PaymentFormCompleteBill
+@enduml

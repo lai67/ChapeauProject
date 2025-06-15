@@ -1,0 +1,12 @@
+@startuml
+abstract class BaseDao {
+    - adapter : SqlDataAdapter
+    - conn : SqlConnection
+    + BaseDao()
+    # OpenConnection() : SqlConnection
+    - CloseConnection() : void
+    # ExecuteEditTranQuery(query:string, sqlParameters:SqlParameter[], sqlTransaction:SqlTransaction) : void
+    # ExecuteEditQuery(query:string, sqlParameters:SqlParameter[]) : void
+    # ExecuteSelectQuery(query:string, sqlParameters:SqlParameter[]) : DataTable
+}
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+class OrderService {
+    - <<readonly>> _orderDao : OrderDao
+    - <<readonly>> _orderItemDao : OrderItemDao
+    + OrderService()
+    + GetTableLocationPhases() : Dictionary<int, (string BarStatus, string KitchenStatus)>
+    + CreateOrder(order:Order) : int
+    + UpdateOrder(order:Order) : void
+    + GetOrdersForAlreadyOrderedTable(tableId:int) : Order
+    + GetReadyItemsByTableId(tableId:int) : List<OrderItem>
+    + MarkAllReadyServedByTableId(tableId:int) : void
+    + HasNoRunningItems(tableId:int) : bool
+}
+@enduml

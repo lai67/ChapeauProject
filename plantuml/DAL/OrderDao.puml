@@ -1,0 +1,10 @@
+@startuml
+class OrderDao {
+    + GetTableLocationPhases() : Dictionary<int, (string BarStatus, string KitchenStatus)>
+    - BuildTableLocationPhaseDictionary(dt:DataTable) : Dictionary<int, (string Bar, string Kitch)>
+    + CreateOrder(order:Order) : int
+    + UpdateOrderPreparationInfo(orderId:int, preparationTime:int) : void
+    + GetOrdersForAlreadyOrderedTable(tableId:int) : Order
+}
+BaseDao <|-- OrderDao
+@enduml

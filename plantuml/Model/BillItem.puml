@@ -1,0 +1,8 @@
+@startuml
+class BillItem {
+    + Name : string <<get>> <<set>>
+    + Price : decimal <<get>> <<set>>
+    + Amount : int <<get>> <<set>>
+    + Vat : decimal <<get>> <<set>>
+}
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+class Resources {
+    - {static} resourceMan : global::System.Resources.ResourceManager
+    - {static} resourceCulture : global::System.Globalization.CultureInfo
+    <<internal>> Resources()
+    <<internal>> {static} ResourceManager : global::System.Resources.ResourceManager <<get>>
+    <<internal>> {static} Culture : global::System.Globalization.CultureInfo <<get>> <<set>>
+    <<internal>> {static} NoBarIcon : System.Drawing.Bitmap <<get>>
+    <<internal>> {static} NoKitchenIcon : System.Drawing.Bitmap <<get>>
+    <<internal>> {static} PreparingBarIcon : System.Drawing.Bitmap <<get>>
+    <<internal>> {static} PreparingKitchenIcon : System.Drawing.Bitmap <<get>>
+    <<internal>> {static} ReadyBarIcon : System.Drawing.Bitmap <<get>>
+    <<internal>> {static} ReadyKitchenIcon : System.Drawing.Bitmap <<get>>
+}
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+class Order {
+    + Id : int <<get>> <<set>>
+    + OrderTime : DateTime <<get>> <<set>>
+    + PreparationTime : int <<get>> <<set>>
+    + IsCreated : bool <<get>> <<set>>
+    + Employee : Employee <<get>> <<set>>
+    + Table : Table <<get>> <<set>>
+    + Items : List<OrderItem> <<get>> <<set>>
+    + Bill : Bill <<get>> <<set>>
+    + Order(orderTime:DateTime, preparationTime:int, isCreated:bool, employee:Employee, table:Table)
+    + Order(id:int, orderTime:DateTime, preparationTime:int, isCreated:bool, employee:Employee, bill:Bill, table:Table)
+}
+@enduml

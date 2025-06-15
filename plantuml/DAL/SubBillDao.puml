@@ -1,0 +1,14 @@
+@startuml
+class SubBillDao {
+    + GetAllSubBills() : List<SubBill>
+    - ReadTables(dataTable:DataTable) : List<SubBill>
+    - ReadSubBill(dataTable:DataTable) : SubBill
+    + GetSubBillById(subBillId:int) : SubBill
+    + GetSubBillsByBillId(billId:int) : List<SubBill>
+    + GetBillItemsBySubBillId(subBillId:int) : List<BillItem>
+    + CreateSubBill(subBill:SubBill) : void
+    + UpdateSubBill(subBill:SubBill) : void
+    + DeleteSubBill(subBillId:int) : void
+}
+BaseDao <|-- SubBillDao
+@enduml

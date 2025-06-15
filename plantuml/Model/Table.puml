@@ -1,0 +1,13 @@
+@startuml
+class Table {
+    + Id : int <<get>> <<set>>
+    + TableNumber : int <<get>> <<set>>
+    + Status : TableStatus <<get>> <<set>>
+    + Table(tableId:int, tableNumber:int, statuse:TableStatus)
+}
+enum TableStatus {
+    Occupied,
+    Free,
+    Booked,
+}
+@enduml

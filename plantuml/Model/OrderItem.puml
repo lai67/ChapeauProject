@@ -1,0 +1,19 @@
+@startuml
+class OrderItem {
+    + Id : int <<get>> <<set>>
+    + MenuItem : MenuItemModel <<get>> <<set>>
+    + Count : int <<get>> <<set>>
+    + OrderId : int <<get>> <<set>>
+    + Comment : string <<get>> <<set>>
+    + orderStatus : OrderStatus <<get>> <<set>>
+    + OrderItem(menuItem:MenuItemModel, comment:string, orderStatus:OrderStatus, count:int, orderId:int)
+    + OrderItem(id:int, menuItem:MenuItemModel, comment:string, orderStatus:OrderStatus, count:int, orderId:int)
+}
+enum OrderStatus {
+    Placed,
+    Preparing,
+    Ready,
+    Served,
+}
+OrderItem +-- OrderStatus
+@enduml

@@ -1,0 +1,10 @@
+@startuml
+class OrderItemService {
+    - OrderItemDao : OrderItemDao
+    - MenuItemDao : MenuItemDao
+    + OrderItemService()
+    + CreateOrderItem(orderItem:OrderItem) : bool
+    + GetOrderItemsByOrderId(orderId:int) : List<OrderItem>
+    + UpdateOrderItemCount(orderItem:Model.OrderItem) : bool
+}
+@enduml

@@ -1,0 +1,8 @@
+@startuml
+class TableDao {
+    + GetAllTables() : List<Table>
+    + GetTableById(tableId:int) : Table
+    + UpdateTableStatus(tableId:int, status:TableStatus) : void
+}
+BaseDao <|-- TableDao
+@enduml

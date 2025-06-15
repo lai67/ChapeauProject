@@ -1,0 +1,33 @@
+@startuml
+class PaymentFormSubBill <<partial>> {
+    - components : System.ComponentModel.IContainer = null
+    # <<override>> Dispose(disposing:bool) : void
+    - InitializeComponent() : void
+    - lblTotalPriceValueBill : Label
+    - lblTotalPriceSubBill : Label
+    - btnFinalizePayment : Button
+    - lblTipPct0 : Label
+    - lblTipPct7 : Label
+    - lblTipPct5 : Label
+    - lblTipPct10 : Label
+    - lblTipPct12 : Label
+    - lblTipPct25 : Label
+    - lblTipPct20 : Label
+    - lblTipPct15 : Label
+    - lblTipPct2 : Label
+    - rdBtnTipPct2 : RadioButton
+    - rdBtnTipPct5 : RadioButton
+    - rdBtnTipPct7 : RadioButton
+    - rdBtnTipPct10 : RadioButton
+    - rdBtnTipPct12 : RadioButton
+    - rdBtnTipPct15 : RadioButton
+    - rdBtnTipPct20 : RadioButton
+    - rdBtnTipPct25 : RadioButton
+    - rdBtnTipPct0 : RadioButton
+    - richTextBoxFeedback : RichTextBox
+    - lblFeedbackFromCustomer : Label
+    - lblTipPercent : Label
+    - rdBtnCash : RadioButton
+    - rdBtnCard : RadioButton
+}
+@enduml

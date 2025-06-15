@@ -1,0 +1,10 @@
+@startuml
+class MenuItemDao {
+    + GetItemsByMenuAndCategory(menuId:int, itemCategory:string) : List<MenuItemModel>
+    + GetItemsByMenuId(menuId:int) : List<MenuItemModel>
+    - ConvertToList(dataTable:DataTable) : List<MenuItemModel>
+    + CheckMenuItemStock(menuItemId:int) : int
+    + DecreaseMenuItemStock(menuItemId:int, count:int) : void
+}
+BaseDao <|-- MenuItemDao
+@enduml

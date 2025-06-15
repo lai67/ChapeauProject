@@ -1,0 +1,23 @@
+@startuml
+class MenuItemModel {
+    + Id : int <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+    + Item_Category : string <<get>> <<set>>
+    + Stock : int <<get>> <<set>>
+    + Vat : decimal <<get>> <<set>>
+    + Price : decimal <<get>> <<set>>
+    + Preperation_Time : int <<get>> <<set>>
+    + Menu_Id : int <<get>> <<set>>
+}
+enum Item_Category {
+    Starter,
+    Main,
+    Entremet,
+    Dessert,
+    SoftDrink,
+    Beer,
+    Wine,
+    SpiritDrink,
+    Coffee,
+}
+@enduml

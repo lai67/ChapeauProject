@@ -1,0 +1,13 @@
+@startuml
+class OrderItemDao {
+    + CreateOrderItem(orderItem:OrderItem) : void
+    + GetOrderItemsByOrderId(orderId:int) : List<OrderItem>
+    + UpdateOrderItemCount(orderItem:OrderItem) : void
+    + IfOrderItemExists(orderId:int, menuItemId:int) : bool
+    + UpdateOrderItemCount(orderId:int, menuItemId:int, newCount:int) : void
+    + CountRunningItemsByTableId(tableId:int) : int
+    + GetReadyItemsByTableId(tableId:int) : List<OrderItem>
+    + MarkAllReadyServedByTableId(tableId:int) : void
+}
+BaseDao <|-- OrderItemDao
+@enduml
