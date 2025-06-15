@@ -1,2 +1,102 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram /> 
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Model.Bill">
+    <Position X="0.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAEAACAAAAQACACAQAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Bill.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.Employee">
+    <Position X="4.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAEAAAAAAAAAAEAAAAAAAAAAAAAACAAAAAAAAAAg=</HashCode>
+      <FileName>Employee.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.MenuModel">
+    <Position X="7.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MenuModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.BillItem">
+    <Position X="2.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQCAAAAAAAAAAASAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BillItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.SubBill">
+    <Position X="0.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAYAAAQCAAAAQACACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SubBill.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.Table">
+    <Position X="9.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAEAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Table.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.MenuItemModel">
+    <Position X="6" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAASAAAAAQCAAAAAgAAAgAQAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MenuItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.Order">
+    <Position X="2.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAIAAAAAACAAAAEAAQgAACAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Order.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.OrderItem">
+    <Position X="7.75" Y="3" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Model.OrderItem.OrderStatus" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>OrderItem.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>EAACAAAEAAAAABAAAgAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OrderItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Model.Role">
+    <Position X="4.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAACBCAAAAAAAAAAAAA=</HashCode>
+      <FileName>Employee.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Model.MenuType">
+    <Position X="6" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>MenuModel.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Model.TableStatus">
+    <Position X="9.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Table.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Model.Item_Category">
+    <Position X="6" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAIAAAAgCAAAAAIhgAAAAA=</HashCode>
+      <FileName>MenuItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
