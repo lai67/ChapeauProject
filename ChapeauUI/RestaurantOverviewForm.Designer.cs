@@ -541,7 +541,7 @@
             panelFreeActions.Controls.Add(btnOccupyHere);
             panelFreeActions.Controls.Add(pictureBox2);
             panelFreeActions.Controls.Add(lblFreeHeader);
-            panelFreeActions.Location = new Point(44, 158);
+            panelFreeActions.Location = new Point(46, 158);
             panelFreeActions.Name = "panelFreeActions";
             panelFreeActions.Size = new Size(753, 298);
             panelFreeActions.TabIndex = 41;
@@ -616,7 +616,7 @@
             panel1.Controls.Add(picBar9);
             panel1.Controls.Add(picBar4);
             panel1.Controls.Add(picBar2);
-            panel1.Location = new Point(32, 158);
+            panel1.Location = new Point(28, 158);
             panel1.Name = "panel1";
             panel1.Size = new Size(796, 328);
             panel1.TabIndex = 41;

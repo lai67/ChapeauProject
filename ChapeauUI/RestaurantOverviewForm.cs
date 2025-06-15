@@ -23,7 +23,7 @@ namespace ChapeauUI
         private int _selectedTableNumber;
 
 
-        private readonly System.Windows.Forms.Timer _refreshTimer = new System.Windows.Forms.Timer { Interval = 5000 };
+        private readonly System.Windows.Forms.Timer _refreshTimer = new System.Windows.Forms.Timer { Interval = 10000 };
         public RestaurantOverviewForm(Employee currentEmpoyee)
         {
             InitializeComponent();
@@ -105,7 +105,7 @@ namespace ChapeauUI
         }
 
         // 2) Show the free panel for the selected table
-        //--------------------------------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------------------------------
         private void ShowFreePanel(int tableNumber)
         {
             _selectedTableNumber = tableNumber;
