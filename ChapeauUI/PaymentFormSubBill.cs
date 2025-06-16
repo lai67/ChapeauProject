@@ -19,13 +19,21 @@ namespace ChapeauUI
         private int splitValue = 1; // Default split value
         private bool isLoaded = false;
         private bool forceClose = false; // Flag to allow form closure
+        private bool userCancelled = false;
+        private bool isPaid = false;
         private int guestNumber = 1;
         private decimal remainingAmount;
+        public bool UserCancelled
+        {
+            get { return userCancelled; }
+            set { userCancelled = value; }
+        }
         public PaymentFormSubBill(SubBill subBill)
         {
             InitializeComponent();
             this.FormClosing += PaymentFormSubBill_FormClosing; // ensures form cannot be closed until all guests are processed
             this.subBill = subBill;
+            isPaid = subBill.IsPaid;
             rdBtnTipPct0.Checked = true;
             remainingAmount = subBill.Price;
             LoadTipButtons();
@@ -76,7 +84,7 @@ namespace ChapeauUI
         {
             var (splitPrice, priceWithTip) = GetCurrentGuestPrices();
 
-            if (rdBtnCard.Checked) 
+            if (rdBtnCard.Checked)
             {
                 MessageBox.Show($"Guest {guestNumber} paid {priceWithTip:0.00} by card including tip.");
             }
@@ -103,6 +111,8 @@ namespace ChapeauUI
                 MessageBox.Show("All guests have been processed.");
                 richTextBoxFeedback.Clear();
                 forceClose = true; // Allow form to close after all guests are processed
+                subBill.IsPaid = true; // Mark the sub-bill as paid
+                userCancelled = false; // Reset userCancelled flag
                 this.Close();
                 return;
             }
@@ -175,6 +185,23 @@ namespace ChapeauUI
             {
                 MessageBox.Show("You must process all guests before closing the form.");
                 e.Cancel = true;
+            }
+        }
+
+        private void btnCancelPayment_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Are you sure you want to cancel the payment and return to the bill?",
+                "Cancel Payment",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
+            {
+                userCancelled = true;
+                forceClose = true; // Allow form to close
+                subBill.IsPaid = false; // Mark the sub-bill as not paid
+                this.Close();
             }
         }
     }

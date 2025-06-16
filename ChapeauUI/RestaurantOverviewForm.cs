@@ -338,8 +338,8 @@ namespace ChapeauUI
                 int orderId = order.Id;
 
                 // Step 3: Pass order ID to BillForm
-                var billForm = new BillForm(orderId);
-                billForm.Show();
+                BillForm billForm = new BillForm(orderId);
+                billForm.ShowDialog();
                 this.Hide();
             }
             else

@@ -15,7 +15,9 @@ namespace Model
         public int OrderId { get; set; }
         public decimal Tip { get; set; }
         public string Feedback { get; set; }
+        public SubBill subBill { get; set; }
         //navigation property
         public List<SubBill> SubBills { get; set; }
+        public bool IsPaid { get; set; }
     }
 }

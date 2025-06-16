@@ -21,6 +21,8 @@ namespace ChapeauUI
         private BillService billService;
         private List<BillItem> billItems; // Cached full bill items with VAT
         private List<BillItem> subBillItems;
+        private Bill currentBill;
+        private SubBill currentSubBill;
         public BillForm(int orderId)
         {
             InitializeComponent();
@@ -57,11 +59,11 @@ namespace ChapeauUI
             LoadBillColumns();
             LoadSubBillColumns();
             // Get the bill related to this order
-            Bill bill = billService.GetBillByOrderId(orderId);
+            currentBill = billService.GetBillByOrderId(orderId);
 
-            if (bill != null)
+            if (currentBill != null)
             {
-                billItems = billService.GetOrderedItemsForBill(bill.BillId);
+                billItems = billService.GetOrderedItemsForBill(currentBill.BillId);
                 FillListView(lstViewBill, billItems);
             }
             else
@@ -242,6 +244,7 @@ namespace ChapeauUI
                 }
             }
 
+            // After payment, clear the sub-bill
             subBillItems.Clear();
 
             FillListView(lstViewBill, billItems);
@@ -269,12 +272,22 @@ namespace ChapeauUI
             PaymentFormCompleteBill paymentForm = new PaymentFormCompleteBill(bill);
             paymentForm.ShowDialog();
 
+            if (paymentForm.UserCancelled)
+            {
+                return;
+            }
+
             // ✅ After payment, clear the sub-bill
             billItems.Clear();
             UpdateBillListView();
             UpdateBillVatAndTotalLabels();
-
             MessageBox.Show("bill has been paid.");
+            currentBill = bill;
+            currentBill.IsPaid = true; // Mark the bill as paid
+            if (BillsPaid(currentBill, currentSubBill))
+            {
+                this.Close(); // Close the form if both bills are paid
+            }
         }
 
         // combine methods above and below
@@ -298,12 +311,24 @@ namespace ChapeauUI
             PaymentFormSubBill paymentForm = new PaymentFormSubBill(subBill);
             paymentForm.ShowDialog();
 
-            // ✅ After payment, clear the sub-bill
+            // Check if the user canceled the payment
+            if (paymentForm.UserCancelled)
+            {
+                return;
+            }
+
+            // After payment, clear the sub-bill
             subBillItems.Clear();
             UpdateSubBillListView();
             UpdateSubBillVatAndTotalLabels();
 
             MessageBox.Show("Sub-bill has been paid.");
+            currentSubBill = subBill;
+            currentSubBill.IsPaid = true; // Mark the bill as paid
+            if (BillsPaid(currentBill, currentSubBill))
+            {
+                this.Close(); // Close the form if both bills are paid
+            }
         }
         private decimal CalculateTotal(List<BillItem> items, out decimal vatTotal)
         {
@@ -364,6 +389,18 @@ namespace ChapeauUI
             }
 
             return lowVatTotal;
+        }
+        private bool BillsPaid(Bill currentBill, SubBill currentSubBill)
+        {
+            if (currentBill.IsPaid && currentSubBill.IsPaid)
+            {
+                MessageBox.Show("Both bills are paid. Form is closing.");
+                return true; // Both bills are paid, allow closing
+            }
+            else
+            {
+                return false; // Prevent closing if bills are not paid
+            }
         }
     }
 }

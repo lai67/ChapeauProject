@@ -61,6 +61,7 @@
             rdBtnCard = new RadioButton();
             paymentButtons = new GroupBox();
             groupBox1 = new GroupBox();
+            btnCancelPayment = new Button();
             paymentButtons.SuspendLayout();
             groupBox1.SuspendLayout();
             SuspendLayout();
@@ -139,9 +140,9 @@
             // btnFinalizePayment
             // 
             btnFinalizePayment.BackColor = SystemColors.ButtonShadow;
-            btnFinalizePayment.Location = new Point(90, 585);
+            btnFinalizePayment.Location = new Point(273, 585);
             btnFinalizePayment.Name = "btnFinalizePayment";
-            btnFinalizePayment.Size = new Size(339, 49);
+            btnFinalizePayment.Size = new Size(156, 49);
             btnFinalizePayment.TabIndex = 126;
             btnFinalizePayment.Text = "Finalize Payment";
             btnFinalizePayment.UseVisualStyleBackColor = false;
@@ -408,11 +409,23 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "groupBox1";
             // 
+            // btnCancelPayment
+            // 
+            btnCancelPayment.BackColor = SystemColors.ButtonShadow;
+            btnCancelPayment.Location = new Point(92, 585);
+            btnCancelPayment.Name = "btnCancelPayment";
+            btnCancelPayment.Size = new Size(158, 49);
+            btnCancelPayment.TabIndex = 159;
+            btnCancelPayment.Text = "Cancel Payment";
+            btnCancelPayment.UseVisualStyleBackColor = false;
+            btnCancelPayment.Click += btnCancelPayment_Click;
+            // 
             // PaymentFormSubBill
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(521, 651);
+            Controls.Add(btnCancelPayment);
             Controls.Add(groupBox1);
             Controls.Add(paymentButtons);
             Controls.Add(lblTotalForGuest);
@@ -479,5 +492,6 @@
         private RadioButton rdBtnCard;
         private GroupBox paymentButtons;
         private GroupBox groupBox1;
+        private Button btnCancelPayment;
     }
 }

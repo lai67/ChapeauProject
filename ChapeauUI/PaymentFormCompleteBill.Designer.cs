@@ -61,6 +61,7 @@
             richTextBoxFeedback = new RichTextBox();
             lblFeedbackFromCustomer = new Label();
             lblTipPercent = new Label();
+            btnCancelPayment = new Button();
             groupBox1.SuspendLayout();
             paymentButtons.SuspendLayout();
             SuspendLayout();
@@ -281,9 +282,9 @@
             // btnFinalizePayment
             // 
             btnFinalizePayment.BackColor = SystemColors.ButtonShadow;
-            btnFinalizePayment.Location = new Point(85, 585);
+            btnFinalizePayment.Location = new Point(268, 585);
             btnFinalizePayment.Name = "btnFinalizePayment";
-            btnFinalizePayment.Size = new Size(339, 49);
+            btnFinalizePayment.Size = new Size(158, 49);
             btnFinalizePayment.TabIndex = 148;
             btnFinalizePayment.Text = "Finalize Payment";
             btnFinalizePayment.UseVisualStyleBackColor = false;
@@ -408,11 +409,23 @@
             lblTipPercent.TabIndex = 136;
             lblTipPercent.Text = "Tip percent:";
             // 
+            // btnCancelPayment
+            // 
+            btnCancelPayment.BackColor = SystemColors.ButtonShadow;
+            btnCancelPayment.Location = new Point(87, 585);
+            btnCancelPayment.Name = "btnCancelPayment";
+            btnCancelPayment.Size = new Size(158, 49);
+            btnCancelPayment.TabIndex = 158;
+            btnCancelPayment.Text = "Cancel Payment";
+            btnCancelPayment.UseVisualStyleBackColor = false;
+            btnCancelPayment.Click += btnCancelPayment_Click;
+            // 
             // PaymentFormCompleteBill
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(521, 651);
+            Controls.Add(btnCancelPayment);
             Controls.Add(groupBox1);
             Controls.Add(paymentButtons);
             Controls.Add(lblTotalForGuest);
@@ -479,5 +492,6 @@
         private RichTextBox richTextBoxFeedback;
         private Label lblFeedbackFromCustomer;
         private Label lblTipPercent;
+        private Button btnCancelPayment;
     }
 }

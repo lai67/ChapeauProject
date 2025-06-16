@@ -22,11 +22,19 @@ namespace ChapeauUI
         private bool forceClose = false; // Flag to allow form closure
         private int guestNumber = 1;
         private decimal remainingAmount;
+        private bool userCancelled = false;
+        private bool isPaid = false;
+        public bool UserCancelled
+        {
+            get { return userCancelled; }
+            set { userCancelled = value; }
+        }
         public PaymentFormCompleteBill(Bill bill)
         {
             InitializeComponent();
             this.FormClosing += PaymentFormCompleteBill_FormClosing; // ensures form cannot be closed until all guests are processed
             this.bill = bill;
+            isPaid = bill.IsPaid;
             rdBtnTipPct0.Checked = true;
             remainingAmount = bill.TotalPrice;
             LoadTipButtons();
@@ -160,7 +168,9 @@ namespace ChapeauUI
             {
                 MessageBox.Show("All guests have been processed.");
                 richTextBoxFeedback.Clear();
+                userCancelled = false; // Reset userCancelled flag
                 forceClose = true; // Allow form to close
+                bill.IsPaid = true;
                 this.Close();
                 return;
             }
@@ -179,6 +189,23 @@ namespace ChapeauUI
             {
                 MessageBox.Show("You must process all guests before closing the form.");
                 e.Cancel = true;
+            }
+        }
+
+        private void btnCancelPayment_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Are you sure you want to cancel the payment and return to the bill?",
+                "Cancel Payment",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
+            {
+                userCancelled = true;
+                forceClose = true; // Allow form to close
+                bill.IsPaid = false;
+                this.Close();
             }
         }
     }
