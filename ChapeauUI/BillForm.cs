@@ -21,6 +21,8 @@ namespace ChapeauUI
         private BillService billService;
         private List<BillItem> billItems; // Cached full bill items with VAT
         private List<BillItem> subBillItems;
+        private Bill currentBill;
+        private SubBill currentSubBill;
         public BillForm(int orderId)
         {
             InitializeComponent();
@@ -28,16 +30,10 @@ namespace ChapeauUI
             subBillItems = new List<BillItem>();
             this.orderId = orderId;
         }
-        private void FillListView(ListView listView, List<BillItem> billItems)
+        private void FillListView(ListView listView, List<BillItem> items)
         {
             listView.Items.Clear();
-
-            decimal vatTotal;
-            decimal vatHighTotal;
-            decimal billTotal = CalculateTotal(billItems, out vatTotal);
-            decimal vatLowTotal = CalculateLowAndHighVat(billItems, out vatLowTotal, out vatHighTotal);
-
-            foreach (var item in billItems)
+            foreach (var item in items)
             {
                 decimal itemTotal = item.Price * item.Amount;
                 ListViewItem listItem = new ListViewItem(item.Name);
@@ -46,23 +42,18 @@ namespace ChapeauUI
                 listItem.SubItems.Add(itemTotal.ToString("C"));
                 listView.Items.Add(listItem);
             }
-
-            lblTotalPriceValueBill.Text = $"€{(billTotal + vatTotal):0.00}"; // Grand total (including VAT)
-            lblVatValueCompBill.Text = $"€{vatTotal:0.00}";
-            lblVatLowBillValue.Text = $"€{vatLowTotal:0.00}";
-            lblVatHighBillValue.Text = $"€{vatHighTotal:0.00}";
         }
 
         private void BillForm_Load(object sender, EventArgs e)
         {
-            LoadBillColumns();
-            LoadSubBillColumns();
+            LoadColumns(lstViewBill);
+            LoadColumns(listViewSubBill);
             // Get the bill related to this order
-            Bill bill = billService.GetBillByOrderId(orderId);
+            currentBill = billService.GetBillByOrderId(orderId);
 
-            if (bill != null)
+            if (currentBill != null)
             {
-                billItems = billService.GetOrderedItemsForBill(bill.BillId);
+                billItems = billService.GetOrderedItemsForBill(currentBill.BillId);
                 FillListView(lstViewBill, billItems);
             }
             else
@@ -70,100 +61,22 @@ namespace ChapeauUI
                 MessageBox.Show("No bill found for this order.");
             }
         }
-        private void LoadBillColumns()
-        {
-            // Setup ListView columns
-            lstViewBill.View = View.Details;
-            lstViewBill.FullRowSelect = true;
-            lstViewBill.Columns.Clear();
-            lstViewBill.Columns.Add("Name", 171);
-            lstViewBill.Columns.Add("Price", 85);
-            lstViewBill.Columns.Add("Amount", 85);
-            lstViewBill.Columns.Add("Total", 85);
-        }
-
-        // create method LoadColumns with a listView parameter
-
-        private void LoadSubBillColumns()
-        {
-            // Setup ListView columns for sub-bill
-            listViewSubBill.View = View.Details;
-            listViewSubBill.FullRowSelect = true;
-            listViewSubBill.Columns.Clear();
-            listViewSubBill.Columns.Add("Name", 171);
-            listViewSubBill.Columns.Add("Price", 85);
-            listViewSubBill.Columns.Add("Amount", 85);
-            listViewSubBill.Columns.Add("Total", 85);
-        }
         private void btnAddToSubBill_Click(object sender, EventArgs e)
         {
-            if (lstViewBill.SelectedItems.Count == 0)
-            {
-                MessageBox.Show("Please select an item to add.");
+            if (!TryGetSelectedBillItem(out string name, out decimal price))
                 return;
-            }
 
-            var selectedItem = lstViewBill.SelectedItems[0];
-
-            string name = selectedItem.SubItems[0].Text;
-            decimal price = decimal.Parse(selectedItem.SubItems[1].Text, NumberStyles.Currency);
-
-            // Check if the item already exists in the sub-bill
-            BillItem mainItem = billItems.FirstOrDefault(i => i.Name == name && i.Amount > 0);
-
+            BillItem mainItem = FindMainBillItem(name);
             if (mainItem == null)
             {
                 MessageBox.Show("No more of this item left to add.");
                 return;
             }
 
-            // decrement the amount in the main bill
-            mainItem.Amount--;
-
-            // Add or increment in sub-bill
-            BillItem subItem = subBillItems.FirstOrDefault(i => i.Name == name);
-
-            if (subItem != null)
-            {
-                // If item already exists in sub-bill, increment the amount
-                subItem.Amount++;
-            }
-            else
-            {
-                // If item does not exist, create a new one
-                BillItem newItem = new BillItem
-                {
-                    Name = name,
-                    Price = price,
-                    Vat = mainItem.Vat,  // ✅ Correct VAT
-                    Amount = 1
-                };
-                subBillItems.Add(newItem);
-            }
-
-            // Remove from main bill if amount is zero
-            if (mainItem.Amount == 0)
-            {
-                billItems.Remove(mainItem);
-            }
-
-            FillListView(lstViewBill, billItems);
-            UpdateSubBillListView();
-            UpdateSubBillVatAndTotalLabels();
-        }
-        private void UpdateSubBillListView()
-        {
-            listViewSubBill.Items.Clear();
-
-            foreach (var item in subBillItems)
-            {
-                decimal itemTotal = item.Price * item.Amount; // Exclude VAT here
-                ListViewItem listItem = new ListViewItem(item.Name);
-                listItem.SubItems.Add(item.Price.ToString("C"));
-                listItem.SubItems.Add(item.Amount.ToString());
-                listItem.SubItems.Add(itemTotal.ToString("C"));
-                listViewSubBill.Items.Add(listItem);
-            }
+            DecrementMainBillItem(mainItem);
+            AddOrIncrementSubBillItem(name, price, mainItem);
+            RemoveMainBillItemIfZero(mainItem);
+            UpdateBillAndSubBillViews();
         }
         private void btnRemoveFromSubBill_Click(object sender, EventArgs e)
         {
@@ -176,7 +89,7 @@ namespace ChapeauUI
             var selectedItem = listViewSubBill.SelectedItems[0];
             string name = selectedItem.SubItems[0].Text;
 
-            BillItem subItem = subBillItems.FirstOrDefault(i => i.Name == name);
+            BillItem subItem = FindSubBillItem(name);
 
             if (subItem != null)
             {
@@ -186,81 +99,54 @@ namespace ChapeauUI
                     subBillItems.Remove(subItem);
                 }
 
-                // increment in main bill
-                BillItem mainItem = billItems.FirstOrDefault(i => i.Name == name);
-                if (mainItem != null)
-                {
-                    mainItem.Amount++;
-                }
-                else
-                {
-                    billItems.Add(new BillItem
-                    {
-                        Name = name,
-                        Price = subItem.Price,
-                        Vat = subItem.Vat,
-                        Amount = 1 // Add back with 1 amount
-                    });
-                }
-                FillListView(lstViewBill, billItems);
-                UpdateSubBillListView();
-                UpdateSubBillVatAndTotalLabels();
+                AddOrIncrementMainBillItem(name, subItem.Price, subItem.Vat);
+                UpdateBillAndSubBillViews();
             }
         }
 
         private void btnRemoveAllFromSubBill_Click(object sender, EventArgs e)
         {
-            // Restore all sub-bill items to the main bill
-            foreach (var subItem in subBillItems)
-            {
-                var mainItem = billItems.FirstOrDefault(i => i.Name == subItem.Name);
-                if (mainItem != null)
-                {
-                    mainItem.Amount += subItem.Amount;
-                }
-                else
-                {
-                    // Add back as a new item if it doesn't exist in the main bill
-                    billItems.Add(new BillItem
-                    {
-                        Name = subItem.Name,
-                        Price = subItem.Price,
-                        Vat = subItem.Vat,
-                        Amount = subItem.Amount
-                    });
-                }
-            }
-
+            RestoreAllSubBillItemsToMainBill();
             subBillItems.Clear();
-
-            FillListView(lstViewBill, billItems);
-            UpdateSubBillListView();
-
-            UpdateSubBillVatAndTotalLabels();
+            UpdateBillAndSubBillViews();
         }
 
         private void btnPayBill_Click(object sender, EventArgs e)
         {
-            decimal billTotal = CalculateTotal(billItems, out decimal vatTotal);
+            if (IsBillEmpty())
+            {
+                ShowBillEmptyMessage();
+                return;
+            }
 
-            PaymentFormCompleteBill paymentForm = new PaymentFormCompleteBill(billTotal);
-            paymentForm.ShowDialog();
+            decimal billTotalExclVat = CalculateTotal(billItems, out decimal vatTotal);
+            Bill bill = CreateBillForPayment(billTotalExclVat + vatTotal);
+
+            if (!ShowCompleteBillPaymentForm(bill))
+                return;
+
+            ClearBill();
+            AfterBillPaid(bill);
         }
 
         // combine methods above and below
 
         private void btnPaySubBill_Click(object sender, EventArgs e)
         {
+            if (IsSubBillEmpty())
+            {
+                ShowSubBillEmptyMessage();
+                return;
+            }
+
             decimal subBillTotalExclVat = CalculateTotal(subBillItems, out decimal vatTotal);
+            SubBill subBill = CreateSubBillForPayment(subBillTotalExclVat + vatTotal);
 
-            // Create a Bill object with the sub-bill total
-            SubBill subBill = new SubBill();
+            if (!ShowSubBillPaymentForm(subBill))
+                return;
 
-            subBill.Price = subBillTotalExclVat + vatTotal;
-
-            // Pass the Bill object to the payment form
-            PaymentFormSubBill paymentForm = new PaymentFormSubBill(subBill);
-            paymentForm.ShowDialog();
+            ClearSubBill();
+            AfterSubBillPaid(subBill);
         }
         private decimal CalculateTotal(List<BillItem> items, out decimal vatTotal)
         {
@@ -279,14 +165,19 @@ namespace ChapeauUI
         }
         private void UpdateSubBillVatAndTotalLabels()
         {
-            decimal vatTotal;
-            decimal highVatTotal;
-            decimal subBillTotal = CalculateTotal(subBillItems, out vatTotal);
-            decimal lowVatTotal = CalculateLowAndHighVat(subBillItems, out lowVatTotal, out highVatTotal);
-            lblSubBillTotalValue.Text = $"€{(subBillTotal + vatTotal):0.00}";
-            lblVatValueSubBill.Text = $"€{vatTotal:0.00}";
-            lblVatLowValueSubBill.Text = $"€{lowVatTotal:0.00}"; // Low VAT total (9%)
-            lblVatHighValueSubBill.Text = $"€{highVatTotal:0.00}"; // High VAT total (21%)
+            var (subBillTotal, vatTotal) = GetTotalAndVat(subBillItems);
+            var (lowVatTotal, highVatTotal) = GetLowAndHighVat(subBillItems);
+            SetVatAndTotalLabels(
+                lblSubBillTotalValue, lblVatValueSubBill, lblVatLowValueSubBill, lblVatHighValueSubBill,
+                subBillTotal, vatTotal, lowVatTotal, highVatTotal);
+        }
+        private void UpdateBillVatAndTotalLabels()
+        {
+            var (billTotal, vatTotal) = GetTotalAndVat(billItems);
+            var (lowVatTotal, highVatTotal) = GetLowAndHighVat(billItems);
+            SetVatAndTotalLabels(
+                lblTotalPriceValueBill, lblVatValueCompBill, lblVatLowBillValue, lblVatHighBillValue,
+                billTotal, vatTotal, lowVatTotal, highVatTotal);
         }
         private decimal CalculateLowAndHighVat(List<BillItem> items, out decimal lowVatTotal, out decimal highVatTotal)
         {
@@ -311,10 +202,222 @@ namespace ChapeauUI
 
             return lowVatTotal;
         }
-
-        private void lblVatValueCompBill_Click(object sender, EventArgs e)
+        private bool BillsPaid(Bill currentBill, SubBill currentSubBill)
         {
+            if (currentBill != null && currentBill.IsPaid &&
+                currentSubBill != null && currentSubBill.IsPaid)
+            {
+                MessageBox.Show("Both bills are paid. Form is closing.");
+                return true; // Both bills are paid, allow closing
+            }
+            else
+            {
+                return false; // Prevent closing if bills are not paid
+            }
+        }
+        private void LoadColumns(ListView listView)
+        {
+            listView.View = View.Details;
+            listView.FullRowSelect = true;
+            listView.Columns.Clear();
+            listView.Columns.Add("Name", 171);
+            listView.Columns.Add("Price", 85);
+            listView.Columns.Add("Amount", 85);
+            listView.Columns.Add("Total", 85);
+        }
+        private BillItem FindMainBillItem(string name)
+        {
+            return billItems.FirstOrDefault(i => i.Name == name && i.Amount > 0);
+        }
 
+        private void DecrementMainBillItem(BillItem mainItem)
+        {
+            mainItem.Amount--;
+        }
+
+        private void AddOrIncrementSubBillItem(string name, decimal price, BillItem mainItem)
+        {
+            BillItem subItem = subBillItems.FirstOrDefault(i => i.Name == name);
+            if (subItem != null)
+            {
+                subItem.Amount++;
+            }
+            else
+            {
+                subBillItems.Add(new BillItem
+                {
+                    Name = name,
+                    Price = price,
+                    Vat = mainItem.Vat,
+                    Amount = 1
+                });
+            }
+        }
+
+        private void RemoveMainBillItemIfZero(BillItem mainItem)
+        {
+            if (mainItem.Amount == 0)
+            {
+                billItems.Remove(mainItem);
+            }
+        }
+        private bool TryGetSelectedBillItem(out string name, out decimal price)
+        {
+            name = null;
+            price = 0;
+            if (lstViewBill.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Please select an item to add.");
+                return false;
+            }
+            var selectedItem = lstViewBill.SelectedItems[0];
+            name = selectedItem.SubItems[0].Text;
+            price = decimal.Parse(selectedItem.SubItems[1].Text, NumberStyles.Currency);
+            return true;
+        }
+        private void UpdateBillAndSubBillViews()
+        {
+            FillListView(lstViewBill, billItems);
+            FillListView(listViewSubBill, subBillItems);
+            UpdateSubBillVatAndTotalLabels();
+        }
+        private BillItem FindSubBillItem(string name)
+        {
+            return subBillItems.FirstOrDefault(i => i.Name == name);
+        }
+
+        private void AddOrIncrementMainBillItem(string name, decimal price, decimal vat, int amount = 1)
+        {
+            BillItem mainItem = billItems.FirstOrDefault(i => i.Name == name);
+            if (mainItem != null)
+            {
+                mainItem.Amount += amount;
+            }
+            else
+            {
+                billItems.Add(new BillItem
+                {
+                    Name = name,
+                    Price = price,
+                    Vat = vat,
+                    Amount = amount
+                });
+            }
+        }
+        private void RestoreAllSubBillItemsToMainBill()
+        {
+            foreach (var subItem in subBillItems)
+            {
+                AddOrIncrementMainBillItem(subItem.Name, subItem.Price, subItem.Vat, subItem.Amount);
+            }
+        }
+        private bool IsBillEmpty()
+        {
+            return billItems.Count == 0;
+        }
+
+        private void ShowBillEmptyMessage()
+        {
+            MessageBox.Show("Bill is empty. Please add items before paying.");
+        }
+
+        private Bill CreateBillForPayment(decimal total)
+        {
+            return new Bill
+            {
+                TotalPrice = total
+            };
+        }
+
+        private bool ShowCompleteBillPaymentForm(Bill bill)
+        {
+            PaymentFormCompleteBill paymentForm = new PaymentFormCompleteBill(bill);
+            paymentForm.ShowDialog();
+            return !paymentForm.UserCancelled;
+        }
+
+        private void ClearBill()
+        {
+            billItems.Clear();
+            FillListView(lstViewBill, billItems);
+            UpdateBillVatAndTotalLabels();
+        }
+
+        private void AfterBillPaid(Bill bill)
+        {
+            MessageBox.Show("bill has been paid.");
+            currentBill = bill;
+            currentBill.IsPaid = true; // Mark the bill as paid
+            if (BillsPaid(currentBill, currentSubBill))
+            {
+                LoadColumns(lstViewBill);
+                LoadColumns(listViewSubBill);
+                this.Close(); // Close the form if both bills are paid
+            }
+        }
+        private bool IsSubBillEmpty()
+        {
+            return subBillItems.Count == 0;
+        }
+
+        private void ShowSubBillEmptyMessage()
+        {
+            MessageBox.Show("Sub-bill is empty. Please add items before paying.");
+        }
+
+        private SubBill CreateSubBillForPayment(decimal total)
+        {
+            return new SubBill
+            {
+                Price = total
+            };
+        }
+
+        private bool ShowSubBillPaymentForm(SubBill subBill)
+        {
+            PaymentFormSubBill paymentForm = new PaymentFormSubBill(subBill);
+            paymentForm.ShowDialog();
+            return !paymentForm.UserCancelled;
+        }
+
+        private void ClearSubBill()
+        {
+            subBillItems.Clear();
+            FillListView(listViewSubBill, subBillItems);
+            UpdateSubBillVatAndTotalLabels();
+        }
+
+        private void AfterSubBillPaid(SubBill subBill)
+        {
+            MessageBox.Show("Sub-bill has been paid.");
+            currentSubBill = subBill;
+            currentSubBill.IsPaid = true; // Mark the sub-bill as paid
+            if (BillsPaid(currentBill, currentSubBill))
+            {
+                this.Close(); // Close the form if both bills are paid
+            }
+        }
+        private (decimal total, decimal vatTotal) GetTotalAndVat(List<BillItem> items)
+        {
+            decimal vatTotal;
+            decimal total = CalculateTotal(items, out vatTotal);
+            return (total, vatTotal);
+        }
+
+        private (decimal lowVatTotal, decimal highVatTotal) GetLowAndHighVat(List<BillItem> items)
+        {
+            decimal lowVatTotal, highVatTotal;
+            CalculateLowAndHighVat(items, out lowVatTotal, out highVatTotal);
+            return (lowVatTotal, highVatTotal);
+        }
+        private void SetVatAndTotalLabels(
+            Label totalLabel, Label vatLabel, Label lowVatLabel, Label highVatLabel,
+            decimal total, decimal vatTotal, decimal lowVatTotal, decimal highVatTotal)
+        {
+            totalLabel.Text = $"€{(total + vatTotal):0.00}";
+            vatLabel.Text = $"€{vatTotal:0.00}";
+            lowVatLabel.Text = $"€{lowVatTotal:0.00}";
+            highVatLabel.Text = $"€{highVatTotal:0.00}";
         }
     }
 }

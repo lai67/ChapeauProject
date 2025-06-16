@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Identity.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,5 +18,6 @@ namespace Model
 
         // Navigation property
         public Bill Bill { get; set; }
+        public bool IsPaid { get; set; }
     }
 }

@@ -167,7 +167,6 @@
             lblVatValueCompBill.Size = new Size(44, 20);
             lblVatValueCompBill.TabIndex = 13;
             lblVatValueCompBill.Text = "€0,00";
-            lblVatValueCompBill.Click += lblVatValueCompBill_Click;
             // 
             // lblTotalPriceValueBill
             // 

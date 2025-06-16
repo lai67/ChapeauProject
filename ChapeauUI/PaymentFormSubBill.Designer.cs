@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            lblTotalPerPerson = new Label();
+            lblTotalForGuest = new Label();
             btnSplitIncrement = new Button();
             btnSplitDecrement = new Button();
             lblSplitValue = new Label();
@@ -59,17 +59,22 @@
             lblTipPercent = new Label();
             rdBtnCash = new RadioButton();
             rdBtnCard = new RadioButton();
+            paymentButtons = new GroupBox();
+            groupBox1 = new GroupBox();
+            btnCancelPayment = new Button();
+            paymentButtons.SuspendLayout();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
-            // lblTotalPerPerson
+            // lblTotalForGuest
             // 
-            lblTotalPerPerson.AutoSize = true;
-            lblTotalPerPerson.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            lblTotalPerPerson.Location = new Point(165, 128);
-            lblTotalPerPerson.Name = "lblTotalPerPerson";
-            lblTotalPerPerson.Size = new Size(180, 28);
-            lblTotalPerPerson.TabIndex = 133;
-            lblTotalPerPerson.Text = "Total Per Person: €0";
+            lblTotalForGuest.AutoSize = true;
+            lblTotalForGuest.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTotalForGuest.Location = new Point(165, 128);
+            lblTotalForGuest.Name = "lblTotalForGuest";
+            lblTotalForGuest.Size = new Size(190, 28);
+            lblTotalForGuest.TabIndex = 133;
+            lblTotalForGuest.Text = "Total For Guest 1: €0";
             // 
             // btnSplitIncrement
             // 
@@ -135,9 +140,9 @@
             // btnFinalizePayment
             // 
             btnFinalizePayment.BackColor = SystemColors.ButtonShadow;
-            btnFinalizePayment.Location = new Point(90, 585);
+            btnFinalizePayment.Location = new Point(273, 585);
             btnFinalizePayment.Name = "btnFinalizePayment";
-            btnFinalizePayment.Size = new Size(339, 49);
+            btnFinalizePayment.Size = new Size(156, 49);
             btnFinalizePayment.TabIndex = 126;
             btnFinalizePayment.Text = "Finalize Payment";
             btnFinalizePayment.UseVisualStyleBackColor = false;
@@ -236,7 +241,7 @@
             // rdBtnTipPct2
             // 
             rdBtnTipPct2.AutoSize = true;
-            rdBtnTipPct2.Location = new Point(135, 219);
+            rdBtnTipPct2.Location = new Point(37, 4);
             rdBtnTipPct2.Name = "rdBtnTipPct2";
             rdBtnTipPct2.Size = new Size(17, 16);
             rdBtnTipPct2.TabIndex = 116;
@@ -246,7 +251,7 @@
             // rdBtnTipPct5
             // 
             rdBtnTipPct5.AutoSize = true;
-            rdBtnTipPct5.Location = new Point(175, 219);
+            rdBtnTipPct5.Location = new Point(77, 4);
             rdBtnTipPct5.Name = "rdBtnTipPct5";
             rdBtnTipPct5.Size = new Size(17, 16);
             rdBtnTipPct5.TabIndex = 115;
@@ -256,7 +261,7 @@
             // rdBtnTipPct7
             // 
             rdBtnTipPct7.AutoSize = true;
-            rdBtnTipPct7.Location = new Point(213, 219);
+            rdBtnTipPct7.Location = new Point(115, 4);
             rdBtnTipPct7.Name = "rdBtnTipPct7";
             rdBtnTipPct7.Size = new Size(17, 16);
             rdBtnTipPct7.TabIndex = 114;
@@ -266,7 +271,7 @@
             // rdBtnTipPct10
             // 
             rdBtnTipPct10.AutoSize = true;
-            rdBtnTipPct10.Location = new Point(253, 219);
+            rdBtnTipPct10.Location = new Point(155, 4);
             rdBtnTipPct10.Name = "rdBtnTipPct10";
             rdBtnTipPct10.Size = new Size(17, 16);
             rdBtnTipPct10.TabIndex = 113;
@@ -276,7 +281,7 @@
             // rdBtnTipPct12
             // 
             rdBtnTipPct12.AutoSize = true;
-            rdBtnTipPct12.Location = new Point(292, 219);
+            rdBtnTipPct12.Location = new Point(194, 4);
             rdBtnTipPct12.Name = "rdBtnTipPct12";
             rdBtnTipPct12.Size = new Size(17, 16);
             rdBtnTipPct12.TabIndex = 112;
@@ -286,7 +291,7 @@
             // rdBtnTipPct15
             // 
             rdBtnTipPct15.AutoSize = true;
-            rdBtnTipPct15.Location = new Point(328, 219);
+            rdBtnTipPct15.Location = new Point(230, 4);
             rdBtnTipPct15.Name = "rdBtnTipPct15";
             rdBtnTipPct15.Size = new Size(17, 16);
             rdBtnTipPct15.TabIndex = 111;
@@ -296,7 +301,7 @@
             // rdBtnTipPct20
             // 
             rdBtnTipPct20.AutoSize = true;
-            rdBtnTipPct20.Location = new Point(366, 219);
+            rdBtnTipPct20.Location = new Point(268, 4);
             rdBtnTipPct20.Name = "rdBtnTipPct20";
             rdBtnTipPct20.Size = new Size(17, 16);
             rdBtnTipPct20.TabIndex = 110;
@@ -306,7 +311,7 @@
             // rdBtnTipPct25
             // 
             rdBtnTipPct25.AutoSize = true;
-            rdBtnTipPct25.Location = new Point(406, 219);
+            rdBtnTipPct25.Location = new Point(308, 4);
             rdBtnTipPct25.Name = "rdBtnTipPct25";
             rdBtnTipPct25.Size = new Size(17, 16);
             rdBtnTipPct25.TabIndex = 109;
@@ -316,7 +321,7 @@
             // rdBtnTipPct0
             // 
             rdBtnTipPct0.AutoSize = true;
-            rdBtnTipPct0.Location = new Point(98, 219);
+            rdBtnTipPct0.Location = new Point(0, 4);
             rdBtnTipPct0.Name = "rdBtnTipPct0";
             rdBtnTipPct0.Size = new Size(17, 16);
             rdBtnTipPct0.TabIndex = 108;
@@ -330,7 +335,7 @@
             richTextBoxFeedback.Name = "richTextBoxFeedback";
             richTextBoxFeedback.Size = new Size(339, 234);
             richTextBoxFeedback.TabIndex = 107;
-            richTextBoxFeedback.Text = "placeholder";
+            richTextBoxFeedback.Text = "";
             // 
             // lblFeedbackFromCustomer
             // 
@@ -355,7 +360,7 @@
             // rdBtnCash
             // 
             rdBtnCash.BackColor = SystemColors.ButtonShadow;
-            rdBtnCash.Location = new Point(271, 512);
+            rdBtnCash.Location = new Point(183, 5);
             rdBtnCash.Name = "rdBtnCash";
             rdBtnCash.Size = new Size(158, 51);
             rdBtnCash.TabIndex = 104;
@@ -367,7 +372,7 @@
             // rdBtnCard
             // 
             rdBtnCard.BackColor = SystemColors.ButtonShadow;
-            rdBtnCard.Location = new Point(90, 512);
+            rdBtnCard.Location = new Point(2, 5);
             rdBtnCard.Name = "rdBtnCard";
             rdBtnCard.Size = new Size(158, 51);
             rdBtnCard.TabIndex = 103;
@@ -376,12 +381,54 @@
             rdBtnCard.TextAlign = ContentAlignment.MiddleCenter;
             rdBtnCard.UseVisualStyleBackColor = false;
             // 
+            // paymentButtons
+            // 
+            paymentButtons.Controls.Add(rdBtnTipPct10);
+            paymentButtons.Controls.Add(rdBtnTipPct0);
+            paymentButtons.Controls.Add(rdBtnTipPct25);
+            paymentButtons.Controls.Add(rdBtnTipPct20);
+            paymentButtons.Controls.Add(rdBtnTipPct15);
+            paymentButtons.Controls.Add(rdBtnTipPct12);
+            paymentButtons.Controls.Add(rdBtnTipPct7);
+            paymentButtons.Controls.Add(rdBtnTipPct5);
+            paymentButtons.Controls.Add(rdBtnTipPct2);
+            paymentButtons.Location = new Point(98, 216);
+            paymentButtons.Name = "paymentButtons";
+            paymentButtons.Size = new Size(343, 23);
+            paymentButtons.TabIndex = 134;
+            paymentButtons.TabStop = false;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(rdBtnCard);
+            groupBox1.Controls.Add(rdBtnCash);
+            groupBox1.Location = new Point(90, 504);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(341, 62);
+            groupBox1.TabIndex = 135;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "groupBox1";
+            // 
+            // btnCancelPayment
+            // 
+            btnCancelPayment.BackColor = SystemColors.ButtonShadow;
+            btnCancelPayment.Location = new Point(92, 585);
+            btnCancelPayment.Name = "btnCancelPayment";
+            btnCancelPayment.Size = new Size(158, 49);
+            btnCancelPayment.TabIndex = 159;
+            btnCancelPayment.Text = "Cancel Payment";
+            btnCancelPayment.UseVisualStyleBackColor = false;
+            btnCancelPayment.Click += btnCancelPayment_Click;
+            // 
             // PaymentFormSubBill
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(521, 651);
-            Controls.Add(lblTotalPerPerson);
+            Controls.Add(btnCancelPayment);
+            Controls.Add(groupBox1);
+            Controls.Add(paymentButtons);
+            Controls.Add(lblTotalForGuest);
             Controls.Add(btnSplitIncrement);
             Controls.Add(btnSplitDecrement);
             Controls.Add(lblSplitValue);
@@ -398,29 +445,21 @@
             Controls.Add(lblTipPct20);
             Controls.Add(lblTipPct15);
             Controls.Add(lblTipPct2);
-            Controls.Add(rdBtnTipPct2);
-            Controls.Add(rdBtnTipPct5);
-            Controls.Add(rdBtnTipPct7);
-            Controls.Add(rdBtnTipPct10);
-            Controls.Add(rdBtnTipPct12);
-            Controls.Add(rdBtnTipPct15);
-            Controls.Add(rdBtnTipPct20);
-            Controls.Add(rdBtnTipPct25);
-            Controls.Add(rdBtnTipPct0);
             Controls.Add(richTextBoxFeedback);
             Controls.Add(lblFeedbackFromCustomer);
             Controls.Add(lblTipPercent);
-            Controls.Add(rdBtnCash);
-            Controls.Add(rdBtnCard);
             Name = "PaymentFormSubBill";
             Text = "PaymentFormSubBill";
+            paymentButtons.ResumeLayout(false);
+            paymentButtons.PerformLayout();
+            groupBox1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Label lblTotalPerPerson;
+        private Label lblTotalForGuest;
         private Button btnSplitIncrement;
         private Button btnSplitDecrement;
         private Label lblSplitValue;
@@ -451,5 +490,8 @@
         private Label lblTipPercent;
         private RadioButton rdBtnCash;
         private RadioButton rdBtnCard;
+        private GroupBox paymentButtons;
+        private GroupBox groupBox1;
+        private Button btnCancelPayment;
     }
 }
