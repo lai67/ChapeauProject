@@ -48,6 +48,7 @@ namespace ChapeauUI
         {
             LoadColumns(lstViewBill);
             LoadColumns(listViewSubBill);
+
             // Get the bill related to this order
             currentBill = billService.GetBillByOrderId(orderId);
 
@@ -55,10 +56,12 @@ namespace ChapeauUI
             {
                 billItems = billService.GetOrderedItemsForBill(currentBill.BillId);
                 FillListView(lstViewBill, billItems);
+                UpdateBillVatAndTotalLabels(); // <-- Ensure labels are updated after loading items
             }
             else
             {
                 MessageBox.Show("No bill found for this order.");
+                this.Close();
             }
         }
         private void btnAddToSubBill_Click(object sender, EventArgs e)
