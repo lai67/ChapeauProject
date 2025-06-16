@@ -57,7 +57,7 @@ namespace DAL
             foreach (DataRow row in dt.Rows)
             {
                 int tableNumber = row.Field<int>("table_number");
-                string itemLocation = row.Field<string>("item_location");  // was “preparation_location”
+                string itemLocation = row.Field<string>("item_location");
                 int code = row.Field<int>("phase_code");
 
                 // Convert numeric code back to a textual status
@@ -69,21 +69,17 @@ namespace DAL
                     _ => "None"
                 };
 
-                // If this table already has an entry, get its current tuple.
                 dict.TryGetValue(tableNumber, out var current);
 
                 if (itemLocation.Equals("Bar", StringComparison.OrdinalIgnoreCase))
                 {
-                    // Update BarStatus slot, keep current.Kitch unchanged
                     dict[tableNumber] = (status, current.Kitch);
                 }
                 else
                 {
-                    // Update KitchenStatus slot, keep current.Bar unchanged
                     dict[tableNumber] = (current.Bar, status);
                 }
             }
-
             return dict;
         }
 
@@ -138,7 +134,7 @@ namespace DAL
                 return null;
 
             DataRow row = dt.Rows[0];
-            return new Order(
+            return new Order( 
        id: row.Field<int>("id"),
        orderTime: row.Field<DateTime>("order_time"),
        preparationTime: row.Field<int>("preparation_time"),

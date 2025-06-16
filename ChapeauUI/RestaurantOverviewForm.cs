@@ -23,7 +23,7 @@ namespace ChapeauUI
         private int _selectedTableNumber;
 
 
-        private readonly System.Windows.Forms.Timer _refreshTimer = new System.Windows.Forms.Timer { Interval = 10000 };
+        private readonly System.Windows.Forms.Timer _refreshTimer = new System.Windows.Forms.Timer { Interval = 15000 };
         public RestaurantOverviewForm(Employee currentEmpoyee)
         {
             InitializeComponent();
@@ -37,6 +37,15 @@ namespace ChapeauUI
 
             panelFreeActions.Visible = false;
             panelOccActions.Visible = false;
+
+            // Wire panel buttons ONCE here
+            btnOccupyHere.Click += btnOccupyHere_Click;
+            btnCancelFree.Click += BtnCancelFree_Click;
+            btnGoToOrders.Click += BtnGoToOrders_Click;
+            btnMarkAllServed.Click += BtnMarkAllServed_Click;
+            btnFreeHere.Click += BtnFreeHere_Click;
+            btnCancelOcc.Click += BtnCancelOcc_Click;
+            btnRefresh.Click += BtnRefresh_Click;
         }
         private void RestaurantOverviewForm_Load(object sender, EventArgs e)
         {
@@ -75,17 +84,6 @@ namespace ChapeauUI
                 c.Enabled = true;
 
         }
-
-        // 1) Hide all action panels
-        private void HideAllPanels()
-        {
-            panelFreeActions.Visible = false;
-            panelOccActions.Visible = false;
-
-            foreach (Control c in Controls)
-                c.Enabled = true;
-        }
-
         private void TableButton_Click(object sender, EventArgs e)
         {
             if (sender is Button btn && int.TryParse(btn.Text, out int tableNumber))
@@ -105,7 +103,6 @@ namespace ChapeauUI
         }
 
         // 2) Show the free panel for the selected table
-        //------------------------------------------------------------------------------------------------------------------
         private void ShowFreePanel(int tableNumber)
         {
             _selectedTableNumber = tableNumber;
@@ -118,13 +115,6 @@ namespace ChapeauUI
                     c.Enabled = false;
             }
             panelFreeActions.Enabled = true;
-
-            // Wire panel buttons (remove old handlers first)
-            btnOccupyHere.Click -= btnOccupyHere_Click;
-            btnOccupyHere.Click += btnOccupyHere_Click;
-
-            btnCancelFree.Click -= BtnCancelFree_Click;
-            btnCancelFree.Click += BtnCancelFree_Click;
         }
         private void btnOccupyHere_Click(object sender, EventArgs e)
         {
@@ -156,8 +146,7 @@ namespace ChapeauUI
             RefreshTables();
         }
 
-        // 3) Show the occupied panel for the selected table
-        //--------------------------------------------------------------------------------------------------------------------
+        // Show the occupied panel for the selected table
         private void ShowOccupiedPanel(int tableNumber)
         {
             lblOccHeader.Text = $"Table {tableNumber} (Occupied)";
@@ -175,7 +164,6 @@ namespace ChapeauUI
             bool canFree = orderService.HasNoRunningItems(tableNumber);
             btnFreeHere.Enabled = canFree;
 
-
             //  Bring the panel to front and show it, disabling everything behind
             panelOccActions.BringToFront();
             panelOccActions.Visible = true;
@@ -185,19 +173,6 @@ namespace ChapeauUI
                     c.Enabled = false;
             }
             panelOccActions.Enabled = true;
-
-            // Wire panel buttons (remove old handlers first)
-            btnGoToOrders.Click -= BtnGoToOrders_Click;
-            btnGoToOrders.Click += BtnGoToOrders_Click;
-
-            btnMarkAllServed.Click -= BtnMarkAllServed_Click;
-            btnMarkAllServed.Click += BtnMarkAllServed_Click;
-
-            btnFreeHere.Click -= BtnFreeHere_Click;
-            btnFreeHere.Click += BtnFreeHere_Click;
-
-            btnCancelOcc.Click -= BtnCancelOcc_Click;
-            btnCancelOcc.Click += BtnCancelOcc_Click;
         }
 
         //order button 
@@ -217,11 +192,18 @@ namespace ChapeauUI
 
         private void BtnMarkAllServed_Click(object sender, EventArgs e)
         {
-            int tableNumber = int.Parse(lblOccHeader.Text.Split(' ')[1]);
-            orderService.MarkAllReadyServedByTableId(tableNumber);
-            lstReadyItems.Items.Clear();
-            btnMarkAllServed.Enabled = false;
-            RefreshTables();
+            try
+            {
+                int tableNumber = _selectedTableNumber;
+                orderService.MarkAllReadyServedByTableId(tableNumber);
+                lstReadyItems.Items.Clear();
+                btnMarkAllServed.Enabled = false;
+                RefreshTables();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while marking items as served: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         //free table button click
         private void BtnFreeHere_Click(object sender, EventArgs e)
@@ -272,7 +254,6 @@ namespace ChapeauUI
                 btn.BackColor = table.Status switch
                 {
                     TableStatus.Free => Color.Green,
-                    TableStatus.Booked => Color.Blue,
                     TableStatus.Occupied => Color.Red,
                     _ => SystemColors.Control
                 };
@@ -346,6 +327,10 @@ namespace ChapeauUI
             {
                 MessageBox.Show("No active order found for this table.");
             }
+        }
+        private void BtnRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshTables();
         }
     }
 }
