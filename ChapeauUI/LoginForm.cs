@@ -37,21 +37,24 @@ namespace ChapeauUI
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            if (!TryGetCredentials(out int userId, out string password))
-                return;
-
-            var employee = employeeService.Authenticate(userId, password);
-            if (employee is null)
+            try
             {
-                ShowLoginError("Invalid ID or password. Please try again.");
-                return;
+                if (!TryGetCredentials(out int userId, out string password))
+                    return;
+
+                var employee = employeeService.Authenticate(userId, password);
+                if (employee is null)
+                {
+                    ShowLoginError("Invalid ID or password. Please try again.");
+                    return;
+                }
+
+                RedirectEmployeeRole(employee);
             }
-
-            // var overview = new RestaurantOverviewForm(employee);
-            // overview.Show();
-            // this.Hide();
-
-            RedirectEmployeeRole(employee);
+            catch (Exception ex)
+            {
+                MessageBox.Show("An unexpected error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         // role-based redirection

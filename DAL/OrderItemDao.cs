@@ -120,7 +120,7 @@ namespace DAL
         {
             string query = @"SELECT COUNT(*) FROM Order_Item oi
                              JOIN [Order] o ON oi.order_id = o.id
-                             WHERE o.table_id = @tableId AND oi.status IN ('Placed', 'Preparing')";
+                             WHERE o.table_id = @tableId AND oi.status IN ('Placed', 'Preparing', 'Ready')";
             SqlParameter[] parameters = {
                 new SqlParameter("@tableId", tableId)
             };

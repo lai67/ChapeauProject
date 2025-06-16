@@ -28,12 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-
-            SuspendLayout();
-            // 
-
             panel1 = new Panel();
-            LogoPanel = new Panel();
             btnDelete = new Button();
             btnNumber0 = new Button();
             btnNumber9 = new Button();
@@ -55,7 +50,6 @@
             // 
             // panel1
             // 
-            panel1.Controls.Add(LogoPanel);
             panel1.Controls.Add(btnDelete);
             panel1.Controls.Add(btnNumber0);
             panel1.Controls.Add(btnNumber9);
@@ -77,16 +71,6 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(858, 536);
             panel1.TabIndex = 0;
-            // 
-            // LogoPanel
-            // 
-            LogoPanel.BackColor = Color.Transparent;
-            LogoPanel.BackgroundImageLayout = ImageLayout.Stretch;
-            LogoPanel.Location = new Point(2, 2);
-            LogoPanel.Margin = new Padding(2);
-            LogoPanel.Name = "LogoPanel";
-            LogoPanel.Size = new Size(182, 69);
-            LogoPanel.TabIndex = 16;
             // 
             // btnDelete
             // 
@@ -302,16 +286,10 @@
             labUserID.TabIndex = 0;
             labUserID.Text = "User ID:";
             // 
-
             // LoginForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-
-            ClientSize = new Size(800, 450);
-            Name = "LoginForm";
-            Text = "Form1";
-
             BackColor = Color.White;
             ClientSize = new Size(881, 551);
             Controls.Add(panel1);
@@ -320,7 +298,6 @@
             Text = "LoginForm";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-
             ResumeLayout(false);
         }
 
@@ -343,6 +320,5 @@
         private Button btnNumber4;
         private Button btnNumber3;
         private Button btnNumber2;
-        private Panel LogoPanel;
     }
 }
