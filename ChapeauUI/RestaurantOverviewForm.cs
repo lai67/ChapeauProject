@@ -316,7 +316,6 @@ namespace ChapeauUI
             {
                 // Check if all order items are served
                 bool allServed = order.Items != null && order.Items.All(item => item.orderStatus == OrderItem.OrderStatus.Served);
-
                 if (!allServed)
                 {
                     MessageBox.Show("All order items must be served before proceeding to payment.", "Cannot Open Bill", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -326,7 +325,6 @@ namespace ChapeauUI
                 int orderId = order.Id;
                 BillForm billForm = new BillForm(orderId);
                 billForm.ShowDialog();
-                this.Hide();
             }
             else
             {
