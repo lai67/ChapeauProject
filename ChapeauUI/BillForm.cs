@@ -282,6 +282,7 @@ namespace ChapeauUI
         {
             FillListView(lstViewBill, billItems);
             FillListView(listViewSubBill, subBillItems);
+            UpdateBillVatAndTotalLabels();
             UpdateSubBillVatAndTotalLabels();
         }
         private BillItem FindSubBillItem(string name)
