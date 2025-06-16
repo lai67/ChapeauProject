@@ -43,7 +43,6 @@ namespace ChapeauUI
                 ListViewItem listItem = new ListViewItem(item.Name);
                 listItem.SubItems.Add(item.Price.ToString("C"));
                 listItem.SubItems.Add(item.Amount.ToString());
-                listItem.SubItems.Add(itemTotal.ToString("C"));
                 listView.Items.Add(listItem);
             }
 
@@ -161,7 +160,19 @@ namespace ChapeauUI
                 ListViewItem listItem = new ListViewItem(item.Name);
                 listItem.SubItems.Add(item.Price.ToString("C"));
                 listItem.SubItems.Add(item.Amount.ToString());
-                listItem.SubItems.Add(itemTotal.ToString("C"));
+                listViewSubBill.Items.Add(listItem);
+            }
+        }
+        private void UpdateBillListView()
+        {
+            lstViewBill.Items.Clear();
+
+            foreach (var item in billItems)
+            {
+                decimal itemTotal = item.Price * item.Amount; // Exclude VAT here
+                ListViewItem listItem = new ListViewItem(item.Name);
+                listItem.SubItems.Add(item.Price.ToString("C"));
+                listItem.SubItems.Add(item.Amount.ToString());
                 listViewSubBill.Items.Add(listItem);
             }
         }
@@ -241,10 +252,29 @@ namespace ChapeauUI
 
         private void btnPayBill_Click(object sender, EventArgs e)
         {
-            decimal billTotal = CalculateTotal(billItems, out decimal vatTotal);
+            decimal billTotalExclVat = CalculateTotal(billItems, out decimal vatTotal);
 
-            PaymentFormCompleteBill paymentForm = new PaymentFormCompleteBill(billTotal);
+            if (billItems.Count == 0)
+            {
+                MessageBox.Show("Bill is empty. Please add items before paying.");
+                return;
+            }
+
+            // Create and show the bill payment form
+            Bill bill = new Bill
+            {
+                TotalPrice = billTotalExclVat + vatTotal
+            };
+
+            PaymentFormCompleteBill paymentForm = new PaymentFormCompleteBill(bill);
             paymentForm.ShowDialog();
+
+            // ✅ After payment, clear the sub-bill
+            billItems.Clear();
+            UpdateBillListView();
+            UpdateBillVatAndTotalLabels();
+
+            MessageBox.Show("bill has been paid.");
         }
 
         // combine methods above and below
@@ -253,14 +283,27 @@ namespace ChapeauUI
         {
             decimal subBillTotalExclVat = CalculateTotal(subBillItems, out decimal vatTotal);
 
-            // Create a Bill object with the sub-bill total
-            SubBill subBill = new SubBill();
+            if (subBillItems.Count == 0)
+            {
+                MessageBox.Show("Sub-bill is empty. Please add items before paying.");
+                return;
+            }
 
-            subBill.Price = subBillTotalExclVat + vatTotal;
+            // Create and show the sub-bill payment form
+            SubBill subBill = new SubBill
+            {
+                Price = subBillTotalExclVat + vatTotal
+            };
 
-            // Pass the Bill object to the payment form
             PaymentFormSubBill paymentForm = new PaymentFormSubBill(subBill);
             paymentForm.ShowDialog();
+
+            // ✅ After payment, clear the sub-bill
+            subBillItems.Clear();
+            UpdateSubBillListView();
+            UpdateSubBillVatAndTotalLabels();
+
+            MessageBox.Show("Sub-bill has been paid.");
         }
         private decimal CalculateTotal(List<BillItem> items, out decimal vatTotal)
         {
@@ -288,6 +331,17 @@ namespace ChapeauUI
             lblVatLowValueSubBill.Text = $"€{lowVatTotal:0.00}"; // Low VAT total (9%)
             lblVatHighValueSubBill.Text = $"€{highVatTotal:0.00}"; // High VAT total (21%)
         }
+        private void UpdateBillVatAndTotalLabels()
+        {
+            decimal vatTotal;
+            decimal highVatTotal;
+            decimal billTotal = CalculateTotal(billItems, out vatTotal);
+            decimal lowVatTotal = CalculateLowAndHighVat(billItems, out lowVatTotal, out highVatTotal);
+            lblTotalPriceValueBill.Text = $"€{(billTotal + vatTotal):0.00}";
+            lblVatValueCompBill.Text = $"€{vatTotal:0.00}";
+            lblVatLowBillValue.Text = $"€{lowVatTotal:0.00}"; // Low VAT total (9%)
+            lblVatHighBillValue.Text = $"€{highVatTotal:0.00}"; // High VAT total (21%)
+        }
         private decimal CalculateLowAndHighVat(List<BillItem> items, out decimal lowVatTotal, out decimal highVatTotal)
         {
             lowVatTotal = 0;
@@ -310,11 +364,6 @@ namespace ChapeauUI
             }
 
             return lowVatTotal;
-        }
-
-        private void lblVatValueCompBill_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
