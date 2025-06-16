@@ -328,16 +328,21 @@ namespace ChapeauUI
         private void btnPayment_Click(object sender, EventArgs e)
         {
             int tableNumber = _selectedTableNumber;
-
             int tableId = _tableService.GetTableById(_selectedTableNumber).TableNumber;
-
             Order order = orderService.GetOrdersForAlreadyOrderedTable(tableId);
 
             if (order != null)
             {
-                int orderId = order.Id;
+                // Check if all order items are served
+                bool allServed = order.Items != null && order.Items.All(item => item.orderStatus == OrderItem.OrderStatus.Served);
 
-                // Step 3: Pass order ID to BillForm
+                if (!allServed)
+                {
+                    MessageBox.Show("All order items must be served before proceeding to payment.", "Cannot Open Bill", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                int orderId = order.Id;
                 BillForm billForm = new BillForm(orderId);
                 billForm.ShowDialog();
                 this.Hide();
