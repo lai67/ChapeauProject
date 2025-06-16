@@ -142,19 +142,10 @@ namespace ChapeauUI
         {
             var (splitPrice, priceWithTip) = GetCurrentGuestPrices();
 
-            if (rdBtnCard.Checked)
-            {
-                MessageBox.Show($"Guest {guestNumber} paid {priceWithTip:0.00} by card including tip.");
-            }
-            else if (rdBtnCash.Checked)
-            {
-                MessageBox.Show($"Guest {guestNumber} paid {priceWithTip:0.00} with cash including tip.");
-            }
-            else
-            {
-                MessageBox.Show("Please select a payment method.");
+            if (!ValidatePaymentMethod())
                 return;
-            }
+
+            ProcessPayment(priceWithTip);
 
             remainingAmount -= splitPrice;
 
@@ -166,21 +157,13 @@ namespace ChapeauUI
 
             if (guestNumber == splitValue)
             {
-                MessageBox.Show("All guests have been processed.");
-                richTextBoxFeedback.Clear();
-                userCancelled = false; // Reset userCancelled flag
-                forceClose = true; // Allow form to close
-                bill.IsPaid = true;
-                this.Close();
+                CompleteAllPayments();
                 return;
             }
             else
             {
                 MessageBox.Show("Payment successful!");
-                guestNumber++;
-                richTextBoxFeedback.Clear();
-                rdBtnTipPct0.Checked = true; // Reset tip selection for next guest
-                DisplayPrices();
+                AdvanceToNextGuest();
             }
         }
         private void PaymentFormCompleteBill_FormClosing(object sender, FormClosingEventArgs e)
@@ -207,6 +190,38 @@ namespace ChapeauUI
                 bill.IsPaid = false;
                 this.Close();
             }
+        }
+        private void ProcessPayment(decimal priceWithTip)
+        {
+            if (rdBtnCard.Checked)
+                MessageBox.Show($"Guest {guestNumber} paid {priceWithTip:0.00} by card including tip.");
+            else if (rdBtnCash.Checked)
+                MessageBox.Show($"Guest {guestNumber} paid {priceWithTip:0.00} with cash including tip.");
+        }
+        private void AdvanceToNextGuest()
+        {
+            guestNumber++;
+            richTextBoxFeedback.Clear();
+            rdBtnTipPct0.Checked = true;
+            DisplayPrices();
+        }
+        private void CompleteAllPayments()
+        {
+            MessageBox.Show("All guests have been processed.");
+            richTextBoxFeedback.Clear();
+            forceClose = true;
+            bill.IsPaid = true;
+            userCancelled = false;
+            this.Close();
+        }
+        private bool ValidatePaymentMethod()
+        {
+            if (!rdBtnCard.Checked && !rdBtnCash.Checked)
+            {
+                MessageBox.Show("Please select a payment method.");
+                return false;
+            }
+            return true;
         }
     }
 }

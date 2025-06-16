@@ -84,19 +84,10 @@ namespace ChapeauUI
         {
             var (splitPrice, priceWithTip) = GetCurrentGuestPrices();
 
-            if (rdBtnCard.Checked)
-            {
-                MessageBox.Show($"Guest {guestNumber} paid {priceWithTip:0.00} by card including tip.");
-            }
-            else if (rdBtnCash.Checked)
-            {
-                MessageBox.Show($"Guest {guestNumber} paid {priceWithTip:0.00} with cash including tip.");
-            }
-            else
-            {
-                MessageBox.Show("Please select a payment method.");
+            if (!ValidatePaymentMethod())
                 return;
-            }
+
+            ProcessPayment(priceWithTip);
 
             remainingAmount -= splitPrice;
 
@@ -108,21 +99,13 @@ namespace ChapeauUI
 
             if (guestNumber == splitValue)
             {
-                MessageBox.Show("All guests have been processed.");
-                richTextBoxFeedback.Clear();
-                forceClose = true; // Allow form to close after all guests are processed
-                subBill.IsPaid = true; // Mark the sub-bill as paid
-                userCancelled = false; // Reset userCancelled flag
-                this.Close();
+                CompleteAllPayments();
                 return;
             }
             else
             {
                 MessageBox.Show("Payment successful!");
-                guestNumber++;
-                richTextBoxFeedback.Clear();
-                rdBtnTipPct0.Checked = true; // Reset tip selection for next guest
-                DisplayPrices();
+                AdvanceToNextGuest();
             }
         }
         private decimal CalculatePriceWithTip(decimal baseValue)
@@ -203,6 +186,38 @@ namespace ChapeauUI
                 subBill.IsPaid = false; // Mark the sub-bill as not paid
                 this.Close();
             }
+        }
+        private bool ValidatePaymentMethod()
+        {
+            if (!rdBtnCard.Checked && !rdBtnCash.Checked)
+            {
+                MessageBox.Show("Please select a payment method.");
+                return false;
+            }
+            return true;
+        }
+        private void ProcessPayment(decimal priceWithTip)
+        {
+            if (rdBtnCard.Checked)
+                MessageBox.Show($"Guest {guestNumber} paid €{priceWithTip:0.00} by card including tip.");
+            else if (rdBtnCash.Checked)
+                MessageBox.Show($"Guest {guestNumber} paid €{priceWithTip:0.00} with cash including tip.");
+        }
+        private void AdvanceToNextGuest()
+        {
+            guestNumber++;
+            richTextBoxFeedback.Clear();
+            rdBtnTipPct0.Checked = true;
+            DisplayPrices();
+        }
+        private void CompleteAllPayments()
+        {
+            MessageBox.Show("All guests have been processed.");
+            richTextBoxFeedback.Clear();
+            forceClose = true;
+            subBill.IsPaid = true;
+            userCancelled = false;
+            this.Close();
         }
     }
 }

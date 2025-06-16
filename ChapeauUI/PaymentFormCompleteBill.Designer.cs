@@ -387,7 +387,7 @@
             richTextBoxFeedback.Name = "richTextBoxFeedback";
             richTextBoxFeedback.Size = new Size(339, 234);
             richTextBoxFeedback.TabIndex = 138;
-            richTextBoxFeedback.Text = "placeholder";
+            richTextBoxFeedback.Text = "";
             // 
             // lblFeedbackFromCustomer
             // 
