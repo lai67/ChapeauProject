@@ -282,15 +282,12 @@ namespace ChapeauUI
                 foreach (var item in currentOrderItems)
                     item.OrderId = orderId;
 
-                decimal totalPrice = currentOrderItems.Sum(item => item.MenuItem.Price * item.Count);
-                decimal totalVat = currentOrderItems.Sum(item => item.MenuItem.Vat * item.Count);
-
                 BillService billservice = new BillService();
                 Bill bill = new Bill
                 {
                     OrderId = orderId,
-                    TotalPrice = totalPrice,
-                    Vat = totalVat,       
+                    TotalPrice = 0,
+                    Vat = 0,       
                     GuestNumber = 1,
                     Tip = 0,
                     Feedback = ""
@@ -317,7 +314,6 @@ namespace ChapeauUI
             MessageBox.Show("Order sent!");;
             this.Close();
         }
-
         private void btnPrevious_Click(object sender, EventArgs e)
         {
             this.Close();
