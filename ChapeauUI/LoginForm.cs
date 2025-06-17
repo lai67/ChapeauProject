@@ -25,7 +25,7 @@ namespace ChapeauUI
             txtPassword.Click += TextBox_Click;
 
 
-            foreach (var btn in panel1.Controls.OfType<Button>().Where(b => b.Tag?.ToString() == "NUM"))
+            foreach (Button btn in panel1.Controls.OfType<Button>().Where(b => b.Tag?.ToString() == "NUM"))
             {
                 btn.Click += btnNumber_Click;
             }
@@ -42,7 +42,7 @@ namespace ChapeauUI
                 if (!TryGetCredentials(out int userId, out string password))
                     return;
 
-                var employee = employeeService.Authenticate(userId, password);
+                Employee employee = employeeService.Authenticate(userId, password);
                 if (employee is null)
                 {
                     ShowLoginError("Invalid ID or password. Please try again.");
@@ -92,7 +92,7 @@ namespace ChapeauUI
         }
         private void btnNumber_Click(object sender, EventArgs e)
         {
-            var btn = (Button)sender;
+            Button btn = (Button)sender;
             activeTextBox.Text += btn.Text;
         }
 
