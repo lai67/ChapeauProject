@@ -21,8 +21,6 @@ namespace ChapeauUI
         private Menu_Service menuService;
         private Table table;
         private Employee employee;
-
-
         public OrderForm(Table table, Employee employee)
         {
             InitializeComponent();
@@ -247,7 +245,6 @@ namespace ChapeauUI
 
         }
 
-
         private void btnMinus_Click(object sender, EventArgs e)
         {
             if (listVOrder.SelectedItems.Count == 0) return;
@@ -264,7 +261,6 @@ namespace ChapeauUI
             RefreshOrderItemsList();
         }
        
-
         private void btnSendOrder_Click(object sender, EventArgs e)
         {
             if (currentOrderItems == null || currentOrderItems.Count == 0)
@@ -281,18 +277,6 @@ namespace ChapeauUI
                 currentOrder.Id = orderId;
                 foreach (var item in currentOrderItems)
                     item.OrderId = orderId;
-
-                BillService billservice = new BillService();
-                Bill bill = new Bill
-                {
-                    OrderId = orderId,
-                    TotalPrice = 0,
-                    Vat = 0,       
-                    GuestNumber = 1,
-                    Tip = 0,
-                    Feedback = ""
-                };
-                billservice.CreateBill(bill);
             }
             else
             {
@@ -309,8 +293,6 @@ namespace ChapeauUI
                         orderItemService.UpdateOrderItemCount(item);
                 }
             }
-
-
             MessageBox.Show("Order sent!");;
             this.Close();
         }
@@ -318,8 +300,6 @@ namespace ChapeauUI
         {
             this.Close();
         }
-
-
         private void btnRemoveCom_Click(object sender, EventArgs e)
         {
 
@@ -360,7 +340,5 @@ namespace ChapeauUI
             currentOrderItems.RemoveAll(item => item.Id == 0); // Remove only items that are not yet saved to the database.
             RefreshOrderItemsList();
         }
-
-       
     }
 }

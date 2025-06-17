@@ -49,18 +49,34 @@ namespace ChapeauUI
             LoadColumns(lstViewBill);
             LoadColumns(listViewSubBill);
 
-            // Get the bill related to this order
             currentBill = billService.GetBillByOrderId(orderId);
+
+            if (currentBill == null)
+            {
+                currentBill = new Bill
+                {
+                    OrderId = orderId,
+                    TotalPrice = 0, 
+                    Vat = 0,
+                    GuestNumber = 1,
+                    Tip = 0,
+                    Feedback = ""
+                };
+                billService.CreateBill(currentBill);
+
+                // Reload the bill to get the BillId assigned by the DB
+                currentBill = billService.GetBillByOrderId(orderId);
+            }
 
             if (currentBill != null)
             {
                 billItems = billService.GetOrderedItemsForBill(currentBill.BillId);
                 FillListView(lstViewBill, billItems);
-                UpdateBillVatAndTotalLabels(); // <-- Ensure labels are updated after loading items
+                UpdateBillVatAndTotalLabels();
             }
             else
             {
-                MessageBox.Show("No bill found for this order.");
+                MessageBox.Show("Could not create or load bill for this order.");
                 this.Close();
             }
         }
