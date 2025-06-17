@@ -51,5 +51,9 @@ namespace Service
         {
             subBillDao.DeleteSubBill(subBillId);
         }
+        public int GetNextSubBillId()
+        {
+            return subBillDao.GetNextSubBillId();
+        }
     }
 }

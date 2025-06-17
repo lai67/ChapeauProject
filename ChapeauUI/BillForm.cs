@@ -18,16 +18,19 @@ namespace ChapeauUI
     public partial class BillForm : Form
     {
         private int orderId;
+        private OrderService orderService;
         private BillService billService;
         private List<BillItem> billItems; // Cached full bill items with VAT
         private List<BillItem> subBillItems;
         private Bill currentBill;
         private SubBill currentSubBill;
+        private SubBillService subBillService;
         public BillForm(int orderId)
         {
             InitializeComponent();
             billService = new BillService();
             subBillItems = new List<BillItem>();
+            subBillService = new SubBillService();
             this.orderId = orderId;
         }
         private void FillListView(ListView listView, List<BillItem> items)
@@ -49,20 +52,22 @@ namespace ChapeauUI
             LoadColumns(lstViewBill);
             LoadColumns(listViewSubBill);
 
-            // Get the bill related to this order
+            // Only load the bill if it exists
             currentBill = billService.GetBillByOrderId(orderId);
 
             if (currentBill != null)
             {
                 billItems = billService.GetOrderedItemsForBill(currentBill.BillId);
-                FillListView(lstViewBill, billItems);
-                UpdateBillVatAndTotalLabels(); // <-- Ensure labels are updated after loading items
             }
             else
             {
-                MessageBox.Show("No bill found for this order.");
-                this.Close();
+                // Bill does not exist yet, order items are being loaded for display
+                // I may need a method to get order items by orderId if not present
+                billItems = billService.GetOrderedItemsForBill(orderId);
             }
+
+            FillListView(lstViewBill, billItems);
+            UpdateBillVatAndTotalLabels();
         }
         private void btnAddToSubBill_Click(object sender, EventArgs e)
         {
@@ -123,13 +128,37 @@ namespace ChapeauUI
             }
 
             decimal billTotalExclVat = CalculateTotal(billItems, out decimal vatTotal);
-            Bill bill = CreateBillForPayment(billTotalExclVat + vatTotal);
+            // If the bill does not exist, create it now with correct values
+            if (currentBill == null)
+            {
+                int nextId = billService.GetNextBillId(); // Assuming you have a method to get the next ID
+                currentBill = new Bill
+                {
+                    BillId = nextId,
+                    OrderId = orderId,
+                    TotalPrice = billTotalExclVat + vatTotal,
+                    Vat = vatTotal,
+                    IsPaid = false
+                };
+                billService.CreateBill(currentBill);
+            }
+            else
+            {
+                // Update the existing bill with correct values
+                currentBill.TotalPrice = billTotalExclVat + vatTotal;
+                currentBill.Vat = vatTotal;
+                billService.UpdateBill(currentBill);
+            }
 
-            if (!ShowCompleteBillPaymentForm(bill))
+            if (!ShowCompleteBillPaymentForm(currentBill))
                 return;
 
+            // After payment, mark as paid and update in DB
+            currentBill.IsPaid = true;
+            billService.UpdateBill(currentBill); // Uncomment if you have this method
+
             ClearBill();
-            AfterBillPaid(bill);
+            AfterBillPaid(currentBill);
         }
 
         // combine methods above and below
@@ -143,13 +172,40 @@ namespace ChapeauUI
             }
 
             decimal subBillTotalExclVat = CalculateTotal(subBillItems, out decimal vatTotal);
-            SubBill subBill = CreateSubBillForPayment(subBillTotalExclVat + vatTotal);
 
-            if (!ShowSubBillPaymentForm(subBill))
+            // If the sub-bill does not exist, create it now with correct values
+            if (currentSubBill == null)
+            {
+                int nextId = subBillService.GetNextSubBillId(); // Assuming you have a method to get the next ID
+                currentSubBill = new SubBill
+                {
+                    SubBillId = nextId,
+                    BillId = currentBill?.BillId ?? 0, // Make sure to set the correct BillId
+                    Price = subBillTotalExclVat + vatTotal,
+                    Vat = vatTotal,
+                    IsPaid = false
+                };
+                // You need to have a SubBillService instance, similar to BillService
+                subBillService.CreateSubBill(currentSubBill);
+            }
+            else
+            {
+                // Update the existing sub-bill with correct values
+                currentSubBill.Price = subBillTotalExclVat + vatTotal;
+                currentSubBill.Vat = vatTotal;
+                subBillService.UpdateSubBill(currentSubBill);
+            }
+
+            if (!ShowSubBillPaymentForm(currentSubBill))
                 return;
 
+            // After payment, mark as paid and update in DB
+            currentSubBill.IsPaid = true;
+            var subBillServiceFinal = new SubBillService();
+            subBillServiceFinal.UpdateSubBill(currentSubBill);
+
             ClearSubBill();
-            AfterSubBillPaid(subBill);
+            AfterSubBillPaid(currentSubBill);
         }
         private decimal CalculateTotal(List<BillItem> items, out decimal vatTotal)
         {
@@ -210,6 +266,8 @@ namespace ChapeauUI
             if (currentBill != null && currentBill.IsPaid &&
                 currentSubBill != null && currentSubBill.IsPaid)
             {
+                orderService.SetOrderCreated(orderId, true);
+
                 MessageBox.Show("Both bills are paid. Form is closing.");
                 return true; // Both bills are paid, allow closing
             }

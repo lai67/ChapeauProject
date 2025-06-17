@@ -123,6 +123,16 @@ namespace DAL
     };
             ExecuteEditQuery(query, parameters);
         }
+        public void SetOrderCreated(int orderId, bool isCreated)
+        {
+            string query = "UPDATE [Order] SET IsCreated = @isCreated WHERE OrderId = @orderId";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+            new SqlParameter("@isCreated", isCreated),
+            new SqlParameter("@orderId", orderId)
+            };
+            ExecuteEditQuery(query, parameters);
+        }
 
         public Order GetOrdersForAlreadyOrderedTable(int tableId)
         {

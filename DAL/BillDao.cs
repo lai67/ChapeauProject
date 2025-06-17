@@ -166,7 +166,7 @@ namespace DAL
 
             ExecuteEditQuery(query, parameters);
         }
-        /* public void UpdateBill(Bill bill)
+        public void UpdateBill(Bill bill)
         {
             string query = @"UPDATE [Bill]
                      SET total_price = @total_price,
@@ -189,7 +189,7 @@ namespace DAL
             };
 
             ExecuteEditQuery(query, parameters);
-        }*/
+        }
         /*public void DeleteBill(int billId)
         {
             string query = "DELETE FROM [Bill] WHERE id = @id;";
@@ -203,8 +203,11 @@ namespace DAL
         public int GetNextBillId()
         {
             string query = "SELECT ISNULL(MAX(id), 0) + 1 FROM [Bill]";
-            object result = ExecuteSelectQuery(query).Rows[0][0];
-            return Convert.ToInt32(result);
+            using (SqlCommand command = new SqlCommand(query, OpenConnection()))
+            {
+                int nextId = (int)command.ExecuteScalar();
+                return nextId;
+            }
         }
     }
 }

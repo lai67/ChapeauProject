@@ -61,5 +61,9 @@ namespace Service
         {
             return _orderItemDao.CountRunningItemsByTableId(tableId) == 0;
         }
+        public void SetOrderCreated(int orderId, bool isCreated)
+        {
+            _orderDao.SetOrderCreated(orderId, isCreated);
+        }
     }
 }
