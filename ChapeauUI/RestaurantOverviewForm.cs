@@ -22,7 +22,6 @@ namespace ChapeauUI
         private List<Table> _tables = new();
         private int _selectedTableNumber;
 
-
         private readonly System.Windows.Forms.Timer _refreshTimer = new System.Windows.Forms.Timer { Interval = 15000 };
         public RestaurantOverviewForm(Employee currentEmpoyee)
         {
@@ -54,7 +53,7 @@ namespace ChapeauUI
             //register each table button click event
             for (int i = 1; i <= 10; i++)
             {
-                var btn = Controls.Find($"btnTable{i}", true).FirstOrDefault() as Button;
+                Button btn = Controls.Find($"btnTable{i}", true).FirstOrDefault() as Button;
                 if (btn != null)
                 {
                     btn.Click += TableButton_Click;
@@ -70,7 +69,7 @@ namespace ChapeauUI
         private void RefreshTables()
         {
             _tables = _tableService.GetAllTables();
-            var phases = orderService.GetTableLocationPhases();
+            Dictionary<int, (string BarStatus, string KitchenStatus)> phases = orderService.GetTableLocationPhases();
 
             UpdateDateTime();
             UpdateTableButtonColors();
@@ -88,7 +87,7 @@ namespace ChapeauUI
         {
             if (sender is Button btn && int.TryParse(btn.Text, out int tableNumber))
             {
-                var table = _tables.FirstOrDefault(t => t.TableNumber == tableNumber);
+                Table table = _tables.FirstOrDefault(t => t.TableNumber == tableNumber);
                 if (table == null) return;
 
                 if (table.Status == TableStatus.Free)
@@ -102,7 +101,7 @@ namespace ChapeauUI
             }
         }
 
-        // 2) Show the free panel for the selected table
+        //  Show the free panel for the selected table
         private void ShowFreePanel(int tableNumber)
         {
             _selectedTableNumber = tableNumber;
@@ -140,12 +139,6 @@ namespace ChapeauUI
             }
         }
 
-        private void CloseFreePanelAndRefresh()
-        {
-            CloseFreePanel1();
-            RefreshTables();
-        }
-
         // Show the occupied panel for the selected table
         private void ShowOccupiedPanel(int tableNumber)
         {
@@ -153,10 +146,10 @@ namespace ChapeauUI
             _selectedTableNumber = tableNumber;
 
             lstReadyItems.Items.Clear();
-            var readyItems = orderService.GetReadyItemsByTableId(tableNumber);
-            foreach (var item in readyItems)
+            List<OrderItem> readyItems = orderService.GetReadyItemsByTableId(tableNumber);
+            foreach (OrderItem item in readyItems)
             {
-                lstReadyItems.Items.Add($"{item.MenuItem.Name} - {item.MenuItem.Name}");
+                lstReadyItems.Items.Add($"{item.MenuItem.Name} ");
             }
 
             btnMarkAllServed.Enabled = readyItems.Count > 0;
@@ -164,7 +157,6 @@ namespace ChapeauUI
             bool canFree = orderService.HasNoRunningItems(tableNumber);
             btnFreeHere.Enabled = canFree;
 
-            //  Bring the panel to front and show it, disabling everything behind
             panelOccActions.BringToFront();
             panelOccActions.Visible = true;
             foreach (Control c in Controls)
@@ -178,7 +170,7 @@ namespace ChapeauUI
         //order button 
         private void BtnGoToOrders_Click(object sender, EventArgs e)
         {
-            var table = _tables.FirstOrDefault(t => t.TableNumber == _selectedTableNumber);
+            Table table = _tables.FirstOrDefault(t => t.TableNumber == _selectedTableNumber);
             if (table == null) return;
 
             OrderForm ordersForm = new OrderForm(table, _currentEmpoyee);
@@ -188,8 +180,8 @@ namespace ChapeauUI
             _tables = _tableService.GetAllTables();
             UpdateTableButtonColors();
         }
-        //mark all served button click
 
+        //mark all served button click
         private void BtnMarkAllServed_Click(object sender, EventArgs e)
         {
             try
@@ -205,6 +197,7 @@ namespace ChapeauUI
                 MessageBox.Show("An error occurred while marking items as served: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         //free table button click
         private void BtnFreeHere_Click(object sender, EventArgs e)
         {
@@ -225,12 +218,6 @@ namespace ChapeauUI
             }
         }
 
-        private void CloseOccPanelAndRefresh()
-        {
-            CloseOccPanel();
-            _tables = _tableService.GetAllTables();
-            UpdateTableButtonColors();
-        }
         //update time 
         private void UpdateDateTime()
         {
@@ -243,12 +230,11 @@ namespace ChapeauUI
         {
             for (int i = 1; i <= 10; i++)
             {
-                var btn = Controls.Find($"btnTable{i}", true).FirstOrDefault() as Button;
+                Button btn = Controls.Find($"btnTable{i}", true).FirstOrDefault() as Button;
                 if (btn == null) continue;
 
-                var table = _tables.FirstOrDefault(t => t.TableNumber == i);
+                Table table = _tables.FirstOrDefault(t => t.TableNumber == i);
                 if (table == null) continue;
-
 
                 btn.UseVisualStyleBackColor = false;
                 btn.BackColor = table.Status switch
@@ -264,16 +250,18 @@ namespace ChapeauUI
         {
             foreach (int n in Enumerable.Range(1, 10))
             {
-                var picBar = Controls.Find($"picBar{n}", true).FirstOrDefault() as PictureBox;
-                var picKitch = Controls.Find($"picKitch{n}", true).FirstOrDefault() as PictureBox;
+                PictureBox picBar = Controls.Find($"picBar{n}", true).FirstOrDefault() as PictureBox;
+                PictureBox picKitch = Controls.Find($"picKitch{n}", true).FirstOrDefault() as PictureBox;
                 if (picBar == null || picKitch == null) continue;
 
-                phases.TryGetValue(n, out var p);
+                (string BarStatus, string KitchenStatus) p;
+                phases.TryGetValue(n, out p);
 
                 picBar.Image = GetBarIcon(p.BarStatus);
                 picKitch.Image = GetKitchenIcon(p.KitchenStatus);
             }
         }
+
         //bar icos
         private Image GetBarIcon(string status)
         {
@@ -305,6 +293,8 @@ namespace ChapeauUI
             loginForm.Closed += (s, args) => Close();
             loginForm.Show();
         }
+
+
         //payment button click Ruben part
         private void btnPayment_Click(object sender, EventArgs e)
         {
