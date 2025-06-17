@@ -297,7 +297,7 @@ namespace ChapeauUI
             };
         }
 
-
+        //log out button click
         private void btnLogOutNew_Click(object sender, EventArgs e)
         {
             LoginForm loginForm = new LoginForm();
@@ -305,7 +305,7 @@ namespace ChapeauUI
             loginForm.Closed += (s, args) => Close();
             loginForm.Show();
         }
-
+        //payment button click Ruben part
         private void btnPayment_Click(object sender, EventArgs e)
         {
             int tableNumber = _selectedTableNumber;

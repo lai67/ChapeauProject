@@ -67,7 +67,7 @@ namespace ChapeauUI
                     next = new RestaurantOverviewForm(employee);
                     break;
                 case Role.Barman:
-                    next = new RestaurantOverviewForm(employee);
+                    next = new RestaurantOverviewForm(employee);//Aron when you finish your part you can change this to the BarmanForm
                     break;
                 case Role.Chef:
                     next = new RestaurantOverviewForm(employee);
@@ -88,7 +88,7 @@ namespace ChapeauUI
         private void TextBox_Click(object sender, EventArgs e)
         {
             activeTextBox = (TextBox)sender;
-            activeTextBox.Focus();  // Gives visual focus to the active field
+            activeTextBox.Focus();  
         }
         private void btnNumber_Click(object sender, EventArgs e)
         {
@@ -102,7 +102,7 @@ namespace ChapeauUI
         {
             var text = activeTextBox.Text;
             if (text.Length > 0)
-                activeTextBox.Text = text[..^1];  // C# 8 range syntax
+                activeTextBox.Text = text[..^1];  
         }
 
         private bool TryGetCredentials(out int userId, out string password)
