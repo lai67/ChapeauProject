@@ -138,6 +138,12 @@ namespace ChapeauUI
             var selectedItem = listView.SelectedItems[0];
             var menuItem = (MenuItemModel)selectedItem.Tag;
 
+            if(menuItem.Stock <= 0)
+            {
+                MessageBox.Show("This item is out of stock.");
+                return;
+            }
+
             var orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Id == menuItem.Id);
             if (orderItem != null)
             {
@@ -176,6 +182,15 @@ namespace ChapeauUI
             if (menuListView.SelectedItems.Count == 0) return false;
             var selectedItem = menuListView.SelectedItems[0];
             var menuItem = (MenuItemModel)selectedItem.Tag;
+
+
+            if (menuItem.Stock <= 0)
+            {
+                MessageBox.Show("This item is out of stock.");
+                return false;
+            }
+
+
 
             var orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Id == menuItem.Id);
             if (orderItem != null)
