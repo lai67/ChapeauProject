@@ -276,7 +276,10 @@ namespace ChapeauUI
                 int orderId = orderService.CreateOrder(currentOrder);
                 currentOrder.Id = orderId;
                 foreach (var item in currentOrderItems)
+                {
                     item.OrderId = orderId;
+                    menuService.DecreaseMenuItemStock(item.MenuItem.Id, item.Count);
+                }
             }
             else
             {
