@@ -194,9 +194,9 @@ namespace ChapeauUI
         private void ProcessPayment(decimal priceWithTip)
         {
             if (rdBtnCard.Checked)
-                MessageBox.Show($"Guest {guestNumber} paid {priceWithTip:0.00} by card including tip.");
+                MessageBox.Show($"Guest {guestNumber} paid €{priceWithTip:0.00} by card including tip.");
             else if (rdBtnCash.Checked)
-                MessageBox.Show($"Guest {guestNumber} paid {priceWithTip:0.00} with cash including tip.");
+                MessageBox.Show($"Guest {guestNumber} paid €{priceWithTip:0.00} with cash including tip.");
         }
         private void AdvanceToNextGuest()
         {

@@ -17,7 +17,7 @@ namespace DAL
     SELECT
         t.table_number,
         
-        -- Determine ìlocationî from the menu_name: drinks ? Bar, else ? Kitchen
+        -- Determine ‚Äúlocation‚Äù from the menu_name: drinks ? Bar, else ? Kitchen
         CASE 
             WHEN m.menu_name = 'Drink' THEN 'Bar'
             ELSE 'Kitchen'
@@ -105,6 +105,32 @@ namespace DAL
                 return insertedId;
             }
         }
+
+
+        // update order
+        public void UpdateOrderPreparationInfo(int orderId, int preparationTime)
+        {
+            string query = @"UPDATE [Order]
+                     SET preparation_time = @preparationTime
+                     WHERE id = @orderId";
+            SqlParameter[] parameters = {
+        new SqlParameter("@preparationTime", preparationTime),
+        new SqlParameter("@orderId", orderId)
+    };
+            ExecuteEditQuery(query, parameters);
+        }
+        public void SetOrderCreated(int orderId, bool isCreated)
+        {
+            string query = "UPDATE [Order] SET IsCreated = @isCreated WHERE OrderId = @orderId";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+            new SqlParameter("@isCreated", isCreated),
+            new SqlParameter("@orderId", orderId)
+            };
+            ExecuteEditQuery(query, parameters);
+        }
+
+
         public Order GetOrdersForAlreadyOrderedTable(int tableId)
         {
             string query = @"SELECT TOP 1 o.*, t.table_number, t.table_status

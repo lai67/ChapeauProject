@@ -64,6 +64,10 @@ namespace Service
         /*public void DeleteBill(int billId)
         {
             billDao.DeleteBill(billId);
-        }*/ 
+        }*/
+        public int GetNextBillId()
+        {
+            return billDao.GetNextBillId();
+        }
     }
 }

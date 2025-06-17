@@ -201,8 +201,11 @@ namespace DAL
         public int GetNextBillId()
         {
             string query = "SELECT ISNULL(MAX(id), 0) + 1 FROM [Bill]";
-            object result = ExecuteSelectQuery(query).Rows[0][0];
-            return Convert.ToInt32(result);
+            using (SqlCommand command = new SqlCommand(query, OpenConnection()))
+            {
+                int nextId = (int)command.ExecuteScalar();
+                return nextId;
+            }
         }
     }
 }
