@@ -21,8 +21,6 @@ namespace ChapeauUI
         private Menu_Service menuService;
         private Table table;
         private Employee employee;
-
-
         public OrderForm(Table table, Employee employee)
         {
             InitializeComponent();
@@ -123,7 +121,7 @@ namespace ChapeauUI
             listVOrder.Items.Clear();
             foreach (var item in currentOrderItems)
             {
-                var lvi = new ListViewItem(item.MenuItem.Name);
+                ListViewItem lvi = new ListViewItem(item.MenuItem.Name);
                 lvi.SubItems.Add(item.Count.ToString());
                 decimal total = item.MenuItem.Price * item.Count;
                 lvi.SubItems.Add(total.ToString("C"));
@@ -137,10 +135,16 @@ namespace ChapeauUI
             var listView = sender as ListView;
             if (listView == null || listView.SelectedItems.Count == 0) return;
 
-            var selectedItem = listView.SelectedItems[0];
-            var menuItem = (MenuItemModel)selectedItem.Tag;
+            ListViewItem selectedItem = listView.SelectedItems[0];
+            MenuItemModel menuItem = (MenuItemModel)selectedItem.Tag;
 
-            var orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Id == menuItem.Id);
+            if(menuItem.Stock <= 0)
+            {
+                MessageBox.Show("This item is out of stock.");
+                return;
+            }
+
+            OrderItem orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Id == menuItem.Id);
             if (orderItem != null)
             {
                 orderItem.Count++;
@@ -176,10 +180,16 @@ namespace ChapeauUI
         private bool AddSelectedMenuItemToOrder(ListView menuListView)
         {
             if (menuListView.SelectedItems.Count == 0) return false;
-            var selectedItem = menuListView.SelectedItems[0];
-            var menuItem = (MenuItemModel)selectedItem.Tag;
+            ListViewItem selectedItem = menuListView.SelectedItems[0];
+            MenuItemModel menuItem = (MenuItemModel)selectedItem.Tag;
 
-            var orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Id == menuItem.Id);
+
+            if (menuItem.Stock <= 0)
+            {
+                MessageBox.Show("This item is out of stock.");
+                return false;
+            }
+            OrderItem orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Id == menuItem.Id);
             if (orderItem != null)
             {
                 orderItem.Count++;
@@ -213,9 +223,9 @@ namespace ChapeauUI
         {
             if (listVOrder.SelectedItems.Count > 0)
             {
-                var selectedItem = listVOrder.SelectedItems[0];
-                var menuItemName = selectedItem.Text;
-                var orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Name == menuItemName);
+                ListViewItem selectedItem = listVOrder.SelectedItems[0];
+                string menuItemName = selectedItem.Text;
+                OrderItem orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Name == menuItemName);
                 if (orderItem != null)
                 {
                     orderItem.Count++;
@@ -247,13 +257,12 @@ namespace ChapeauUI
 
         }
 
-
         private void btnMinus_Click(object sender, EventArgs e)
         {
             if (listVOrder.SelectedItems.Count == 0) return;
-            var selectedItem = listVOrder.SelectedItems[0];
-            var menuItemName = selectedItem.Text;
-            var orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Name == menuItemName);
+            ListViewItem selectedItem = listVOrder.SelectedItems[0];
+            string menuItemName = selectedItem.Text;
+            OrderItem orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Name == menuItemName);
             if (orderItem != null)
             {
                 orderItem.Count--;
@@ -264,7 +273,6 @@ namespace ChapeauUI
             RefreshOrderItemsList();
         }
        
-
         private void btnSendOrder_Click(object sender, EventArgs e)
         {
             if (currentOrderItems == null || currentOrderItems.Count == 0)
@@ -280,23 +288,13 @@ namespace ChapeauUI
                 int orderId = orderService.CreateOrder(currentOrder);
                 currentOrder.Id = orderId;
                 foreach (var item in currentOrderItems)
-                    item.OrderId = orderId;
-
-                BillService billservice = new BillService();
-                Bill bill = new Bill
                 {
-                    OrderId = orderId,
-                    TotalPrice = 0,
-                    Vat = 0,       
-                    GuestNumber = 1,
-                    Tip = 0,
-                    Feedback = ""
-                };
-                billservice.CreateBill(bill);
+                    item.OrderId = orderId;
+                    menuService.DecreaseMenuItemStock(item.MenuItem.Id, item.Count);
+                }
             }
             else
             {
-                orderService.UpdateOrder(currentOrder);
 
                 foreach (var item in currentOrderItems)
                 {
@@ -309,18 +307,13 @@ namespace ChapeauUI
                         orderItemService.UpdateOrderItemCount(item);
                 }
             }
-
-
             MessageBox.Show("Order sent!");;
             this.Close();
         }
-
         private void btnPrevious_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
-
         private void btnRemoveCom_Click(object sender, EventArgs e)
         {
 
@@ -329,9 +322,9 @@ namespace ChapeauUI
                 MessageBox.Show("Please select an order item to remove its comment.");
                 return;
             }
-            var selectedItem = listVOrder.SelectedItems[0];
-            var menuItemName = selectedItem.Text;
-            var orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Name == menuItemName);
+            ListViewItem selectedItem = listVOrder.SelectedItems[0];
+            string menuItemName = selectedItem.Text;
+            OrderItem orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Name == menuItemName);
             if (orderItem != null)
             {
                 orderItem.Comment = string.Empty;
@@ -346,9 +339,9 @@ namespace ChapeauUI
                 MessageBox.Show("Please select an order item to add a comment.");
                 return;
             }
-            var selectedItem = listVOrder.SelectedItems[0];
-            var menuItemName = selectedItem.Text;
-            var orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Name == menuItemName);
+            ListViewItem selectedItem = listVOrder.SelectedItems[0];
+            string menuItemName = selectedItem.Text;
+            OrderItem orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Name == menuItemName);
             if (orderItem != null)
             {
                 orderItem.Comment = textBoxComment.Text;
@@ -361,7 +354,5 @@ namespace ChapeauUI
             currentOrderItems.RemoveAll(item => item.Id == 0); // Remove only items that are not yet saved to the database.
             RefreshOrderItemsList();
         }
-
-       
     }
 }

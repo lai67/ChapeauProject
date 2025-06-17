@@ -56,7 +56,6 @@ namespace Service
         {
             billDao.CreateBill(bill);
         }
-        // updates an existing bill in the databasecr
         public void UpdateBill(Bill bill)
         { 
             billDao.UpdateBill(bill);

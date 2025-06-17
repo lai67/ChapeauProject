@@ -78,6 +78,7 @@
             pictureBox2 = new PictureBox();
             lblFreeHeader = new Label();
             panel1 = new Panel();
+            btnRefresh = new Button();
             ((System.ComponentModel.ISupportInitialize)picBar1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picBar3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picBar5).BeginInit();
@@ -541,7 +542,7 @@
             panelFreeActions.Controls.Add(btnOccupyHere);
             panelFreeActions.Controls.Add(pictureBox2);
             panelFreeActions.Controls.Add(lblFreeHeader);
-            panelFreeActions.Location = new Point(44, 158);
+            panelFreeActions.Location = new Point(46, 158);
             panelFreeActions.Name = "panelFreeActions";
             panelFreeActions.Size = new Size(753, 298);
             panelFreeActions.TabIndex = 41;
@@ -616,16 +617,26 @@
             panel1.Controls.Add(picBar9);
             panel1.Controls.Add(picBar4);
             panel1.Controls.Add(picBar2);
-            panel1.Location = new Point(32, 158);
+            panel1.Location = new Point(28, 158);
             panel1.Name = "panel1";
-            panel1.Size = new Size(796, 328);
+            panel1.Size = new Size(778, 328);
             panel1.TabIndex = 41;
+            // 
+            // btnRefresh
+            // 
+            btnRefresh.Location = new Point(685, 19);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(94, 29);
+            btnRefresh.TabIndex = 42;
+            btnRefresh.Text = "Refresh";
+            btnRefresh.UseVisualStyleBackColor = true;
             // 
             // RestaurantOverviewForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1564, 1000);
+            Controls.Add(btnRefresh);
             Controls.Add(panel1);
             Controls.Add(panelFreeActions);
             Controls.Add(panelOccActions);
@@ -719,5 +730,6 @@
         private Panel panel1;
         private Button btnPayment;
         private ListView lstReadyItems;
+        private Button btnRefresh;
     }
 }

@@ -25,7 +25,7 @@ namespace ChapeauUI
             txtPassword.Click += TextBox_Click;
 
 
-            foreach (var btn in panel1.Controls.OfType<Button>().Where(b => b.Tag?.ToString() == "NUM"))
+            foreach (Button btn in panel1.Controls.OfType<Button>().Where(b => b.Tag?.ToString() == "NUM"))
             {
                 btn.Click += btnNumber_Click;
             }
@@ -37,21 +37,24 @@ namespace ChapeauUI
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            if (!TryGetCredentials(out int userId, out string password))
-                return;
-
-            var employee = employeeService.Authenticate(userId, password);
-            if (employee is null)
+            try
             {
-                ShowLoginError("Invalid ID or password. Please try again.");
-                return;
+                if (!TryGetCredentials(out int userId, out string password))
+                    return;
+
+                Employee employee = employeeService.Authenticate(userId, password);
+                if (employee is null)
+                {
+                    ShowLoginError("Invalid ID or password. Please try again.");
+                    return;
+                }
+
+                RedirectEmployeeRole(employee);
             }
-
-            // var overview = new RestaurantOverviewForm(employee);
-            // overview.Show();
-            // this.Hide();
-
-            RedirectEmployeeRole(employee);
+            catch (Exception ex)
+            {
+                MessageBox.Show("An unexpected error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         // role-based redirection
@@ -64,7 +67,7 @@ namespace ChapeauUI
                     next = new RestaurantOverviewForm(employee);
                     break;
                 case Role.Barman:
-                    next = new RestaurantOverviewForm(employee);
+                    next = new RestaurantOverviewForm(employee);//Aron when you finish your part you can change this to the BarmanForm
                     break;
                 case Role.Chef:
                     next = new RestaurantOverviewForm(employee);
@@ -85,11 +88,11 @@ namespace ChapeauUI
         private void TextBox_Click(object sender, EventArgs e)
         {
             activeTextBox = (TextBox)sender;
-            activeTextBox.Focus();  // Gives visual focus to the active field
+            activeTextBox.Focus();  
         }
         private void btnNumber_Click(object sender, EventArgs e)
         {
-            var btn = (Button)sender;
+            Button btn = (Button)sender;
             activeTextBox.Text += btn.Text;
         }
 
@@ -97,9 +100,9 @@ namespace ChapeauUI
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            var text = activeTextBox.Text;
+            string text = activeTextBox.Text;
             if (text.Length > 0)
-                activeTextBox.Text = text[..^1];  // C# 8 range syntax
+                activeTextBox.Text = text[..^1];
         }
 
         private bool TryGetCredentials(out int userId, out string password)

@@ -17,7 +17,7 @@ namespace DAL
     SELECT
         t.table_number,
         
-        -- Determine ìlocationî from the menu_name: drinks ? Bar, else ? Kitchen
+        -- Determine ‚Äúlocation‚Äù from the menu_name: drinks ? Bar, else ? Kitchen
         CASE 
             WHEN m.menu_name = 'Drink' THEN 'Bar'
             ELSE 'Kitchen'
@@ -57,7 +57,7 @@ namespace DAL
             foreach (DataRow row in dt.Rows)
             {
                 int tableNumber = row.Field<int>("table_number");
-                string itemLocation = row.Field<string>("item_location");  // was ìpreparation_locationî
+                string itemLocation = row.Field<string>("item_location");
                 int code = row.Field<int>("phase_code");
 
                 // Convert numeric code back to a textual status
@@ -69,21 +69,17 @@ namespace DAL
                     _ => "None"
                 };
 
-                // If this table already has an entry, get its current tuple.
                 dict.TryGetValue(tableNumber, out var current);
 
                 if (itemLocation.Equals("Bar", StringComparison.OrdinalIgnoreCase))
                 {
-                    // Update BarStatus slot, keep current.Kitch unchanged
                     dict[tableNumber] = (status, current.Kitch);
                 }
                 else
                 {
-                    // Update KitchenStatus slot, keep current.Bar unchanged
                     dict[tableNumber] = (current.Bar, status);
                 }
             }
-
             return dict;
         }
 
@@ -100,8 +96,7 @@ namespace DAL
             new SqlParameter("@preparationTime", order.PreparationTime),
             new SqlParameter("@isCreated", order.IsCreated),
             new SqlParameter("@employeeId", order.Employee.Id),
-            new SqlParameter("@tableId", order.Table.Id)
-        };
+            new SqlParameter("@tableId", order.Table.Id)};
             using (SqlConnection conn = OpenConnection())
             using (SqlCommand command = new SqlCommand(query, conn))
             {
@@ -110,6 +105,7 @@ namespace DAL
                 return insertedId;
             }
         }
+
 
         // update order
         public void UpdateOrderPreparationInfo(int orderId, int preparationTime)
@@ -134,6 +130,7 @@ namespace DAL
             ExecuteEditQuery(query, parameters);
         }
 
+
         public Order GetOrdersForAlreadyOrderedTable(int tableId)
         {
             string query = @"SELECT TOP 1 o.*, t.table_number, t.table_status
@@ -147,21 +144,18 @@ namespace DAL
             if (dt.Rows.Count == 0)
                 return null;
 
-            DataRow row = dt.Rows[0];
-            return new Order(
-       id: row.Field<int>("id"),
-       orderTime: row.Field<DateTime>("order_time"),
-       preparationTime: row.Field<int>("preparation_time"),
-       isCreated: row.Field<bool>("isCreated"),
-       employee: new Employee { Id = row.Field<int>("employee_id") },
-       bill: null,
-       table: new Table(
+           DataRow row = dt.Rows[0];
+           return new Order(
+           id: row.Field<int>("id"),
+           orderTime: row.Field<DateTime>("order_time"),
+           preparationTime: row.Field<int>("preparation_time"),
+           isCreated: row.Field<bool>("isCreated"),
+           employee: new Employee { Id = row.Field<int>("employee_id") },
+           bill: null,
+           table: new Table(
            row.Field<int>("table_id"),
            row.Field<int>("table_number"),
-           Enum.Parse<TableStatus>(row.Field<string>("table_status"), true)
-       )
-   );
+           Enum.Parse<TableStatus>(row.Field<string>("table_status"), true)));
         }
-
     }
 }

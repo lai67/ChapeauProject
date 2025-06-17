@@ -52,12 +52,30 @@ namespace ChapeauUI
             LoadColumns(lstViewBill);
             LoadColumns(listViewSubBill);
 
-            // Only load the bill if it exists
+
             currentBill = billService.GetBillByOrderId(orderId);
+
+            if (currentBill == null)
+            {
+                currentBill = new Bill
+                {
+                    OrderId = orderId,
+                    TotalPrice = 0, 
+                    Vat = 0,
+                    GuestNumber = 1,
+                    Tip = 0,
+                    Feedback = ""
+                };
+                billService.CreateBill(currentBill);
+
+                // Reload the bill to get the BillId assigned by the DB
+                currentBill = billService.GetBillByOrderId(orderId);
+            }
 
             if (currentBill != null)
             {
                 billItems = billService.GetOrderedItemsForBill(currentBill.BillId);
+
             }
             else
             {
@@ -65,7 +83,6 @@ namespace ChapeauUI
                 // I may need a method to get order items by orderId if not present
                 billItems = billService.GetOrderedItemsForBill(orderId);
             }
-
             FillListView(lstViewBill, billItems);
             UpdateBillVatAndTotalLabels();
         }
