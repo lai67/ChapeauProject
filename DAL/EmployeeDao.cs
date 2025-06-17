@@ -17,7 +17,7 @@ namespace DAL
             string query = @"SELECT id,first_name,last_name,password,role FROM Employee 
                 WHERE id = @id AND password = @password";
 
-            var parameters = new SqlParameter[]
+            SqlParameter[] parameters = new SqlParameter[]
             {
                     new SqlParameter("@id", SqlDbType.Int) {Value = id},
                     new SqlParameter("@password", SqlDbType.VarChar,  64) {Value = password}

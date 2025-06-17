@@ -189,9 +189,6 @@ namespace ChapeauUI
                 MessageBox.Show("This item is out of stock.");
                 return false;
             }
-
-
-
             var orderItem = currentOrderItems.FirstOrDefault(i => i.MenuItem.Id == menuItem.Id);
             if (orderItem != null)
             {
