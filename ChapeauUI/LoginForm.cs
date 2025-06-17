@@ -100,9 +100,9 @@ namespace ChapeauUI
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            var text = activeTextBox.Text;
+            string text = activeTextBox.Text;
             if (text.Length > 0)
-                activeTextBox.Text = text[..^1];  
+                activeTextBox.Text = text[..^1];
         }
 
         private bool TryGetCredentials(out int userId, out string password)
