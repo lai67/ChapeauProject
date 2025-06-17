@@ -280,7 +280,6 @@ namespace ChapeauUI
             }
             else
             {
-                orderService.UpdateOrder(currentOrder);
 
                 foreach (var item in currentOrderItems)
                 {

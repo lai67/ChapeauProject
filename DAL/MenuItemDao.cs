@@ -24,8 +24,8 @@ namespace DAL
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-        new SqlParameter("@menuId", menuId),
-        new SqlParameter("@category", itemCategory)
+              new SqlParameter("@menuId", menuId),
+              new SqlParameter("@category", itemCategory)
             };
 
             DataTable dt = ExecuteSelectQuery(query, parameters);
@@ -94,8 +94,6 @@ namespace DAL
              };
             ExecuteEditQuery(query, parameters);
         }
-  
-
     }
 
 
