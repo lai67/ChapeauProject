@@ -61,5 +61,18 @@ namespace Service
         {
             return _orderItemDao.CountRunningItemsByTableId(tableId) == 0;
         }
+
+        public List<Order> GetUnpreparedOrdersAndPlace(string place)
+        {
+            return _orderDao.GetUnpreparedOrdersAndPlace(place);
+
+        }
+
+        public List<Order> GetFinishedOrdersOfTodayAndPlace(string place)
+        {
+            return _orderDao.GetFinishedOrdersOfTodayAndPlace(place);
+        }
+
+        
     }
 }

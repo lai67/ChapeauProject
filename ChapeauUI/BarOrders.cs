@@ -16,7 +16,7 @@ namespace ChapeauUI
 {
     public partial class BarOrders : Form
     {
-
+        private readonly Employee _currentEmployee;
         private Timer timer;
         private bool ShowUnprepared;
         private OrderService orderService;
@@ -25,15 +25,18 @@ namespace ChapeauUI
         private List<Order> CurrentOrders;
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         public static extern int SetScrollPos(IntPtr hWnd, int nBar, int nPos, bool bRedraw);
-        public BarOrders()
+        public BarOrders(Employee currentEmployee)
         {
+            _currentEmployee = currentEmployee;
+           
             InitializeComponent();
             CommentPanel.Hide();
             SetPanel.Hide();
             SetData();
         }
+     
 
-        void SetData()
+        private void SetData()
         {
             lblName.Text = GlobalVariables.CurrentEmployee.FirstName + " " + GlobalVariables.CurrentEmployee.LastName;
             timer = new Timer { Interval = 1000 };

@@ -147,7 +147,7 @@ namespace ChapeauUI
             }
             else
             {
-                orderItem = new OrderItem(menuItem, "", OrderItem.OrderStatus.Placed, 1, currentOrder.Id);
+                orderItem = new OrderItem(menuItem, "", OrderStatus.Placed, 1, currentOrder.Id);
                 currentOrderItems.Add(orderItem);
             }
             RefreshOrderItemsList();
@@ -186,7 +186,7 @@ namespace ChapeauUI
             }
             else
             {
-                orderItem = new OrderItem(menuItem, "", OrderItem.OrderStatus.Placed, 1, currentOrder.Id);
+                orderItem = new OrderItem(menuItem, "", OrderStatus.Placed, 1, currentOrder.Id);
                 currentOrderItems.Add(orderItem);
             }
             RefreshOrderItemsList();
@@ -252,7 +252,7 @@ namespace ChapeauUI
         }
         private void SetOrderPreparationInfo()
         {
-            var foodItems = currentOrderItems.Where(i => i.MenuItem.Menu_Id == 1 || i.MenuItem.Menu_Id == 2).ToList();
+       /*      var foodItems = currentOrderItems.Where(i => i.MenuItem.Menu_Id == 1 || i.MenuItem.Menu_Id == 2).ToList();
             var drinkItems = currentOrderItems.Where(i => i.MenuItem.Menu_Id == 3).ToList();
 
             if (foodItems.Any() && !drinkItems.Any())
@@ -272,7 +272,7 @@ namespace ChapeauUI
                     foodItems.Max(i => i.MenuItem.PreparationTime),
                     drinkItems.Max(i => i.MenuItem.PreparationTime)
                 );
-            }
+            } */
         }
 
         private void btnSendOrder_Click(object sender, EventArgs e)

@@ -18,7 +18,7 @@ namespace Model
         public OrderStatus Status;
 
         // for for creating a new order - This constructor is used when creating a new order in the system.
-        public Order(DateTime orderTime, int preparationTime, bool isCreated, Employee employee, string preparationLocation, Table table)
+        public Order(DateTime orderTime, int preparationTime, bool isCreated, Employee employee, Table table)
         {
             OrderTime = orderTime;
             PreparationTime = preparationTime;
@@ -31,7 +31,7 @@ namespace Model
         }
 
         // for for loading an existing order - This constructor is used when loading an existing order from the database.
-        public Order(int id, DateTime orderTime, int preparationTime, bool isCreated, Employee employee, Bill bill, string preparationLocation, Table table)
+        public Order(int id, DateTime orderTime, int preparationTime, bool isCreated, Employee employee, Bill bill, Table table)
         {
             Id = id;
             OrderTime = orderTime;
@@ -44,6 +44,8 @@ namespace Model
           
 
         }
+
+
 
   
     }

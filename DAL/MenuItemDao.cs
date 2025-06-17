@@ -114,7 +114,7 @@ namespace DAL
                 Name = row["name"].ToString(),
                 Item_Category = row["item_category"].ToString(),
                 Stock = Convert.ToInt32(row["stock"]),
-                Vat = Convert.ToDouble(row["vat"]),
+                Vat = Convert.ToDecimal(row["vat"]),
                 Price = Convert.ToDecimal(row["price"]),
                 PreparationTime = Convert.ToInt32(row["preparation_time"]),
                 Menu_Id = row.Table.Columns.Contains("menu_id") && row["menu_id"] != DBNull.Value // in case if its null.

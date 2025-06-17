@@ -20,6 +20,7 @@ namespace ChapeauUI
     public partial class KitchenOrders : Form
     {
 
+        private readonly Employee _currentEmployee;
         private Timer timer;
         private bool ShowUnprepared;
         private OrderService orderService;
@@ -28,13 +29,16 @@ namespace ChapeauUI
         private List<Order> CurrentOrders;
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         public static extern int SetScrollPos(IntPtr hWnd, int nBar, int nPos, bool bRedraw);
-        public KitchenOrders()
+        public KitchenOrders(Employee currentEmployee)
         {
+            _currentEmployee = currentEmployee;
+           
             InitializeComponent();
             CommentPanel.Hide();
             SetPanel.Hide();
             SetData();
         }
+  
 
         void btnLogoff_Click(object sender, EventArgs e)
         {
@@ -134,8 +138,8 @@ namespace ChapeauUI
             //sort orders based on type
             for (int i = 0; i < order.Items.Count; i++)
             {
-                order.Items[i].AuxMenuItem = menuService.GetMenuItemByID(order.Items[i].MenuItemID);
-                if (order.Items[i].AuxMenuItem.Type == "Dessert")
+                order.Items[i].MenuItem = menuService.GetMenuItemById(order.Items[i].MenuItem.Id);
+                if (order.Items[i].MenuItem.Item_Category == "Dessert")
                 {
                     if (desert == false)
                     {
@@ -144,7 +148,7 @@ namespace ChapeauUI
                     desert = true;
                     DesertItems.Add(order.Items[i]);
                 }
-                else if (order.Items[i].AuxMenuItem.Type == "Starter")
+                else if (order.Items[i].MenuItem.Item_Category == "Starter")
                 {
                     if (starter == false)
                     {
@@ -209,18 +213,18 @@ namespace ChapeauUI
         {
             if (item.Comment != null && item.Comment.Length > 0)
             {
-                return $"CUSTOM  {item.AuxMenuItem.Name}  Amount: {item.Amount} Status: {item.Status} ";
+                return $"CUSTOM  {item.MenuItem.Name}  Amount: {item.MenuItem.Price} Status: {item.orderStatus} ";
             }
             else
             {
-                return $"{item.AuxMenuItem.Name}  Amount: {item.Amount} Status: {item.Status}";
+                return $"{item.MenuItem.Name}  Amount: {item.MenuItem.Price} Status: {item.orderStatus}";
             }
         }
 
         string OrderText(Order order)
         {
-            Bill bill = billService.GetBill(order.BillID);
-            return $"Order number: {order.Id}    Table: {bill.Table}    Order Time: {order.OrderTime}    Wait Time: {order.PreparationTime}  Status: {order.Status}";
+            Bill bill = billService.GetBillById(order.Bill.BillId);
+            return $"Order number: {order.Id}    Table: {bill.Table.TableNumber}    Order Time: {order.OrderTime}    Wait Time: {order.PreparationTime}  Status: {order.Status}";
         }
 
         bool DifferentOrders(List<Order> orders)
@@ -244,7 +248,7 @@ namespace ChapeauUI
 
         bool CompareOrders(Order order1, Order order2)
         {
-            if (order1.Id == order2.Id && order1.OrderTime == order2.OrderTime && order1.PreparationTime == order2.PreparationTime && order1.Status == order2.Status && order1.BillID == order2.BillID && order1.EmployeeID == order2.EmployeeID && order1.Items.Count == order2.Items.Count)
+            if (order1.Id == order2.Id && order1.OrderTime == order2.OrderTime && order1.PreparationTime == order2.PreparationTime && order1.Status == order2.Status && order1.Bill.BillId == order2.Bill.BillId /* && order1.EmployeeID == order2.EmployeeID */ && order1.Items.Count == order2.Items.Count)
             {
                 for (int i = 0; i < order1.Items.Count; i++)
                 {
@@ -263,7 +267,7 @@ namespace ChapeauUI
 
         bool CompareOrderItem(OrderItem item1, OrderItem item2)
         {
-            if (item1.MenuItemID == item2.MenuItemID && item1.Amount == item2.Amount && item1.Status == item2.Status && item1.Comment == item2.Comment)
+            if (item1.MenuItem.Id == item2.MenuItem.Id && item1.Count == item2.Count && item1.orderStatus == item2.orderStatus && item1.Comment == item2.Comment)
             {
                 return true;
             }
@@ -296,10 +300,10 @@ namespace ChapeauUI
                         CommentPanel.Show();
                         CommentBox.Text = item.Comment;
                     }
-                    if (item.Status != OrderStatus.Served)
+                    if (item.orderStatus != OrderStatus.Served)
                     {
                         SetPanel.Show();
-                        SetCheck(item.Status);
+                        SetCheck(item.orderStatus);
                     }
                 }
             }
@@ -353,7 +357,7 @@ namespace ChapeauUI
                 {
                     for (int i = 0;i<order.Items.Count;i++)
                     {
-                        order.Items[i].Status = OrderStatus.Ready;
+                        order.Items[i].orderStatus = OrderStatus.Ready;
                     }
                     order = SetOrderWaitingTime(order);
                 }
@@ -368,12 +372,12 @@ namespace ChapeauUI
                 Order order = (Order)OrderNode.Tag;
                 int itemIndex = order.Items.IndexOf(item), orderIndex = CurrentOrders.IndexOf(order);
 
-                item.Status = GetCheck();
-                if(item.Status == OrderStatus.Preparing && order.Status != OrderStatus.Preparing)
+                item.orderStatus = GetCheck();
+                if(item.orderStatus == OrderStatus.Preparing && order.Status != OrderStatus.Preparing)
                 {
                     order.Status = OrderStatus.Preparing;
                 }
-                else if(item.Status == OrderStatus.Placed && order.Status == OrderStatus.Ready)
+                else if(item.orderStatus == OrderStatus.Placed && order.Status == OrderStatus.Ready)
                 {
                     order.Status = OrderStatus.Preparing;
                 }
@@ -391,9 +395,9 @@ namespace ChapeauUI
             int waiting = 0;
             foreach (OrderItem item in order.Items)
             {
-                if (item.Status != OrderStatus.Ready && item.Status != OrderStatus.Served)
+                if (item.orderStatus != OrderStatus.Ready && item.orderStatus != OrderStatus.Served)
                 {
-                    waiting+= item.AuxMenuItem.PreparationTime;
+                    waiting+= item.MenuItem.PreparationTime;
                 }
               
             }

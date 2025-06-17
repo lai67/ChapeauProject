@@ -124,34 +124,118 @@ namespace DAL
             ExecuteEditQuery(query, parameters);
         }
 
+        public List<Order> GetUnpreparedOrdersAndPlace(string place)
+        {
+            string query = @"
+            SELECT o.*, t.table_number, t.table_status
+            FROM [Order] o
+            JOIN [Table] t ON o.table_id = t.id
+            JOIN Order_Item oi ON oi.order_id = o.id
+            JOIN Menu_Item mi ON mi.id = oi.menu_item_id
+            JOIN Menu m ON m.id = mi.menu_id
+            WHERE oi.status IN ('Placed', 'Preparing')
+              AND ((@place = 'Bar' AND m.menu_name = 'Drink')
+                   OR (@place = 'Kitchen' AND m.menu_name <> 'Drink'))
+              AND CAST(o.order_time AS DATE) = CAST(GETDATE() AS DATE)
+            GROUP BY o.id, o.order_time, o.preparation_time, o.isCreated, o.employee_id, o.table_id, t.table_number, t.table_status
+            ORDER BY o.order_time ASC";
+
+            SqlParameter[] parameters = { new SqlParameter("@place", place) };
+            DataTable dt = ExecuteSelectQuery(query, parameters);
+
+            var orders = new List<Order>();
+            foreach (DataRow row in dt.Rows)
+            {
+            orders.Add(new Order(
+                id: row.Field<int>("id"),
+                orderTime: row.Field<DateTime>("order_time"),
+                preparationTime: row.Field<int>("preparation_time"),
+                isCreated: row.Field<bool>("isCreated"),
+                employee: new Employee { Id = row.Field<int>("employee_id") },
+                bill: null,
+                table: new Table(
+                row.Field<int>("table_id"),
+                row.Field<int>("table_number"),
+                Enum.Parse<TableStatus>(row.Field<string>("table_status"), true)
+                )
+            ));
+            }
+            return orders;
+        }
+
+        public List<Order> GetFinishedOrdersOfTodayAndPlace(string place)
+        {
+            string query = @"
+            SELECT o.*, t.table_number, t.table_status
+            FROM [Order] o
+            JOIN [Table] t ON o.table_id = t.id
+            JOIN Order_Item oi ON oi.order_id = o.id
+            JOIN Menu_Item mi ON mi.id = oi.menu_item_id
+            JOIN Menu m ON m.id = mi.menu_id
+            WHERE oi.status = 'Ready'
+              AND ((@place = 'Bar' AND m.menu_name = 'Drink')
+                   OR (@place = 'Kitchen' AND m.menu_name <> 'Drink'))
+              AND CAST(o.order_time AS DATE) = CAST(GETDATE() AS DATE)
+            GROUP BY o.id, o.order_time, o.preparation_time, o.isCreated, o.employee_id, o.table_id, t.table_number, t.table_status
+            ORDER BY o.order_time ASC";
+
+            SqlParameter[] parameters = { new SqlParameter("@place", place) };
+            DataTable dt = ExecuteSelectQuery(query, parameters);
+
+            var orders = new List<Order>();
+            foreach (DataRow row in dt.Rows)
+            {
+            orders.Add(new Order(
+                id: row.Field<int>("id"),
+                orderTime: row.Field<DateTime>("order_time"),
+                preparationTime: row.Field<int>("preparation_time"),
+                isCreated: row.Field<bool>("isCreated"),
+                employee: new Employee { Id = row.Field<int>("employee_id") },
+                bill: null,
+                table: new Table(
+                row.Field<int>("table_id"),
+                row.Field<int>("table_number"),
+                Enum.Parse<TableStatus>(row.Field<string>("table_status"), true)
+                )
+            ));
+            }
+            return orders;
+        }
+
+        
         public Order GetOrdersForAlreadyOrderedTable(int tableId)
         {
-            string query = @"SELECT TOP 1 o.*, t.table_number, t.table_status
-                    FROM [Order] o 
-               JOIN [Table] t ON o.table_id = t.id
-               WHERE o.table_id = @tableId AND o.isCreated = 0
-               ORDER BY o.order_time DESC";
-            SqlParameter[] parameters = {new SqlParameter("@tableId", tableId)
-            };
+            string query = @"
+                SELECT TOP 1 o.*, t.table_number, t.table_status
+                FROM [Order] o
+                JOIN [Table] t ON o.table_id = t.id
+                JOIN Order_Item oi ON oi.order_id = o.id
+                WHERE o.table_id = @tableId
+                  AND oi.status = 'Placed'
+                ORDER BY o.order_time DESC";
+
+            SqlParameter[] parameters = { new SqlParameter("@tableId", tableId) };
             DataTable dt = ExecuteSelectQuery(query, parameters);
+
             if (dt.Rows.Count == 0)
                 return null;
 
             DataRow row = dt.Rows[0];
             return new Order(
-       id: row.Field<int>("id"),
-       orderTime: row.Field<DateTime>("order_time"),
-       preparationTime: row.Field<int>("preparation_time"),
-       isCreated: row.Field<bool>("isCreated"),
-       employee: new Employee { Id = row.Field<int>("employee_id") },
-       bill: null,
-       table: new Table(
-           row.Field<int>("table_id"),
-           row.Field<int>("table_number"),
-           Enum.Parse<TableStatus>(row.Field<string>("table_status"), true)
-       )
-   );
+                id: row.Field<int>("id"),
+                orderTime: row.Field<DateTime>("order_time"),
+                preparationTime: row.Field<int>("preparation_time"),
+                isCreated: row.Field<bool>("isCreated"),
+                employee: new Employee { Id = row.Field<int>("employee_id") },
+                bill: null,
+                table: new Table(
+                    row.Field<int>("table_id"),
+                    row.Field<int>("table_number"),
+                    Enum.Parse<TableStatus>(row.Field<string>("table_status"), true)
+                )
+            );
         }
+        
 
     }
 }
