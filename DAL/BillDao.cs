@@ -11,13 +11,13 @@ namespace DAL
 {
     public class BillDao : BaseDao
     {
-        /*public List<Bill> GetAllBills()
+        public List<Bill> GetAllBills()
         {
             string querySelect = "SELECT id, total_price, vat, guest_number, order_id, tip, feedback FROM [Bill] ORDER BY order_id;";
             SqlParameter[] sqlParameters = new SqlParameter[0];
             return ReadTables(ExecuteSelectQuery(querySelect, sqlParameters));
-        }*/
-        /*private List<Bill> ReadTables(DataTable dataTable)
+        }
+        private List<Bill> ReadTables(DataTable dataTable)
         {
             List<Bill> bills = new List<Bill>();
             SubBillDao subBillDao = new SubBillDao();
@@ -40,7 +40,7 @@ namespace DAL
                 bills.Add(bill);
             }
             return bills;
-        }*/
+        }
         private Bill ReadBill(DataTable dataTable)
         {
             if (dataTable.Rows.Count == 0)
@@ -188,7 +188,7 @@ namespace DAL
             ExecuteEditQuery(query, parameters);
         }
 
-        /*public void DeleteBill(int billId)
+        public void DeleteBill(int billId)
         {
             string query = "DELETE FROM [Bill] WHERE id = @id;";
             SqlParameter[] parameters = new SqlParameter[]
@@ -197,7 +197,7 @@ namespace DAL
             };
 
             ExecuteEditQuery(query, parameters);
-        }*/
+        }
         public int GetNextBillId()
         {
             string query = "SELECT ISNULL(MAX(id), 0) + 1 FROM [Bill]";

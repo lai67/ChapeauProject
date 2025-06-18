@@ -77,15 +77,29 @@ namespace DAL
 
             return ReadTables(ExecuteSelectQuery(query, parameters));
         }
-        public List<BillItem> GetBillItemsBySubBillId(int subBillId)
+        public List<OrderItem> GetOrderItemsBySubBillId(int subBillId)
         {
-            string query = @"SELECT mi.name, mi.price, mi.vat, oi.amount
-                            FROM Sub_Bill sb
-                            JOIN Bill b ON sb.bill_id = b.id
-                            JOIN [Order] o ON b.order_id = o.id
-                            JOIN Order_Item oi ON o.id = oi.order_id
-                            JOIN Menu_Item mi ON oi.menu_item_id = mi.id
-                            WHERE sb.id = @subBillId;";
+            string query = @"
+                SELECT 
+                oi.id AS order_item_id,
+                oi.comment,
+                oi.order_status,
+                oi.amount,
+                oi.order_id,
+                mi.id AS menu_item_id,
+                mi.name,
+                mi.item_category,
+                mi.stock,
+                mi.vat,
+                mi.price,
+                mi.preperation_time,
+                mi.menu_id
+                FROM Sub_Bill sb
+                JOIN Bill b ON sb.bill_id = b.id
+                JOIN [Order] o ON b.order_id = o.id
+                JOIN Order_Item oi ON o.id = oi.order_id
+                JOIN Menu_Item mi ON oi.menu_item_id = mi.id
+                WHERE sb.id = @subBillId;";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
@@ -94,18 +108,36 @@ namespace DAL
 
             DataTable table = ExecuteSelectQuery(query, parameters);
 
-            List<BillItem> items = new List<BillItem>();
+            List<OrderItem> items = new List<OrderItem>();
 
             foreach (DataRow row in table.Rows)
             {
-                BillItem item = new BillItem
+                var menuItem = new MenuItemModel
                 {
+                    Id = Convert.ToInt32(row["menu_item_id"]),
                     Name = row["name"].ToString(),
-                    Price = Convert.ToDecimal(row["price"]),
+                    Item_Category = row["item_category"].ToString(),
+                    Stock = Convert.ToInt32(row["stock"]),
                     Vat = Convert.ToDecimal(row["vat"]),
-                    Amount = Convert.ToInt32(row["amount"])
+                    Price = Convert.ToDecimal(row["price"]),
+                    Preperation_Time = Convert.ToInt32(row["preperation_time"]),
+                    Menu_Id = Convert.ToInt32(row["menu_id"])
                 };
-                items.Add(item);
+
+                var orderStatus = Enum.TryParse<OrderItem.OrderStatus>(row["order_status"].ToString(), out var status)
+                    ? status
+                    : OrderItem.OrderStatus.Served;
+
+                var orderItem = new OrderItem(
+                    id: Convert.ToInt32(row["order_item_id"]),
+                    menuItem: menuItem,
+                    comment: row["comment"].ToString(),
+                    orderStatus: orderStatus,
+                    count: Convert.ToInt32(row["amount"]),
+                    orderId: Convert.ToInt32(row["order_id"])
+                );
+
+                items.Add(orderItem);
             }
 
             return items;
