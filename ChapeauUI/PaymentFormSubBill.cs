@@ -23,6 +23,7 @@ namespace ChapeauUI
         private bool isPaid = false;
         private int guestNumber = 1;
         private decimal remainingAmount;
+        private decimal totalTip = 0m;
         public bool UserCancelled
         {
             get { return userCancelled; }
@@ -87,6 +88,10 @@ namespace ChapeauUI
             if (!ValidatePaymentMethod())
                 return;
 
+            decimal tipPercentage = GetSelectedTipPercentage();
+            decimal tipForThisGuest = splitPrice * tipPercentage;
+            totalTip += tipForThisGuest;
+
             ProcessPayment(priceWithTip);
 
             remainingAmount -= splitPrice;
@@ -99,6 +104,7 @@ namespace ChapeauUI
 
             if (guestNumber == splitValue)
             {
+                subBill.Tip = totalTip;
                 CompleteAllPayments();
                 return;
             }
@@ -218,6 +224,19 @@ namespace ChapeauUI
             subBill.IsPaid = true;
             userCancelled = false;
             this.Close();
+        }
+        private decimal GetSelectedTipPercentage()
+        {
+            if (rdBtnTipPct0.Checked) return 0m;
+            if (rdBtnTipPct2.Checked) return 0.02m;
+            if (rdBtnTipPct5.Checked) return 0.05m;
+            if (rdBtnTipPct7.Checked) return 0.07m;
+            if (rdBtnTipPct10.Checked) return 0.10m;
+            if (rdBtnTipPct12.Checked) return 0.12m;
+            if (rdBtnTipPct15.Checked) return 0.15m;
+            if (rdBtnTipPct20.Checked) return 0.20m;
+            if (rdBtnTipPct25.Checked) return 0.25m;
+            return 0m;
         }
     }
 }
