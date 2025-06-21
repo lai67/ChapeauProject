@@ -29,8 +29,6 @@ namespace DAL
                 Bill bill = new Bill()
                 {
                     BillId = billId,
-                    TotalPrice = (decimal)dr["total_price"],
-                    Vat = (decimal)dr["vat"],
                     GuestNumber = (int)dr["guest_number"],
                     OrderId = (int)dr["order_id"],
                     Feedback = dr["feedback"].ToString(),
@@ -53,8 +51,6 @@ namespace DAL
             Bill bill = new Bill()
             {
                 BillId = billId,
-                TotalPrice = (decimal)dr["total_price"],
-                Vat = (decimal)dr["vat"],
                 GuestNumber = (int)dr["guest_number"],
                 OrderId = (int)dr["order_id"],
                 Feedback = dr["feedback"].ToString(),

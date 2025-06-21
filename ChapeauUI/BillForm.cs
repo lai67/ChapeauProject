@@ -19,8 +19,14 @@ namespace ChapeauUI
     public partial class BillForm : Form
     {
         private readonly int orderId;
-        private List<OrderItem> billItems; // Cached full bill items with VAT
+        private List<OrderItem> billItems;
         private List<OrderItem> subBillItems;
+
+        /* ask danka about the two global lists above. Gerwin wants every field to be local
+           except bill and currentBill, but to do that you would need an increaseAmount and
+           decreaseAmount method in the DAO, and the amount of calls to those methods would 
+           be (in my opinion) inefficient and wasteful in terms of memory */
+
         private Bill currentBill; // keep this
         private SubBill currentSubBill; // keep this too
         public BillForm(int orderId)
@@ -46,6 +52,7 @@ namespace ChapeauUI
         private void BillForm_Load(object sender, EventArgs e)
         {
             var billService = new BillService();
+            var subBillService = new SubBillService();
 
             LoadColumns(lstViewBill);
             LoadColumns(listViewSubBill);
@@ -57,8 +64,7 @@ namespace ChapeauUI
                 currentBill = new Bill
                 {
                     OrderId = orderId,
-                    TotalPrice = 0, 
-                    Vat = 0,
+                    OrderItems = new List<OrderItem>(),
                     GuestNumber = 1,
                     Tip = 0,
                     Feedback = ""
@@ -69,19 +75,17 @@ namespace ChapeauUI
                 currentBill = billService.GetBillByOrderId(orderId);
             }
 
-            if (currentBill != null)
+            if (currentBill == null) // just in case there is an error creating the bill
             {
-                billItems = billService.GetOrderedItemsForBill(currentBill.BillId);
+                MessageBox.Show("Error creating bill. Please try again later.");
+                this.Close(); // Close the form if bill creation fails
+                return;
+            }
 
-            }
-            else
-            {
-                // Bill does not exist yet, order items are being loaded for display
-                // I may need a method to get order items by orderId if not present
-                billItems = billService.GetOrderedItemsForBill(orderId);
-            }
+            billItems = billService.GetOrderedItemsForBill(currentBill.BillId);
+
             FillListView(lstViewBill, billItems);
-            UpdateBillVatAndTotalLabels();
+            UpdateBillAndSubBillViews();
         }
         private void btnAddToSubBill_Click(object sender, EventArgs e)
         {
@@ -144,8 +148,11 @@ namespace ChapeauUI
                 return;
             }
 
-            decimal billTotalExclVat = CalculateTotal(billItems, out decimal vatTotal);
-            EnsureBillExists(billTotalExclVat, vatTotal, billService);
+            decimal billTotal = currentBill.TotalPrice;
+            decimal vatTotal = currentBill.Vat;
+            decimal lowVatTotal = currentBill.LowVatTotal;
+            decimal highVatTotal = currentBill.HighVatTotal;
+            EnsureBillExists(billTotal, vatTotal, billService);
 
             if (!ShowCompleteBillPaymentForm(currentBill))
                 return;
@@ -170,8 +177,11 @@ namespace ChapeauUI
                 return;
             }
 
-            decimal subBillTotalExclVat = CalculateTotal(subBillItems, out decimal vatTotal);
-            EnsureSubBillExists(subBillTotalExclVat, vatTotal, subBillService);
+            decimal subBillTotal = currentSubBill.Price;
+            decimal vatTotal = currentSubBill.Vat;
+            decimal subBillLowVatTotal = currentSubBill.LowVatTotal;
+            decimal subBillHighVatTotal = currentSubBill.HighVatTotal;
+            EnsureSubBillExists(subBillTotal, vatTotal, subBillService);
 
             if (!ShowSubBillPaymentForm(currentSubBill))
                 return;
@@ -182,59 +192,58 @@ namespace ChapeauUI
             ClearSubBill();
             AfterSubBillPaid(currentSubBill, orderService);
         }
-        private decimal CalculateTotal(List<OrderItem> items, out decimal vatTotal)
-        {
-            decimal total = 0;
-            vatTotal = 0;
-
-            foreach (var item in items)
-            {
-                decimal itemTotal = item.MenuItem.Price * item.Count;
-                decimal itemVat = (itemTotal * item.MenuItem.Vat) / 100;
-                total += itemTotal;
-                vatTotal += itemVat;
-            }
-
-            return total;
-        }
         private void UpdateSubBillVatAndTotalLabels()
         {
-            var (subBillTotal, vatTotal) = GetTotalAndVat(subBillItems);
-            var (lowVatTotal, highVatTotal) = GetLowAndHighVat(subBillItems);
-            SetVatAndTotalLabels(
-                lblSubBillTotalValue, lblVatValueSubBill, lblVatLowValueSubBill, lblVatHighValueSubBill,
-                subBillTotal, vatTotal, lowVatTotal, highVatTotal);
+            if (currentSubBill != null)
+            {
+                SetVatAndTotalLabels(
+                    lblSubBillTotalValue,
+                    lblVatValueSubBill,
+                    lblVatLowValueSubBill,
+                    lblVatHighValueSubBill,
+                    currentSubBill.Price,
+                    currentSubBill.Vat,
+                    currentSubBill.LowVatTotal,
+                    currentSubBill.HighVatTotal
+                );
+            }
+            else
+            {
+                SetVatAndTotalLabels(
+                    lblSubBillTotalValue,
+                    lblVatValueSubBill,
+                    lblVatLowValueSubBill,
+                    lblVatHighValueSubBill,
+                    0, 0, 0, 0
+                );
+            }
         }
+
         private void UpdateBillVatAndTotalLabels()
         {
-            var (billTotal, vatTotal) = GetTotalAndVat(billItems);
-            var (lowVatTotal, highVatTotal) = GetLowAndHighVat(billItems);
-            SetVatAndTotalLabels(
-                lblTotalPriceValueBill, lblVatValueCompBill, lblVatLowBillValue, lblVatHighBillValue,
-                billTotal, vatTotal, lowVatTotal, highVatTotal);
-        }
-        private decimal CalculateLowAndHighVat(List<OrderItem> items, out decimal lowVatTotal, out decimal highVatTotal)
-        {
-            lowVatTotal = 0;
-            highVatTotal = 0;
-
-            foreach (var item in items)
+            if (currentBill != null)
             {
-                decimal itemTotal = item.MenuItem.Price * item.Count;
-                // Check for low VAT (9%)
-                if (item.MenuItem.Vat == 9)
-                {
-                    lowVatTotal += (itemTotal * item.MenuItem.Vat) / 100;
-                }
-                // Check for high VAT (21%)
-                else if (item.MenuItem.Vat == 21)
-                {
-                    highVatTotal += (itemTotal * item.MenuItem.Vat) / 100;
-                }
-                // Optionally handle other VAT rates if needed
+                SetVatAndTotalLabels(
+                    lblTotalPriceValueBill,
+                    lblVatValueCompBill,
+                    lblVatLowBillValue,
+                    lblVatHighBillValue,
+                    currentBill.TotalPrice,
+                    currentBill.Vat,
+                    currentBill.LowVatTotal,
+                    currentBill.HighVatTotal
+                );
             }
-
-            return lowVatTotal;
+            else
+            {
+                SetVatAndTotalLabels(
+                    lblTotalPriceValueBill,
+                    lblVatValueCompBill,
+                    lblVatLowBillValue,
+                    lblVatHighBillValue,
+                    0, 0, 0, 0
+                );
+            }
         }
         private bool BillsPaid(Bill currentBill, SubBill currentSubBill, OrderService orderService)
         {
@@ -323,6 +332,15 @@ namespace ChapeauUI
         {
             FillListView(lstViewBill, billItems);
             FillListView(listViewSubBill, subBillItems);
+
+            // Keep currentBill.OrderItems in sync with billItems
+            if (currentBill != null)
+                currentBill.OrderItems = billItems.ToList();
+
+            // Same with currentSubBill
+            if (currentSubBill != null)
+                currentSubBill.OrderItems = subBillItems.ToList();
+
             UpdateBillVatAndTotalLabels();
             UpdateSubBillVatAndTotalLabels();
         }
@@ -383,7 +401,7 @@ namespace ChapeauUI
         {
             billItems.Clear();
             FillListView(lstViewBill, billItems);
-            UpdateBillVatAndTotalLabels();
+            UpdateBillAndSubBillViews();
         }
         private void AfterBillPaid(Bill bill, OrderService orderService)
         {
@@ -415,7 +433,6 @@ namespace ChapeauUI
         {
             subBillItems.Clear();
             FillListView(listViewSubBill, subBillItems);
-            UpdateSubBillVatAndTotalLabels();
         }
         private void AfterSubBillPaid(SubBill subBill, OrderService orderService)
         {
@@ -427,18 +444,6 @@ namespace ChapeauUI
                 this.Close(); // Close the form if both bills are paid
             }
         }
-        private (decimal total, decimal vatTotal) GetTotalAndVat(List<OrderItem> items)
-        {
-            decimal vatTotal;
-            decimal total = CalculateTotal(items, out vatTotal);
-            return (total, vatTotal);
-        }
-        private (decimal lowVatTotal, decimal highVatTotal) GetLowAndHighVat(List<OrderItem> items)
-        {
-            decimal lowVatTotal, highVatTotal;
-            CalculateLowAndHighVat(items, out lowVatTotal, out highVatTotal);
-            return (lowVatTotal, highVatTotal);
-        }
         private void SetVatAndTotalLabels(
             Label totalLabel, Label vatLabel, Label lowVatLabel, Label highVatLabel,
             decimal total, decimal vatTotal, decimal lowVatTotal, decimal highVatTotal)
@@ -448,7 +453,7 @@ namespace ChapeauUI
             lowVatLabel.Text = $"€{lowVatTotal:0.00}";
             highVatLabel.Text = $"€{highVatTotal:0.00}";
         }
-        private void EnsureBillExists(decimal billTotalExclVat, decimal vatTotal, BillService billService)
+        private void EnsureBillExists(decimal billTotal, decimal vatTotal, BillService billService)
         {
             if (currentBill == null)
             {
@@ -457,20 +462,17 @@ namespace ChapeauUI
                 {
                     BillId = nextId,
                     OrderId = orderId,
-                    TotalPrice = billTotalExclVat + vatTotal,
-                    Vat = vatTotal,
+                    OrderItems = billItems.ToList(),
                     IsPaid = false
                 };
                 billService.CreateBill(currentBill);
             }
             else
             {
-                currentBill.TotalPrice = billTotalExclVat + vatTotal;
-                currentBill.Vat = vatTotal;
                 billService.UpdateBill(currentBill);
             }
         }
-        private void EnsureSubBillExists(decimal subBillTotalExclVat, decimal vatTotal, SubBillService subBillService)
+        private void EnsureSubBillExists(decimal subBillTotal, decimal vatTotal, SubBillService subBillService)
         {
             if (currentSubBill == null)
             {
@@ -479,16 +481,13 @@ namespace ChapeauUI
                 {
                     SubBillId = nextId,
                     BillId = currentBill?.BillId ?? 0,
-                    Price = subBillTotalExclVat + vatTotal,
-                    Vat = vatTotal,
+                    OrderItems = subBillItems.ToList(),
                     IsPaid = false
                 };
                 subBillService.CreateSubBill(currentSubBill);
             }
             else
             {
-                currentSubBill.Price = subBillTotalExclVat + vatTotal;
-                currentSubBill.Vat = vatTotal;
                 subBillService.UpdateSubBill(currentSubBill);
             }
         }
