@@ -73,10 +73,10 @@ namespace DAL
         public Bill GetBillByOrderId(int orderId)
         {
             string query = @"
-                            SELECT b.id, b.total_price, b.vat, b.guest_number, b.order_id, b.tip, b.feedback
-                            FROM [Bill] b
-                            JOIN [ORDER] o ON b.order_id = o.id
-                            WHERE b.order_id = @orderId AND o.isCreated = 0;";
+                SELECT b.id, b.total_price, b.vat, b.guest_number, b.order_id, b.tip, b.feedback
+                FROM [Bill] b
+                JOIN [ORDER] o ON b.order_id = o.id
+                WHERE b.order_id = @orderId AND o.isCreated = 0;";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
@@ -90,7 +90,15 @@ namespace DAL
                 return null;
             }
 
-            return ReadBill(table); // Reuses your existing method
+            Bill bill = ReadBill(table); // Reuses your existing method
+
+            // Fetch and assign order items
+            if (bill != null)
+            {
+                bill.OrderItems = GetOrderItemsByBillId(bill.BillId);
+            }
+
+            return bill;
         }
         public List<OrderItem> GetOrderItemsByBillId(int billId)
         {
@@ -161,6 +169,7 @@ namespace DAL
             };
 
             ExecuteEditQuery(query, parameters);
+            bill.BillId = nextId;
         }
         public void UpdateBill(Bill bill)
         {

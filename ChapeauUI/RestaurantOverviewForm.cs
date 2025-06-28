@@ -304,7 +304,6 @@ namespace ChapeauUI
 
             if (order != null)
             {
-                // Check if all order items are served
                 bool allServed = order.Items != null && order.Items.All(item => item.orderStatus == OrderItem.OrderStatus.Served);
                 if (!allServed)
                 {
@@ -313,7 +312,34 @@ namespace ChapeauUI
                 }
 
                 int orderId = order.Id;
-                BillForm billForm = new BillForm(orderId);
+                var billService = new BillService();
+                var orderItemService = new OrderItemService();
+                Bill bill = billService.GetBillByOrderId(orderId);
+
+                if (bill == null)
+                {
+                    int nextBillId = billService.GetNextBillId();
+
+                    bill = new Bill
+                    {
+                        BillId = nextBillId,
+                        OrderId = orderId,
+                        OrderItems = order.Items, // Pass the order's items
+                        GuestNumber = 1,
+                        Tip = 0,
+                        Feedback = ""
+                    };
+                    billService.CreateBill(bill);
+                    bill = billService.GetBillByOrderId(orderId); // Get the BillId assigned by DB
+                }
+
+                // Ensure OrderItems is populated
+                if (bill.OrderItems == null || bill.OrderItems.Count == 0)
+                {
+                    bill.OrderItems = orderItemService.GetOrderItemsByOrderId(orderId);
+                }
+
+                BillForm billForm = new BillForm(bill); // Pass the Bill object directly
                 billForm.ShowDialog();
             }
             else

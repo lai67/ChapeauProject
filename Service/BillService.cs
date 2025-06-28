@@ -60,5 +60,25 @@ namespace Service
         {
             return billDao.GetNextBillId();
         }
+        public Bill EnsureBillExists(Bill bill, int orderId)
+        {
+            if (bill == null)
+            {
+                int nextId = GetNextBillId();
+                bill = new Bill
+                {
+                    BillId = nextId,
+                    OrderId = orderId,
+                    OrderItems = new List<OrderItem>(),
+                    IsPaid = false
+                };
+                CreateBill(bill);
+            }
+            else
+            {
+                UpdateBill(bill);
+            }
+            return bill;
+        }
     }
 }

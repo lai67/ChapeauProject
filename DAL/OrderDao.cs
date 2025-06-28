@@ -121,7 +121,7 @@ namespace DAL
         }
         public void SetOrderCreated(int orderId, bool isCreated)
         {
-            string query = "UPDATE [Order] SET IsCreated = @isCreated WHERE OrderId = @orderId";
+            string query = "UPDATE [Order] SET IsCreated = @isCreated WHERE id = @orderId";
             SqlParameter[] parameters = new SqlParameter[]
             {
             new SqlParameter("@isCreated", isCreated),
