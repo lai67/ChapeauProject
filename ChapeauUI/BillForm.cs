@@ -39,7 +39,6 @@ namespace ChapeauUI
                 listItem.Tag = item;
             }
         }
-
         private void BillForm_Load(object sender, EventArgs e)
         {
             LoadColumns(lstViewBill);
@@ -91,7 +90,6 @@ namespace ChapeauUI
                 UpdateBillAndSubBillViews();
             }
         }
-
         private void btnRemoveAllFromSubBill_Click(object sender, EventArgs e)
         {
             foreach (var subItem in currentSubBill.OrderItems)
@@ -101,7 +99,6 @@ namespace ChapeauUI
             currentSubBill.OrderItems.Clear();
             UpdateBillAndSubBillViews();
         }
-
         // share a method with paySubBill?
         private void btnPayBill_Click(object sender, EventArgs e)
         {
@@ -114,8 +111,6 @@ namespace ChapeauUI
                 return;
             }
 
-            currentBill = billService.EnsureBillExists(currentBill, currentBill.OrderId);
-
             if (!HasUserCancelledBill(currentBill))
                 return;
 
@@ -125,7 +120,6 @@ namespace ChapeauUI
             ClearBill();
             AfterBillPaid(currentBill, orderService);
         }
-
         private void btnPaySubBill_Click(object sender, EventArgs e)
         {
             var orderService = new OrderService();
@@ -175,7 +169,6 @@ namespace ChapeauUI
                 );
             }
         }
-
         private void UpdateBillVatAndTotalLabels()
         {
             if (currentBill != null)
@@ -247,23 +240,7 @@ namespace ChapeauUI
             }
             else
             {
-                // Create a new MenuItemModel for the sub-bill item
-                var menuItem = new MenuItemModel
-                {
-                    Name = mainItem.MenuItem.Name,
-                    Price = mainItem.MenuItem.Price,
-                    Vat = mainItem.MenuItem.Vat,
-                    Item_Category = mainItem.MenuItem.Item_Category,
-                    Menu_Id = mainItem.MenuItem.Menu_Id
-                };
-
-                currentSubBill.OrderItems.Add(new OrderItem(
-                    menuItem,
-                    mainItem.Comment,
-                    mainItem.orderStatus,
-                    1, // count
-                    mainItem.OrderId
-                ));
+                currentSubBill.OrderItems.Add(CreateOrderItemClone(mainItem, 1, currentSubBill.SubBillId));
             }
             UpdateBillAndSubBillViews();
         }
@@ -310,23 +287,7 @@ namespace ChapeauUI
             }
             else
             {
-                // Clone the MenuItemModel for the main bill item
-                var menuItem = new MenuItemModel
-                {
-                    Name = subItem.MenuItem.Name,
-                    Price = subItem.MenuItem.Price,
-                    Vat = subItem.MenuItem.Vat,
-                    Item_Category = subItem.MenuItem.Item_Category,
-                    Menu_Id = subItem.MenuItem.Menu_Id
-                };
-
-                currentBill.OrderItems.Add(new OrderItem(
-                    menuItem,
-                    comment: subItem.Comment,
-                    orderStatus: OrderItem.OrderStatus.Placed,
-                    count: amount,
-                    orderId: currentBill.OrderId
-                ));
+                currentBill.OrderItems.Add(CreateOrderItemClone(subItem, amount, currentBill.OrderId));
             }
         }
         private bool HasUserCancelledBill(Bill bill)
@@ -382,6 +343,25 @@ namespace ChapeauUI
             vatLabel.Text = $"€{vatTotal:0.00}";
             lowVatLabel.Text = $"€{lowVatTotal:0.00}";
             highVatLabel.Text = $"€{highVatTotal:0.00}";
+        }
+        private OrderItem CreateOrderItemClone(OrderItem source, int count, int orderId)
+        {
+            var menuItem = new MenuItemModel
+            {
+                Name = source.MenuItem.Name,
+                Price = source.MenuItem.Price,
+                Vat = source.MenuItem.Vat,
+                Item_Category = source.MenuItem.Item_Category,
+                Menu_Id = source.MenuItem.Menu_Id
+            };
+
+            return new OrderItem(
+                menuItem,
+                source.Comment,
+                source.orderStatus,
+                count,
+                orderId
+            );
         }
     }
 }

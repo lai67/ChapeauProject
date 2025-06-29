@@ -11,12 +11,12 @@ namespace DAL
 {
     public class SubBillDao : BaseDao
     {
-        public List<SubBill> GetAllSubBills()
+        /*public List<SubBill> GetAllSubBills()
         {
             string querySelect = "SELECT id, bill_id, price, vat, tip, feedback FROM [Sub_Bill] ORDER BY bill_id;";
             SqlParameter[] sqlParameters = new SqlParameter[0];
             return ReadTables(ExecuteSelectQuery(querySelect, sqlParameters));
-        }
+        }*/
         private List<SubBill> ReadTables(DataTable dataTable)
         {
             List<SubBill> subBills = new List<SubBill>();
@@ -52,7 +52,7 @@ namespace DAL
             };
             return subBill;
         }
-        public SubBill GetSubBillById(int subBillId)
+        /*public SubBill GetSubBillById(int subBillId)
         {
             string query = "SELECT id, bill_id, price, vat, tip, feedback FROM [Sub_Bill] WHERE id = @id;";
             SqlParameter[] parameters = new SqlParameter[]
@@ -62,7 +62,7 @@ namespace DAL
 
             DataTable table = ExecuteSelectQuery(query, parameters);
             return ReadSubBill(table);
-        }
+        }*/
         public List<SubBill> GetSubBillsByBillId(int billId)
         {
             string query = "SELECT id, bill_id, price, vat, tip, feedback FROM [Sub_Bill] WHERE bill_id = @bill_id;";
@@ -73,7 +73,7 @@ namespace DAL
 
             return ReadTables(ExecuteSelectQuery(query, parameters));
         }
-        public List<OrderItem> GetOrderItemsBySubBillId(int subBillId)
+        /*public List<OrderItem> GetOrderItemsBySubBillId(int subBillId)
         {
             string query = @"
                 SELECT 
@@ -137,7 +137,7 @@ namespace DAL
             }
 
             return items;
-        }
+        }*/
 
         public void CreateSubBill(SubBill subBill)
         {
@@ -175,7 +175,7 @@ namespace DAL
             };
             ExecuteEditQuery(query, parameters);
         }
-        public void DeleteSubBill(int subBillId)
+        /*public void DeleteSubBill(int subBillId)
         {
             string query = "DELETE FROM [SUB_BILL] WHERE id = @id;";
             SqlParameter[] parameters = new SqlParameter[]
@@ -184,7 +184,7 @@ namespace DAL
             };
 
             ExecuteEditQuery(query, parameters);
-        }
+        }*/
         public int GetNextSubBillId()
         {
             string query = "SELECT ISNULL(MAX(id), 0) + 1 FROM Sub_Bill";
