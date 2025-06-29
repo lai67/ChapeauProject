@@ -102,46 +102,62 @@ namespace ChapeauUI
         // share a method with paySubBill?
         private void btnPayBill_Click(object sender, EventArgs e)
         {
-            var orderService = new OrderService();
-            var billService = new BillService();
-
-            if (currentBill.OrderItems.Count == 0)
+            try
             {
-                MessageBox.Show("Bill is empty. Please add items before paying.");
-                return;
+                var orderService = new OrderService();
+                var billService = new BillService();
+
+                if (currentBill.OrderItems.Count == 0)
+                {
+                    MessageBox.Show("Bill is empty. Please add items before paying.");
+                    return;
+                }
+
+                if (!HasUserCancelledBill(currentBill))
+                    return;
+
+                currentBill.IsPaid = true;
+                billService.UpdateBill(currentBill);
+
+                ClearBill();
+                AfterBillPaid(currentBill, orderService);
             }
-
-            if (!HasUserCancelledBill(currentBill))
-                return;
-
-            currentBill.IsPaid = true;
-            billService.UpdateBill(currentBill);
-
-            ClearBill();
-            AfterBillPaid(currentBill, orderService);
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while processing the bill: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Optionally log ex.ToString() for diagnostics
+            }
         }
         private void btnPaySubBill_Click(object sender, EventArgs e)
         {
-            var orderService = new OrderService();
-            var subBillService = new SubBillService();
-
-            if (currentSubBill.OrderItems.Count == 0)
+            try 
             {
-                MessageBox.Show("Sub-bill is empty. Please add items before paying.");
-                return;
+                var orderService = new OrderService();
+                var subBillService = new SubBillService();
+
+                if (currentSubBill.OrderItems.Count == 0)
+                {
+                    MessageBox.Show("Sub-bill is empty. Please add items before paying.");
+                    return;
+                }
+
+                // Ensure currentSubBill exists before accessing its properties
+                currentSubBill = subBillService.EnsureSubBillExists(currentSubBill, currentBill?.BillId ?? 0);
+
+                if (!HasUserCancelledSubBill(currentSubBill))
+                    return;
+
+                currentSubBill.IsPaid = true;
+                subBillService.UpdateSubBill(currentSubBill);
+
+                ClearSubBill();
+                AfterSubBillPaid(currentSubBill, orderService);
             }
-
-            // Ensure currentSubBill exists before accessing its properties
-            currentSubBill = subBillService.EnsureSubBillExists(currentSubBill, currentBill?.BillId ?? 0);
-
-            if (!HasUserCancelledSubBill(currentSubBill))
-                return;
-
-            currentSubBill.IsPaid = true;
-            subBillService.UpdateSubBill(currentSubBill);
-
-            ClearSubBill();
-            AfterSubBillPaid(currentSubBill, orderService);
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while processing the sub-bill: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Optionally log ex.ToString() for diagnostics
+            }
         }
         private void UpdateSubBillVatAndTotalLabels()
         {

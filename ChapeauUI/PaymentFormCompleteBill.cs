@@ -103,7 +103,6 @@ namespace ChapeauUI
                    rdBtnTipPct7.Checked || rdBtnTipPct10.Checked || rdBtnTipPct12.Checked ||
                    rdBtnTipPct15.Checked || rdBtnTipPct20.Checked || rdBtnTipPct25.Checked;
         }
-
         private void btnSplitDecrement_Click_1(object sender, EventArgs e)
         {
             int splitValue = GetSplitValue();
@@ -118,7 +117,6 @@ namespace ChapeauUI
                 MessageBox.Show("Split cannot be less than 1.");
             }
         }
-
         private void btnSplitIncrement_Click_1(object sender, EventArgs e)
         {
             if (!IsTipSelected())
@@ -138,39 +136,68 @@ namespace ChapeauUI
                 MessageBox.Show("Maximum split value reached.");
             }
         }
-
         private void btnFinalizePayment_Click(object sender, EventArgs e)
         {
-            int splitValue = GetSplitValue();
-            int currentGuestNumber = GetCurrentGuestNumber();
-            decimal remainingAmount = GetRemainingAmount(splitValue, currentGuestNumber);
+            try
+            {
+                if (!TryGetPaymentInfo(out int splitValue, out int currentGuestNumber, out decimal remainingAmount, out decimal splitPrice, out decimal priceWithTip))
+                    return;
 
-            decimal totalTip = 0;
+                if (!ValidatePaymentMethod())
+                    return;
 
-            var (splitPrice, priceWithTip) = GetCurrentGuestPrices(currentGuestNumber, splitValue, remainingAmount);
+                if (!TryValidateAndCalculateTip(splitPrice, out decimal tipForThisGuest))
+                    return;
 
-            if (!ValidatePaymentMethod())
-                return;
+                ProcessPayment(priceWithTip, currentGuestNumber);
 
+                paymentsProcessed++; // Move to next guest
+
+                DisableSplitButtonsIfNeeded(splitValue);
+
+                HandlePaymentCompletion(splitValue, currentGuestNumber);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Optionally log ex.ToString() for diagnostics
+            }
+        }
+        private bool TryGetPaymentInfo(out int splitValue, out int currentGuestNumber, out decimal remainingAmount, out decimal splitPrice, out decimal priceWithTip)
+        {
+            splitValue = GetSplitValue();
+            currentGuestNumber = GetCurrentGuestNumber();
+            remainingAmount = GetRemainingAmount(splitValue, currentGuestNumber);
+
+            var prices = GetCurrentGuestPrices(currentGuestNumber, splitValue, remainingAmount);
+            splitPrice = prices.splitPrice;
+            priceWithTip = prices.priceWithTip;
+
+            return true;
+        }
+        private bool TryValidateAndCalculateTip(decimal splitPrice, out decimal tipForThisGuest)
+        {
             decimal tipPercentage = GetSelectedTipPercentage();
-            decimal tipForThisGuest = splitPrice * tipPercentage;
-            totalTip += tipForThisGuest;
+            tipForThisGuest = splitPrice * tipPercentage;
+            guestTips.Add(tipForThisGuest);
+            return true;
+        }
 
-            ProcessPayment(priceWithTip, currentGuestNumber);
-
-            paymentsProcessed++; // Move to next guest
-
+        private void DisableSplitButtonsIfNeeded(int splitValue)
+        {
             if (splitValue > 1 && paymentsProcessed == 1)
             {
                 btnSplitIncrement.Enabled = false;
                 btnSplitDecrement.Enabled = false;
             }
+        }
 
+        private void HandlePaymentCompletion(int splitValue, int currentGuestNumber)
+        {
             if (currentGuestNumber == splitValue)
             {
                 bill.Tip = guestTips.Sum();
                 CompleteAllPayments();
-                return;
             }
             else
             {
@@ -188,7 +215,6 @@ namespace ChapeauUI
                 e.Cancel = true;
             }
         }
-
         private void btnCancelPayment_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show(
