@@ -215,11 +215,11 @@ namespace ChapeauUI
         {
             if (item.Comment != null && item.Comment.Length > 0)
             {
-                return $"CUSTOM  {item.MenuItem.Name}  Amount: {item.MenuItem.Price} Status: {item.orderStatus} ";
+                return $"CUSTOM  {item.MenuItem.Name}  Amount: {item.MenuItem.Price} Quantity: {item.Count}  Status: {item.orderStatus} ";
             }
             else
             {
-                return $"{item.MenuItem.Name}  Amount: {item.MenuItem.Price} Status: {item.orderStatus}";
+                return $"{item.MenuItem.Name}  Amount: {item.MenuItem.Price}   Status: {item.orderStatus}";
             }
         }
 
