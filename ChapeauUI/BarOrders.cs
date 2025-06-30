@@ -287,7 +287,7 @@ namespace ChapeauUI
                 SelectedNode.Text = OrderItemText(item);
                 CurrentOrders[orderIndex] = order;
                 OrderNode.Text = OrderText(order);
-                order.UpdateOrder(order);
+                CurrentOrders[orderIndex] = order;
             }
         }
 

@@ -328,7 +328,7 @@ namespace ChapeauUI
                 return (false, "No active order found for this table.", null);
             }
 
-            bool allServed = order.Items != null && order.Items.All(item => item.orderStatus == OrderItem.OrderStatus.Served);
+            bool allServed = order.Items != null && order.Items.All(item => item.orderStatus == OrderStatus.Served);
             if (!allServed)
             {
                 return (false, "All order items must be served before proceeding to payment.", null);
