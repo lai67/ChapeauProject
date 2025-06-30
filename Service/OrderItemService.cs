@@ -47,5 +47,12 @@ namespace Service
             OrderItemDao.UpdateOrderItemCount(orderItem);
             return true;
         }
+
+        public void UpdateOrder(OrderItem orderItem)
+        {
+            OrderItemDao.UpdateOrderItem(orderItem);
+        }
+
+          
     }
 }

@@ -18,14 +18,14 @@ namespace ChapeauUI
         private OrderItemService orderItemService;
         private Order currentOrder;
         private List<OrderItem> currentOrderItems;
-        private Menu_Service menuService;
+        private MenuService menuService;
         private Table table;
         private Employee employee;
         public OrderForm(Table table, Employee employee)
         {
             InitializeComponent();
             ClickEventForAllMenuListItems();
-            menuService = new Menu_Service();
+            menuService = new MenuService();
             orderService = new OrderService();
             orderItemService = new OrderItemService();
             this.table = table;
@@ -151,7 +151,7 @@ namespace ChapeauUI
             }
             else
             {
-                orderItem = new OrderItem(menuItem, "", OrderItem.OrderStatus.Placed, 1, currentOrder.Id);
+                orderItem = new OrderItem(menuItem, "", OrderStatus.Placed, 1, currentOrder.Id);
                 currentOrderItems.Add(orderItem);
             }
             RefreshOrderItemsList();
@@ -196,7 +196,7 @@ namespace ChapeauUI
             }
             else
             {
-                orderItem = new OrderItem(menuItem, "", OrderItem.OrderStatus.Placed, 1, currentOrder.Id);
+                orderItem = new OrderItem(menuItem, "", OrderStatus.Placed, 1, currentOrder.Id);
                 currentOrderItems.Add(orderItem);
             }
             RefreshOrderItemsList();
@@ -272,7 +272,31 @@ namespace ChapeauUI
             ClearAllMenuSelections();
             RefreshOrderItemsList();
         }
-       
+        private void SetOrderPreparationInfo()
+        {
+       /*      var foodItems = currentOrderItems.Where(i => i.MenuItem.Menu_Id == 1 || i.MenuItem.Menu_Id == 2).ToList();
+            var drinkItems = currentOrderItems.Where(i => i.MenuItem.Menu_Id == 3).ToList();
+
+            if (foodItems.Any() && !drinkItems.Any())
+            {
+                currentOrder.PreparationLocation = "Kitchen";
+                currentOrder.PreparationTime = foodItems.Max(i => i.MenuItem.PreparationTime);
+            }
+            else if (!foodItems.Any() && drinkItems.Any())
+            {
+                currentOrder.PreparationLocation = "Bar";
+                currentOrder.PreparationTime = drinkItems.Max(i => i.MenuItem.PreparationTime);
+            }
+            else if (foodItems.Any() && drinkItems.Any())
+            {
+                currentOrder.PreparationLocation = "Kitchen & Bar";
+                currentOrder.PreparationTime = Math.Max(
+                    foodItems.Max(i => i.MenuItem.PreparationTime),
+                    drinkItems.Max(i => i.MenuItem.PreparationTime)
+                );
+            } */
+        }
+
         private void btnSendOrder_Click(object sender, EventArgs e)
         {
             if (currentOrderItems == null || currentOrderItems.Count == 0)

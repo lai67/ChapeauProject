@@ -33,11 +33,29 @@ namespace Model
             Count = count;
             OrderId = orderId;
         }
-
-        public enum OrderStatus
+         public bool Equals(OrderItem other)
         {
-            Placed, Preparing, Ready, Served
+            if (other == null)
+                return false;
+
+            return MenuItem.Id == other.MenuItem.Id &&
+                   Count == other.Count &&
+                   orderStatus == other.orderStatus &&
+                   Comment == other.Comment;
         }
 
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as OrderItem);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(MenuItem.Id, Count, orderStatus, Comment);
+        }
+
+
     }
+
+
 }

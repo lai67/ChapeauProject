@@ -8,11 +8,11 @@ using Model;
 
 namespace Service
 {
-    public class Menu_Service
+    public class MenuService
     {
         MenuItemDao menuItemDao;
 
-        public Menu_Service()
+        public MenuService()
         {
             menuItemDao = new MenuItemDao();
         }
@@ -40,10 +40,18 @@ namespace Service
         {
             return menuItemDao.GetItemsByMenuId(menuId);
         }
-        public void DecreaseMenuItemStock(int menuItemid,int count)
+        public void DecreaseMenuItemStock(int menuItemid, int count)
         {
             menuItemDao.DecreaseMenuItemStock(menuItemid, count);
         }
+
+        public MenuItemModel GetMenuItemById(int menuItemId)
+        {
+            return menuItemDao.GetMenuItemById(menuItemId);
+        }
+         
+    
+
 
     }
 }

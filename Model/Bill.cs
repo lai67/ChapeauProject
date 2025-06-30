@@ -25,6 +25,8 @@ namespace Model
         public int OrderId { get; set; }
         public decimal Tip { get; set; }
         public string Feedback { get; set; }
+
+
         public bool IsPaid { get; set; }
         public List<OrderItem> OrderItems { get; set; } = new();
     }

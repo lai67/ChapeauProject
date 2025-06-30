@@ -21,7 +21,7 @@ namespace Model
 
         public decimal Price { get; set; }   
 
-        public int Preperation_Time { get; set; }
+        public int PreparationTime { get; set; }
 
         public int Menu_Id { get; set; }
     }

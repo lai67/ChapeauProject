@@ -67,10 +67,10 @@ namespace ChapeauUI
                     next = new RestaurantOverviewForm(employee);
                     break;
                 case Role.Barman:
-                    next = new RestaurantOverviewForm(employee);//Aron when you finish your part you can change this to the BarmanForm
+                    next = new BarOrders(employee);
                     break;
                 case Role.Chef:
-                    next = new RestaurantOverviewForm(employee);
+                    next = new KitchenOrders(employee);
                     break;
 
                 default:
