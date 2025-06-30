@@ -11,19 +11,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Text;
 
 namespace ChapeauUI
 {
     public partial class PaymentFormCompleteBill : Form
     {
         private Bill bill;
-        private int splitValue = 1; // Default split value
-        private bool isLoaded = false;
-        private bool forceClose = false; // Flag to allow form closure
-        private int guestNumber = 1;
-        private decimal remainingAmount;
+        private List<decimal> guestTips;
         private bool userCancelled = false;
-        private bool isPaid = false;
+        private int paymentsProcessed = 0; // Number of guests already processed
         public bool UserCancelled
         {
             get { return userCancelled; }
@@ -34,23 +31,25 @@ namespace ChapeauUI
             InitializeComponent();
             this.FormClosing += PaymentFormCompleteBill_FormClosing; // ensures form cannot be closed until all guests are processed
             this.bill = bill;
-            isPaid = bill.IsPaid;
             rdBtnTipPct0.Checked = true;
-            remainingAmount = bill.TotalPrice;
+            guestTips = new List<decimal>();
             LoadTipButtons();
             LoadPaymentButtons();
             DisplayPrices();
-            isLoaded = true; // Set isLoaded to true after initialization
         }
         private void DisplayPrices()
         {
+            int splitValue = GetSplitValue();
+            int currentGuestNumber = GetCurrentGuestNumber();
+            decimal remainingAmount = GetRemainingAmount(splitValue, currentGuestNumber);
+
             lblTotalPriceCompleteBill.Text = $"Total: €{remainingAmount:0.00}";
 
-            var (splitPrice, priceWithTip) = GetCurrentGuestPrices();
+            var (splitPrice, priceWithTip) = GetCurrentGuestPrices(currentGuestNumber, splitValue, remainingAmount);
 
-            lblTotalForGuest.Text = $"Total For Guest {guestNumber}: €{priceWithTip:0.00}";
+            lblTotalForGuest.Text = $"Total For Guest {currentGuestNumber}: €{priceWithTip:0.00}";
         }
-        private decimal CalculatePriceWithTip(decimal baseValue)
+        private decimal CalculatePriceWithTip(decimal baseValue, bool isLoaded = true)
         {
             decimal tipPercentage = 1;
             if (rdBtnTipPct0.Checked) tipPercentage = 1;
@@ -70,7 +69,6 @@ namespace ChapeauUI
         }
         private void LoadTipButtons()
         {
-            // Attach CheckedChanged event handlers for all tip radio buttons
             rdBtnTipPct0.CheckedChanged += TipRadioButton_CheckedChanged;
             rdBtnTipPct2.CheckedChanged += TipRadioButton_CheckedChanged;
             rdBtnTipPct5.CheckedChanged += TipRadioButton_CheckedChanged;
@@ -91,7 +89,7 @@ namespace ChapeauUI
             DisplayPrices();
         }
         private void PaymentMethod_CheckedChanged(object sender, EventArgs e) { }
-        private (decimal splitPrice, decimal priceWithTip) GetCurrentGuestPrices()
+        private (decimal splitPrice, decimal priceWithTip) GetCurrentGuestPrices(int guestNumber, int splitValue, decimal remainingAmount)
         {
             decimal splitPrice = remainingAmount / (splitValue - guestNumber + 1);
             decimal priceWithTip = splitPrice * CalculatePriceWithTip(1); // Tip multiplier
@@ -104,9 +102,9 @@ namespace ChapeauUI
                    rdBtnTipPct7.Checked || rdBtnTipPct10.Checked || rdBtnTipPct12.Checked ||
                    rdBtnTipPct15.Checked || rdBtnTipPct20.Checked || rdBtnTipPct25.Checked;
         }
-
         private void btnSplitDecrement_Click_1(object sender, EventArgs e)
         {
+            int splitValue = GetSplitValue();
             if (splitValue > 1)
             {
                 splitValue--;
@@ -118,7 +116,6 @@ namespace ChapeauUI
                 MessageBox.Show("Split cannot be less than 1.");
             }
         }
-
         private void btnSplitIncrement_Click_1(object sender, EventArgs e)
         {
             if (!IsTipSelected())
@@ -126,6 +123,7 @@ namespace ChapeauUI
                 MessageBox.Show("Please select a tip percentage before changing the split.");
                 return;
             }
+            int splitValue = GetSplitValue();
             if (splitValue < 10)
             {
                 splitValue++;
@@ -137,28 +135,66 @@ namespace ChapeauUI
                 MessageBox.Show("Maximum split value reached.");
             }
         }
-
         private void btnFinalizePayment_Click(object sender, EventArgs e)
         {
-            var (splitPrice, priceWithTip) = GetCurrentGuestPrices();
+            try
+            {
+                if (!TryGetPaymentInfo(out int splitValue, out int currentGuestNumber, out decimal remainingAmount, out decimal splitPrice, out decimal priceWithTip))
+                    return;
 
-            if (!ValidatePaymentMethod())
-                return;
+                if (!ValidatePaymentMethod())
+                    return;
 
-            ProcessPayment(priceWithTip);
+                if (!TryValidateAndCalculateTip(splitPrice, out decimal tipForThisGuest))
+                    return;
 
-            remainingAmount -= splitPrice;
+                ProcessPayment(priceWithTip, currentGuestNumber);
+                bill.Feedback = richTextBoxFeedback.Text;
+                paymentsProcessed++; // Move to next guest
+                UpdateFeedbackBox();
+                DisableSplitButtonsIfNeeded(splitValue);
+                HandlePaymentCompletion(splitValue, currentGuestNumber);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private bool TryGetPaymentInfo(out int splitValue, out int currentGuestNumber, out decimal remainingAmount, out decimal splitPrice, out decimal priceWithTip)
+        {
+            splitValue = GetSplitValue();
+            currentGuestNumber = GetCurrentGuestNumber();
+            remainingAmount = GetRemainingAmount(splitValue, currentGuestNumber);
 
-            if (guestNumber == 1)
+            var prices = GetCurrentGuestPrices(currentGuestNumber, splitValue, remainingAmount);
+            splitPrice = prices.splitPrice;
+            priceWithTip = prices.priceWithTip;
+
+            return true;
+        }
+        private bool TryValidateAndCalculateTip(decimal splitPrice, out decimal tipForThisGuest)
+        {
+            decimal tipPercentage = GetSelectedTipPercentage();
+            tipForThisGuest = splitPrice * tipPercentage;
+            guestTips.Add(tipForThisGuest);
+            return true;
+        }
+
+        private void DisableSplitButtonsIfNeeded(int splitValue)
+        {
+            if (splitValue > 1 && paymentsProcessed == 1)
             {
                 btnSplitIncrement.Enabled = false;
                 btnSplitDecrement.Enabled = false;
             }
+        }
 
-            if (guestNumber == splitValue)
+        private void HandlePaymentCompletion(int splitValue, int currentGuestNumber)
+        {
+            if (currentGuestNumber == splitValue)
             {
+                bill.Tip = guestTips.Sum();
                 CompleteAllPayments();
-                return;
             }
             else
             {
@@ -168,13 +204,14 @@ namespace ChapeauUI
         }
         private void PaymentFormCompleteBill_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!forceClose && guestNumber <= splitValue)
+            int splitValue = GetSplitValue();
+            bool forceClose = this.Tag as string == "ForceClose";
+            if (!forceClose && paymentsProcessed < splitValue)
             {
                 MessageBox.Show("You must process all guests before closing the form.");
                 e.Cancel = true;
             }
         }
-
         private void btnCancelPayment_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show(
@@ -186,12 +223,12 @@ namespace ChapeauUI
             if (result == DialogResult.Yes)
             {
                 userCancelled = true;
-                forceClose = true; // Allow form to close
+                this.Tag = "ForceClose"; // Set Tag to indicate force close
                 bill.IsPaid = false;
                 this.Close();
             }
         }
-        private void ProcessPayment(decimal priceWithTip)
+        private void ProcessPayment(decimal priceWithTip, int guestNumber)
         {
             if (rdBtnCard.Checked)
                 MessageBox.Show($"Guest {guestNumber} paid €{priceWithTip:0.00} by card including tip.");
@@ -200,7 +237,6 @@ namespace ChapeauUI
         }
         private void AdvanceToNextGuest()
         {
-            guestNumber++;
             richTextBoxFeedback.Clear();
             rdBtnTipPct0.Checked = true;
             DisplayPrices();
@@ -209,7 +245,7 @@ namespace ChapeauUI
         {
             MessageBox.Show("All guests have been processed.");
             richTextBoxFeedback.Clear();
-            forceClose = true;
+            this.Tag = "ForceClose";
             bill.IsPaid = true;
             userCancelled = false;
             this.Close();
@@ -222,6 +258,40 @@ namespace ChapeauUI
                 return false;
             }
             return true;
+        }
+        private decimal GetSelectedTipPercentage()
+        {
+            if (rdBtnTipPct0.Checked) return 0m;
+            if (rdBtnTipPct2.Checked) return 0.02m;
+            if (rdBtnTipPct5.Checked) return 0.05m;
+            if (rdBtnTipPct7.Checked) return 0.07m;
+            if (rdBtnTipPct10.Checked) return 0.10m;
+            if (rdBtnTipPct12.Checked) return 0.12m;
+            if (rdBtnTipPct15.Checked) return 0.15m;
+            if (rdBtnTipPct20.Checked) return 0.20m;
+            if (rdBtnTipPct25.Checked) return 0.25m;
+            return 0m;
+        }
+        private int GetSplitValue()
+        {
+            if (int.TryParse(lblSplitValue.Text, out int value))
+                return value;
+            return 1; // Default fallback
+        }
+        private decimal GetRemainingAmount(int splitValue, int currentGuestNumber)
+        {
+            decimal splitPrice = bill.TotalPrice / splitValue;
+            return bill.TotalPrice - (splitPrice * (currentGuestNumber - 1));
+        }
+        private int GetCurrentGuestNumber()
+        {
+            int splitValue = GetSplitValue();
+            return paymentsProcessed + 1;
+        }
+        private void UpdateFeedbackBox()
+        {
+            // Disable after the first guest pays
+            richTextBoxFeedback.Enabled = paymentsProcessed == 0;
         }
     }
 }

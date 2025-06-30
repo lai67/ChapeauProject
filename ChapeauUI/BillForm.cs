@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -17,89 +18,48 @@ namespace ChapeauUI
 {
     public partial class BillForm : Form
     {
-        private int orderId;
-        private OrderService orderService;
-        private BillService billService;
-        private List<BillItem> billItems; // Cached full bill items with VAT
-        private List<BillItem> subBillItems;
-        private Bill currentBill;
-        private SubBill currentSubBill;
-        private SubBillService subBillService;
-        public BillForm(int orderId)
+        private Bill currentBill; // keep this
+        private SubBill currentSubBill; // keep this too
+        public BillForm(Bill bill)
         {
             InitializeComponent();
-            billService = new BillService();
-            subBillItems = new List<BillItem>();
-            subBillService = new SubBillService();
-            this.orderId = orderId;
+            currentBill = bill;
         }
-        private void FillListView(ListView listView, List<BillItem> items)
+        private void FillListView(ListView listView, List<OrderItem> items)
         {
             listView.Items.Clear();
             foreach (var item in items)
             {
-                decimal itemTotal = item.Price * item.Amount;
-                ListViewItem listItem = new ListViewItem(item.Name);
-                listItem.SubItems.Add(item.Price.ToString("C"));
-                listItem.SubItems.Add(item.Amount.ToString());
+                decimal itemTotal = item.MenuItem.Price * item.Count;
+                ListViewItem listItem = new ListViewItem(item.MenuItem.Name);
+                listItem.SubItems.Add(item.MenuItem.Price.ToString("C"));
+                listItem.SubItems.Add(item.Count.ToString());
                 listItem.SubItems.Add(itemTotal.ToString("C"));
                 listView.Items.Add(listItem);
+                listItem.Tag = item;
             }
         }
-
         private void BillForm_Load(object sender, EventArgs e)
         {
             LoadColumns(lstViewBill);
             LoadColumns(listViewSubBill);
 
-
-            currentBill = billService.GetBillByOrderId(orderId);
-
-            if (currentBill == null)
-            {
-                currentBill = new Bill
-                {
-                    OrderId = orderId,
-                    TotalPrice = 0, 
-                    Vat = 0,
-                    GuestNumber = 1,
-                    Tip = 0,
-                    Feedback = ""
-                };
-                billService.CreateBill(currentBill);
-
-                // Reload the bill to get the BillId assigned by the DB
-                currentBill = billService.GetBillByOrderId(orderId);
-            }
-
-            if (currentBill != null)
-            {
-                billItems = billService.GetOrderedItemsForBill(currentBill.BillId);
-
-            }
-            else
-            {
-                // Bill does not exist yet, order items are being loaded for display
-                // I may need a method to get order items by orderId if not present
-                billItems = billService.GetOrderedItemsForBill(orderId);
-            }
-            FillListView(lstViewBill, billItems);
-            UpdateBillVatAndTotalLabels();
+            FillListView(lstViewBill, currentBill.OrderItems);
+            UpdateBillAndSubBillViews();
         }
         private void btnAddToSubBill_Click(object sender, EventArgs e)
         {
-            if (!TryGetSelectedBillItem(out string name, out decimal price))
+            if (!TryGetSelectedBillItem(out OrderItem mainItem))
                 return;
 
-            BillItem mainItem = FindMainBillItem(name);
             if (mainItem == null)
             {
                 MessageBox.Show("No more of this item left to add.");
                 return;
             }
 
-            DecrementMainBillItem(mainItem);
-            AddOrIncrementSubBillItem(name, price, mainItem);
+            mainItem.Count--;
+            AddOrIncrementSubBillItem(mainItem);
             RemoveMainBillItemIfZero(mainItem);
             UpdateBillAndSubBillViews();
         }
@@ -112,178 +72,136 @@ namespace ChapeauUI
             }
 
             var selectedItem = listViewSubBill.SelectedItems[0];
-            string name = selectedItem.SubItems[0].Text;
-
-            BillItem subItem = FindSubBillItem(name);
+            OrderItem subItem = (OrderItem)selectedItem.Tag;
 
             if (subItem != null)
             {
-                subItem.Amount--;
-                if (subItem.Amount <= 0)
+                subItem.Count--;
+                if (subItem.Count <= 0)
                 {
-                    subBillItems.Remove(subItem);
+                    currentSubBill.OrderItems.Remove(subItem);
                 }
 
-                AddOrIncrementMainBillItem(name, subItem.Price, subItem.Vat);
+                AddOrIncrementMainBillItem(subItem);
                 UpdateBillAndSubBillViews();
             }
         }
-
         private void btnRemoveAllFromSubBill_Click(object sender, EventArgs e)
         {
-            RestoreAllSubBillItemsToMainBill();
-            subBillItems.Clear();
+            foreach (var subItem in currentSubBill.OrderItems)
+            {
+                AddOrIncrementMainBillItem(subItem, subItem.Count);
+            }
+            currentSubBill.OrderItems.Clear();
             UpdateBillAndSubBillViews();
         }
-
         private void btnPayBill_Click(object sender, EventArgs e)
         {
-            if (IsBillEmpty())
+            try
             {
-                ShowBillEmptyMessage();
-                return;
-            }
+                var orderService = new OrderService();
+                var billService = new BillService();
 
-            decimal billTotalExclVat = CalculateTotal(billItems, out decimal vatTotal);
-            // If the bill does not exist, create it now with correct values
-            if (currentBill == null)
-            {
-                int nextId = billService.GetNextBillId(); // Assuming you have a method to get the next ID
-                currentBill = new Bill
+                if (currentBill.OrderItems.Count == 0)
                 {
-                    BillId = nextId,
-                    OrderId = orderId,
-                    TotalPrice = billTotalExclVat + vatTotal,
-                    Vat = vatTotal,
-                    IsPaid = false
-                };
-                billService.CreateBill(currentBill);
-            }
-            else
-            {
-                // Update the existing bill with correct values
-                currentBill.TotalPrice = billTotalExclVat + vatTotal;
-                currentBill.Vat = vatTotal;
+                    MessageBox.Show("Bill is empty. Please add items before paying.");
+                    return;
+                }
+
+                if (!HasUserCancelledBill(currentBill))
+                    return;
+
+                currentBill.IsPaid = true;
                 billService.UpdateBill(currentBill);
+
+                ClearBill();
+                AfterBillPaid(currentBill, orderService);
             }
-
-            if (!ShowCompleteBillPaymentForm(currentBill))
-                return;
-
-            // After payment, mark as paid and update in DB
-            currentBill.IsPaid = true;
-            billService.UpdateBill(currentBill); // Uncomment if you have this method
-
-            ClearBill();
-            AfterBillPaid(currentBill);
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while processing the bill: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-
-        // combine methods above and below
-
         private void btnPaySubBill_Click(object sender, EventArgs e)
         {
-            if (IsSubBillEmpty())
+            try 
             {
-                ShowSubBillEmptyMessage();
-                return;
-            }
+                var orderService = new OrderService();
+                var subBillService = new SubBillService();
 
-            decimal subBillTotalExclVat = CalculateTotal(subBillItems, out decimal vatTotal);
-
-            // If the sub-bill does not exist, create it now with correct values
-            if (currentSubBill == null)
-            {
-                int nextId = subBillService.GetNextSubBillId(); // Assuming you have a method to get the next ID
-                currentSubBill = new SubBill
+                if (currentSubBill.OrderItems.Count == 0)
                 {
-                    SubBillId = nextId,
-                    BillId = currentBill?.BillId ?? 0, // Make sure to set the correct BillId
-                    Price = subBillTotalExclVat + vatTotal,
-                    Vat = vatTotal,
-                    IsPaid = false
-                };
-                // You need to have a SubBillService instance, similar to BillService
-                subBillService.CreateSubBill(currentSubBill);
-            }
-            else
-            {
-                // Update the existing sub-bill with correct values
-                currentSubBill.Price = subBillTotalExclVat + vatTotal;
-                currentSubBill.Vat = vatTotal;
+                    MessageBox.Show("Sub-bill is empty. Please add items before paying.");
+                    return;
+                }
+
+                // Ensure currentSubBill exists before accessing its properties
+                currentSubBill = subBillService.EnsureSubBillExists(currentSubBill, currentBill?.BillId ?? 0);
+
+                if (!HasUserCancelledSubBill(currentSubBill))
+                    return;
+
+                currentSubBill.IsPaid = true;
                 subBillService.UpdateSubBill(currentSubBill);
+
+                ClearSubBill();
+                AfterSubBillPaid(currentSubBill, orderService);
             }
-
-            if (!ShowSubBillPaymentForm(currentSubBill))
-                return;
-
-            // After payment, mark as paid and update in DB
-            currentSubBill.IsPaid = true;
-            var subBillServiceFinal = new SubBillService();
-            subBillServiceFinal.UpdateSubBill(currentSubBill);
-
-            ClearSubBill();
-            AfterSubBillPaid(currentSubBill);
-        }
-        private decimal CalculateTotal(List<BillItem> items, out decimal vatTotal)
-        {
-            decimal total = 0;
-            vatTotal = 0;
-
-            foreach (var item in items)
+            catch (Exception ex)
             {
-                decimal itemTotal = item.Price * item.Amount;
-                decimal itemVat = (itemTotal * item.Vat) / 100;
-                total += itemTotal;
-                vatTotal += itemVat;
+                MessageBox.Show($"An error occurred while processing the sub-bill: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            return total;
         }
         private void UpdateSubBillVatAndTotalLabels()
         {
-            var (subBillTotal, vatTotal) = GetTotalAndVat(subBillItems);
-            var (lowVatTotal, highVatTotal) = GetLowAndHighVat(subBillItems);
-            SetVatAndTotalLabels(
-                lblSubBillTotalValue, lblVatValueSubBill, lblVatLowValueSubBill, lblVatHighValueSubBill,
-                subBillTotal, vatTotal, lowVatTotal, highVatTotal);
+            if (currentSubBill != null)
+            {
+                SetVatAndTotalLabels(
+                    lblSubBillTotalValue,
+                    lblVatValueSubBill,
+                    lblVatLowValueSubBill,
+                    lblVatHighValueSubBill,
+                    currentSubBill.Price,
+                    currentSubBill.Vat,
+                    currentSubBill.LowVatTotal,
+                    currentSubBill.HighVatTotal
+                    );
+            }
+            else 
+            {
+                SetVatAndTotalLabels(
+                    lblSubBillTotalValue,
+                    lblVatValueSubBill,
+                    lblVatLowValueSubBill,
+                    lblVatHighValueSubBill,
+                    0, 0, 0, 0
+                    );
+            }
         }
         private void UpdateBillVatAndTotalLabels()
         {
-            var (billTotal, vatTotal) = GetTotalAndVat(billItems);
-            var (lowVatTotal, highVatTotal) = GetLowAndHighVat(billItems);
             SetVatAndTotalLabels(
-                lblTotalPriceValueBill, lblVatValueCompBill, lblVatLowBillValue, lblVatHighBillValue,
-                billTotal, vatTotal, lowVatTotal, highVatTotal);
+                lblTotalPriceValueBill,
+                lblVatValueCompBill,
+                lblVatLowBillValue,
+                lblVatHighBillValue,
+                currentBill.TotalPrice,
+                currentBill.Vat,
+                currentBill.LowVatTotal,
+                currentBill.HighVatTotal
+            );
         }
-        private decimal CalculateLowAndHighVat(List<BillItem> items, out decimal lowVatTotal, out decimal highVatTotal)
+        private bool BillsPaid(Bill currentBill, SubBill currentSubBill, OrderService orderService)
         {
-            lowVatTotal = 0;
-            highVatTotal = 0;
-
-            foreach (var item in items)
+            if (currentBill.IsPaid && currentSubBill != null && currentSubBill.IsPaid)
             {
-                decimal itemTotal = item.Price * item.Amount;
-                // Check for low VAT (9%)
-                if (item.Vat == 9)
-                {
-                    lowVatTotal += (itemTotal * item.Vat) / 100;
-                }
-                // Check for high VAT (21%)
-                else if (item.Vat == 21)
-                {
-                    highVatTotal += (itemTotal * item.Vat) / 100;
-                }
-                // Optionally handle other VAT rates if needed
-            }
+                var tableService = new TableService();
 
-            return lowVatTotal;
-        }
-        private bool BillsPaid(Bill currentBill, SubBill currentSubBill)
-        {
-            if (currentBill != null && currentBill.IsPaid &&
-                currentSubBill != null && currentSubBill.IsPaid)
-            {
-                orderService.SetOrderCreated(orderId, true);
+                var order = orderService.GetOrdersForAlreadyOrderedTable(currentBill.OrderId);
+                if (order?.Table != null)
+                {
+                    tableService.UpdateTableStatus(order.Table.Id, TableStatus.Free);
+                }
 
                 MessageBox.Show("Both bills are paid. Form is closing.");
                 return true; // Both bills are paid, allow closing
@@ -303,191 +221,112 @@ namespace ChapeauUI
             listView.Columns.Add("Amount", 85);
             listView.Columns.Add("Total", 85);
         }
-        private BillItem FindMainBillItem(string name)
+        private void AddOrIncrementSubBillItem(OrderItem mainItem)
         {
-            return billItems.FirstOrDefault(i => i.Name == name && i.Amount > 0);
-        }
+            var subBillService = new SubBillService();
+            currentSubBill = subBillService.EnsureSubBillExists(currentSubBill, currentBill?.BillId ?? 0);
 
-        private void DecrementMainBillItem(BillItem mainItem)
-        {
-            mainItem.Amount--;
-        }
-
-        private void AddOrIncrementSubBillItem(string name, decimal price, BillItem mainItem)
-        {
-            BillItem subItem = subBillItems.FirstOrDefault(i => i.Name == name);
+            OrderItem subItem = currentSubBill.OrderItems.FirstOrDefault(i => i.MenuItem.Name == mainItem.MenuItem.Name);
             if (subItem != null)
             {
-                subItem.Amount++;
+                subItem.Count++;
             }
             else
             {
-                subBillItems.Add(new BillItem
-                {
-                    Name = name,
-                    Price = price,
-                    Vat = mainItem.Vat,
-                    Amount = 1
-                });
+                currentSubBill.OrderItems.Add(CreateOrderItemClone(mainItem, 1, currentSubBill.SubBillId));
             }
+            UpdateBillAndSubBillViews();
         }
-
-        private void RemoveMainBillItemIfZero(BillItem mainItem)
+        private void RemoveMainBillItemIfZero(OrderItem mainItem)
         {
-            if (mainItem.Amount == 0)
+            if (mainItem.Count == 0)
             {
-                billItems.Remove(mainItem);
+                currentBill.OrderItems.Remove(mainItem);
             }
         }
-        private bool TryGetSelectedBillItem(out string name, out decimal price)
+        private bool TryGetSelectedBillItem(out OrderItem selectedOrderItem)
         {
-            name = null;
-            price = 0;
+            selectedOrderItem = null;
             if (lstViewBill.SelectedItems.Count == 0)
             {
                 MessageBox.Show("Please select an item to add.");
                 return false;
             }
-            var selectedItem = lstViewBill.SelectedItems[0];
-            name = selectedItem.SubItems[0].Text;
-            price = decimal.Parse(selectedItem.SubItems[1].Text, NumberStyles.Currency);
-            return true;
+            selectedOrderItem = lstViewBill.SelectedItems[0].Tag as OrderItem;
+            return selectedOrderItem != null;
         }
         private void UpdateBillAndSubBillViews()
         {
-            FillListView(lstViewBill, billItems);
-            FillListView(listViewSubBill, subBillItems);
-            UpdateBillVatAndTotalLabels();
-            UpdateSubBillVatAndTotalLabels();
-        }
-        private BillItem FindSubBillItem(string name)
-        {
-            return subBillItems.FirstOrDefault(i => i.Name == name);
-        }
-
-        private void AddOrIncrementMainBillItem(string name, decimal price, decimal vat, int amount = 1)
-        {
-            BillItem mainItem = billItems.FirstOrDefault(i => i.Name == name);
-            if (mainItem != null)
+            if (currentSubBill != null && currentSubBill.OrderItems != null)
             {
-                mainItem.Amount += amount;
+                FillListView(listViewSubBill, currentSubBill.OrderItems);
             }
             else
             {
-                billItems.Add(new BillItem
-                {
-                    Name = name,
-                    Price = price,
-                    Vat = vat,
-                    Amount = amount
-                });
+                // Handling a null null case, e.g., clear the ListView or log an error  
+                listViewSubBill.Items.Clear();
+            }
+
+            FillListView(lstViewBill, currentBill.OrderItems);
+            UpdateBillVatAndTotalLabels();
+            UpdateSubBillVatAndTotalLabels();
+        }
+        private void AddOrIncrementMainBillItem(OrderItem subItem, int amount = 1)
+        {
+            OrderItem mainItem = currentBill.OrderItems.FirstOrDefault(i => i.MenuItem.Name == subItem.MenuItem.Name);
+            if (mainItem != null)
+            {
+                mainItem.Count += amount;
+            }
+            else
+            {
+                currentBill.OrderItems.Add(CreateOrderItemClone(subItem, amount, currentBill.OrderId));
             }
         }
-        private void RestoreAllSubBillItemsToMainBill()
-        {
-            foreach (var subItem in subBillItems)
-            {
-                AddOrIncrementMainBillItem(subItem.Name, subItem.Price, subItem.Vat, subItem.Amount);
-            }
-        }
-        private bool IsBillEmpty()
-        {
-            return billItems.Count == 0;
-        }
-
-        private void ShowBillEmptyMessage()
-        {
-            MessageBox.Show("Bill is empty. Please add items before paying.");
-        }
-
-        private Bill CreateBillForPayment(decimal total)
-        {
-            return new Bill
-            {
-                TotalPrice = total
-            };
-        }
-
-        private bool ShowCompleteBillPaymentForm(Bill bill)
+        private bool HasUserCancelledBill(Bill bill)
         {
             PaymentFormCompleteBill paymentForm = new PaymentFormCompleteBill(bill);
             paymentForm.ShowDialog();
             return !paymentForm.UserCancelled;
         }
-
         private void ClearBill()
         {
-            billItems.Clear();
-            FillListView(lstViewBill, billItems);
-            UpdateBillVatAndTotalLabels();
+            currentBill.OrderItems.Clear();
+            FillListView(lstViewBill, currentBill.OrderItems);
+            UpdateBillAndSubBillViews();
         }
-
-        private void AfterBillPaid(Bill bill)
+        private void AfterBillPaid(Bill bill, OrderService orderService)
         {
             MessageBox.Show("bill has been paid.");
             currentBill = bill;
             currentBill.IsPaid = true; // Mark the bill as paid
-            if (BillsPaid(currentBill, currentSubBill))
+            if (BillsPaid(currentBill, currentSubBill, orderService))
             {
                 LoadColumns(lstViewBill);
                 LoadColumns(listViewSubBill);
                 this.Close(); // Close the form if both bills are paid
             }
         }
-        private bool IsSubBillEmpty()
-        {
-            return subBillItems.Count == 0;
-        }
-
-        private void ShowSubBillEmptyMessage()
-        {
-            MessageBox.Show("Sub-bill is empty. Please add items before paying.");
-        }
-
-        private SubBill CreateSubBillForPayment(decimal total)
-        {
-            return new SubBill
-            {
-                Price = total
-            };
-        }
-
-        private bool ShowSubBillPaymentForm(SubBill subBill)
+        private bool HasUserCancelledSubBill(SubBill subBill)
         {
             PaymentFormSubBill paymentForm = new PaymentFormSubBill(subBill);
             paymentForm.ShowDialog();
             return !paymentForm.UserCancelled;
         }
-
         private void ClearSubBill()
         {
-            subBillItems.Clear();
-            FillListView(listViewSubBill, subBillItems);
-            UpdateSubBillVatAndTotalLabels();
+            currentSubBill.OrderItems.Clear();
+            FillListView(listViewSubBill, currentSubBill.OrderItems);
         }
-
-        private void AfterSubBillPaid(SubBill subBill)
+        private void AfterSubBillPaid(SubBill subBill, OrderService orderService)
         {
             MessageBox.Show("Sub-bill has been paid.");
             currentSubBill = subBill;
             currentSubBill.IsPaid = true; // Mark the sub-bill as paid
-            if (BillsPaid(currentBill, currentSubBill))
+            if (BillsPaid(currentBill, currentSubBill, orderService))
             {
                 this.Close(); // Close the form if both bills are paid
             }
-        }
-        private (decimal total, decimal vatTotal) GetTotalAndVat(List<BillItem> items)
-        {
-            decimal vatTotal;
-            decimal total = CalculateTotal(items, out vatTotal);
-            return (total, vatTotal);
-        }
-
-        private (decimal lowVatTotal, decimal highVatTotal) GetLowAndHighVat(List<BillItem> items)
-        {
-            decimal lowVatTotal, highVatTotal;
-            CalculateLowAndHighVat(items, out lowVatTotal, out highVatTotal);
-            return (lowVatTotal, highVatTotal);
         }
         private void SetVatAndTotalLabels(
             Label totalLabel, Label vatLabel, Label lowVatLabel, Label highVatLabel,
@@ -497,6 +336,25 @@ namespace ChapeauUI
             vatLabel.Text = $"€{vatTotal:0.00}";
             lowVatLabel.Text = $"€{lowVatTotal:0.00}";
             highVatLabel.Text = $"€{highVatTotal:0.00}";
+        }
+        private OrderItem CreateOrderItemClone(OrderItem source, int count, int orderId)
+        {
+            var menuItem = new MenuItemModel
+            {
+                Name = source.MenuItem.Name,
+                Price = source.MenuItem.Price,
+                Vat = source.MenuItem.Vat,
+                Item_Category = source.MenuItem.Item_Category,
+                Menu_Id = source.MenuItem.Menu_Id
+            };
+
+            return new OrderItem(
+                menuItem,
+                source.Comment,
+                source.orderStatus,
+                count,
+                orderId
+            );
         }
     }
 }
