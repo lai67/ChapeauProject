@@ -286,8 +286,7 @@ namespace ChapeauUI
                 order = SetOrderWaitingTime(order);
                 SelectedNode.Text = OrderItemText(item);
                 CurrentOrders[orderIndex] = order;
-                OrderNode.Text = OrderText(order);
-                order.UpdateOrder(order);
+     
             }
         }
 
