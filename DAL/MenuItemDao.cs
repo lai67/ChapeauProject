@@ -45,6 +45,7 @@ namespace DAL
         }
 
 
+        // This method is used to convert the DataTable to a List of Menu_Item_Model
         private List<MenuItemModel> ConvertToList(DataTable dataTable)
         {
             List<MenuItemModel> menuItemList = new List<MenuItemModel>();
@@ -58,7 +59,7 @@ namespace DAL
                     Stock = Convert.ToInt32(row["stock"]),
                     Vat = Convert.ToDecimal(row["vat"]),
                     Price = Convert.ToDecimal(row["price"]),
-                    Preperation_Time = Convert.ToInt32(row["preparation_time"]),
+                    PreparationTime = Convert.ToInt32(row["preparation_time"]),
                     Menu_Id = row.Table.Columns.Contains("menu_id") && row["menu_id"] != DBNull.Value // in case if its null.
                           ? Convert.ToInt32(row["menu_id"])
                           : 0
@@ -94,7 +95,38 @@ namespace DAL
              };
             ExecuteEditQuery(query, parameters);
         }
+
+        public MenuItemModel GetMenuItemById(int menuItemId)
+        {
+            string query = "SELECT * FROM Menu_Item WHERE id = @menuItemId";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@menuItemId", menuItemId)
+            };
+            DataTable dt = ExecuteSelectQuery(query, parameters);
+            if (dt.Rows.Count == 0)
+                return null;
+
+            DataRow row = dt.Rows[0];
+            return new MenuItemModel
+            {
+                Id = Convert.ToInt32(row["id"]),
+                Name = row["name"].ToString(),
+                Item_Category = row["item_category"].ToString(),
+                Stock = Convert.ToInt32(row["stock"]),
+                Vat = Convert.ToDecimal(row["vat"]),
+                Price = Convert.ToDecimal(row["price"]),
+                PreparationTime = Convert.ToInt32(row["preparation_time"]),
+                Menu_Id = row.Table.Columns.Contains("menu_id") && row["menu_id"] != DBNull.Value // in case if its null.
+                          ? Convert.ToInt32(row["menu_id"])
+                          : 0
+            };
+        }
+
+
     }
+    
+
 
 
 

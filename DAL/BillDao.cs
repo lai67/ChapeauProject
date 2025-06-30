@@ -130,7 +130,7 @@ namespace DAL
                     Vat = Convert.ToDecimal(row["vat"]),
                     Item_Category = row["item_category"].ToString(),
                     Stock = Convert.ToInt32(row["stock"]),
-                    Preperation_Time = Convert.ToInt32(row["preparation_time"]),
+                    PreparationTime = Convert.ToInt32(row["preparation_time"]),
                     Menu_Id = Convert.ToInt32(row["menu_id"])
                 };
 
@@ -139,7 +139,7 @@ namespace DAL
                     id: Convert.ToInt32(row["order_item_id"]),
                     menuItem: menuItem,
                     comment: row["comment"].ToString(),
-                    orderStatus: Enum.Parse<OrderItem.OrderStatus>(row["status"].ToString()),
+                    orderStatus: Enum.Parse<OrderStatus>(row["status"].ToString()),
                     count: Convert.ToInt32(row["count"]),
                     orderId: Convert.ToInt32(row["order_id"])
                 );

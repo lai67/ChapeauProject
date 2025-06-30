@@ -23,13 +23,13 @@ namespace Service
         }*/
 
         // retrieves a single bill by its ID
-        /*public Bill GetBillById(int billId)
+
         {
             var bill = billDao.GetBillById(billId);
             if (bill != null)
                 bill.SubBills = subBillService.GetSubBillsByBillId(bill.BillId);
             return bill;
-        }*/
+        }
         public Bill GetBillByOrderId(int orderId)
         {
             return billDao.GetBillByOrderId(orderId);
@@ -46,7 +46,7 @@ namespace Service
             billDao.CreateBill(bill);
         }
         public void UpdateBill(Bill bill)
-        { 
+        {
             billDao.UpdateBill(bill);
         }
         // deletes a bill from the database using its ID

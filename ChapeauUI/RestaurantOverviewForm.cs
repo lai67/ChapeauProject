@@ -303,9 +303,11 @@ namespace ChapeauUI
 
             if (!isValid)
             {
+
                 MessageBox.Show(errorMessage, "Cannot Open Bill", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
 
             int orderId = order.Id;
             var billService = new BillService();
