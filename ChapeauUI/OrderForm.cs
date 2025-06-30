@@ -287,6 +287,7 @@ namespace ChapeauUI
             {
                 int orderId = orderService.CreateOrder(currentOrder);
                 currentOrder.Id = orderId;
+                orderService.SetOrderCreated(currentOrder.Id, true);
                 foreach (var item in currentOrderItems)
                 {
                     item.OrderId = orderId;

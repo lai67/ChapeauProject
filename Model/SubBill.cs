@@ -23,6 +23,6 @@ namespace Model
         public string Feedback { get; set; }
         public Bill Bill { get; set; }
         public bool IsPaid { get; set; }
-        public List<OrderItem> OrderItems { get; set; } = new();
+        public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 }

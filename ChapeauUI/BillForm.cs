@@ -73,10 +73,6 @@ namespace ChapeauUI
 
             var selectedItem = listViewSubBill.SelectedItems[0];
             OrderItem subItem = (OrderItem)selectedItem.Tag;
-            string name = selectedItem.SubItems[0].Text;
-
-            // subItem not needed
-            // OrderItem subItem = subBillItems.FirstOrDefault(i => i.MenuItem.Name == name);
 
             if (subItem != null)
             {
@@ -99,7 +95,6 @@ namespace ChapeauUI
             currentSubBill.OrderItems.Clear();
             UpdateBillAndSubBillViews();
         }
-        // share a method with paySubBill?
         private void btnPayBill_Click(object sender, EventArgs e)
         {
             try
@@ -125,7 +120,6 @@ namespace ChapeauUI
             catch (Exception ex)
             {
                 MessageBox.Show($"An error occurred while processing the bill: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                // Optionally log ex.ToString() for diagnostics
             }
         }
         private void btnPaySubBill_Click(object sender, EventArgs e)
@@ -156,7 +150,6 @@ namespace ChapeauUI
             catch (Exception ex)
             {
                 MessageBox.Show($"An error occurred while processing the sub-bill: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                // Optionally log ex.ToString() for diagnostics
             }
         }
         private void UpdateSubBillVatAndTotalLabels()
@@ -172,9 +165,9 @@ namespace ChapeauUI
                     currentSubBill.Vat,
                     currentSubBill.LowVatTotal,
                     currentSubBill.HighVatTotal
-                );
+                    );
             }
-            else
+            else 
             {
                 SetVatAndTotalLabels(
                     lblSubBillTotalValue,
@@ -182,42 +175,26 @@ namespace ChapeauUI
                     lblVatLowValueSubBill,
                     lblVatHighValueSubBill,
                     0, 0, 0, 0
-                );
+                    );
             }
         }
         private void UpdateBillVatAndTotalLabels()
         {
-            if (currentBill != null)
-            {
-                SetVatAndTotalLabels(
-                    lblTotalPriceValueBill,
-                    lblVatValueCompBill,
-                    lblVatLowBillValue,
-                    lblVatHighBillValue,
-                    currentBill.TotalPrice,
-                    currentBill.Vat,
-                    currentBill.LowVatTotal,
-                    currentBill.HighVatTotal
-                );
-            }
-            else
-            {
-                SetVatAndTotalLabels(
-                    lblTotalPriceValueBill,
-                    lblVatValueCompBill,
-                    lblVatLowBillValue,
-                    lblVatHighBillValue,
-                    0, 0, 0, 0
-                );
-            }
+            SetVatAndTotalLabels(
+                lblTotalPriceValueBill,
+                lblVatValueCompBill,
+                lblVatLowBillValue,
+                lblVatHighBillValue,
+                currentBill.TotalPrice,
+                currentBill.Vat,
+                currentBill.LowVatTotal,
+                currentBill.HighVatTotal
+            );
         }
         private bool BillsPaid(Bill currentBill, SubBill currentSubBill, OrderService orderService)
         {
-            if (currentBill != null && currentBill.IsPaid &&
-                currentSubBill != null && currentSubBill.IsPaid)
+            if (currentBill.IsPaid && currentSubBill != null && currentSubBill.IsPaid)
             {
-                orderService.SetOrderCreated(currentBill.OrderId, true);
-
                 var tableService = new TableService();
 
                 var order = orderService.GetOrdersForAlreadyOrderedTable(currentBill.OrderId);

@@ -11,13 +11,58 @@ namespace DAL
 {
     public class SubBillDao : BaseDao
     {
+        public void CreateSubBill(SubBill subBill)
+        {
+            string query = @"INSERT INTO [Sub_Bill] (id, bill_id, price, vat, feedback, tip)
+                     VALUES (@id, @bill_id, @price, @vat, @feedback, @tip);";
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@id", subBill.SubBillId),
+                new SqlParameter("@bill_id", subBill.BillId),
+                new SqlParameter("@price", subBill.Price),
+                new SqlParameter("@vat", subBill.Vat),
+                new SqlParameter("@feedback", subBill.Feedback ?? (object)DBNull.Value),
+                new SqlParameter("@tip", subBill.Tip),
+            };
+            ExecuteEditQuery(query, parameters);
+        }
+        public void UpdateSubBill(SubBill subBill)
+        {
+            string query = @"UPDATE [Sub_Bill]
+                           SET bill_id = @bill_id,
+                           price = @price,
+                           vat = @vat,
+                           tip = @tip,
+                           feedback = @feedback
+                           WHERE id = @id;";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@bill_id", subBill.BillId),
+                new SqlParameter("@price", subBill.Price),
+                new SqlParameter("@vat", subBill.Vat),
+                new SqlParameter("@tip", subBill.Tip),
+                new SqlParameter("@feedback", subBill.Feedback ?? (object)DBNull.Value),
+                new SqlParameter("@id", subBill.SubBillId),
+            };
+            ExecuteEditQuery(query, parameters);
+        }
+        public int GetNextSubBillId()
+        {
+            string query = "SELECT ISNULL(MAX(id), 0) + 1 FROM Sub_Bill";
+            using (SqlCommand command = new SqlCommand(query, OpenConnection()))
+            {
+                int nextId = (int)command.ExecuteScalar();
+                return nextId;
+            }
+        }
         /*public List<SubBill> GetAllSubBills()
         {
             string querySelect = "SELECT id, bill_id, price, vat, tip, feedback FROM [Sub_Bill] ORDER BY bill_id;";
             SqlParameter[] sqlParameters = new SqlParameter[0];
             return ReadTables(ExecuteSelectQuery(querySelect, sqlParameters));
         }*/
-        private List<SubBill> ReadTables(DataTable dataTable)
+        /*private List<SubBill> ReadTables(DataTable dataTable)
         {
             List<SubBill> subBills = new List<SubBill>();
 
@@ -33,8 +78,8 @@ namespace DAL
                 subBills.Add(subBill);
             }
             return subBills;
-        }
-        private SubBill ReadSubBill(DataTable dataTable)
+        }*/
+        /*private SubBill ReadSubBill(DataTable dataTable)
         {
             if (dataTable.Rows.Count == 0)
             {
@@ -51,7 +96,7 @@ namespace DAL
                 Bill = new BillDao().GetBillById(billId) // only if parent Bill needs to be loaded for SubBill
             };
             return subBill;
-        }
+        }*/
         /*public SubBill GetSubBillById(int subBillId)
         {
             string query = "SELECT id, bill_id, price, vat, tip, feedback FROM [Sub_Bill] WHERE id = @id;";
@@ -63,7 +108,7 @@ namespace DAL
             DataTable table = ExecuteSelectQuery(query, parameters);
             return ReadSubBill(table);
         }*/
-        public List<SubBill> GetSubBillsByBillId(int billId)
+        /*public List<SubBill> GetSubBillsByBillId(int billId)
         {
             string query = "SELECT id, bill_id, price, vat, tip, feedback FROM [Sub_Bill] WHERE bill_id = @bill_id;";
             SqlParameter[] parameters = new SqlParameter[]
@@ -72,7 +117,7 @@ namespace DAL
             };
 
             return ReadTables(ExecuteSelectQuery(query, parameters));
-        }
+        }*/
         /*public List<OrderItem> GetOrderItemsBySubBillId(int subBillId)
         {
             string query = @"
@@ -138,61 +183,15 @@ namespace DAL
 
             return items;
         }*/
-
-        public void CreateSubBill(SubBill subBill)
-        {
-            string query = @"INSERT INTO [Sub_Bill] (id, bill_id, price, vat, feedback, tip)
-                     VALUES (@id, @bill_id, @price, @vat, @feedback, @tip);";
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-                new SqlParameter("@id", subBill.SubBillId),
-                new SqlParameter("@bill_id", subBill.BillId),
-                new SqlParameter("@price", subBill.Price),
-                new SqlParameter("@vat", subBill.Vat),
-                new SqlParameter("@feedback", subBill.Feedback ?? (object)DBNull.Value),
-                new SqlParameter("@tip", subBill.Tip),
-            };
-            ExecuteEditQuery(query, parameters);
-        }
-        public void UpdateSubBill(SubBill subBill)
-        {
-            string query = @"UPDATE [Sub_Bill]
-                           SET bill_id = @bill_id,
-                           price = @price,
-                           vat = @vat,
-                           tip = @tip,
-                           feedback = @feedback
-                           WHERE id = @id;";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-                new SqlParameter("@bill_id", subBill.BillId),
-                new SqlParameter("@price", subBill.Price),
-                new SqlParameter("@vat", subBill.Vat),
-                new SqlParameter("@tip", subBill.Tip),
-                new SqlParameter("@feedback", subBill.Feedback ?? (object)DBNull.Value),
-                new SqlParameter("@id", subBill.SubBillId),
-            };
-            ExecuteEditQuery(query, parameters);
-        }
         /*public void DeleteSubBill(int subBillId)
-        {
-            string query = "DELETE FROM [SUB_BILL] WHERE id = @id;";
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-                new SqlParameter("@id", subBillId)
-            };
+{
+    string query = "DELETE FROM [SUB_BILL] WHERE id = @id;";
+    SqlParameter[] parameters = new SqlParameter[]
+    {
+        new SqlParameter("@id", subBillId)
+    };
 
-            ExecuteEditQuery(query, parameters);
-        }*/
-        public int GetNextSubBillId()
-        {
-            string query = "SELECT ISNULL(MAX(id), 0) + 1 FROM Sub_Bill";
-            using (SqlCommand command = new SqlCommand(query, OpenConnection()))
-            {
-                int nextId = (int)command.ExecuteScalar();
-                return nextId;
-            }
-        }
+    ExecuteEditQuery(query, parameters);
+}*/
     }
 }

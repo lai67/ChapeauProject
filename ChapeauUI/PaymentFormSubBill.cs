@@ -94,17 +94,15 @@ namespace ChapeauUI
                     return;
 
                 ProcessPayment(priceWithTip, currentGuestNumber);
-
+                subBill.Feedback = richTextBoxFeedback.Text;
                 paymentsProcessed++; // Move to next guest
-
+                UpdateFeedbackBox();
                 DisableSplitButtonsIfNeeded(splitValue);
-
                 HandlePaymentCompletion(splitValue, currentGuestNumber);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                // Optionally log ex.ToString() for diagnostics
             }
         }
         private bool TryGetPaymentInfo(out int splitValue, out int currentGuestNumber, out decimal remainingAmount, out decimal splitPrice, out decimal priceWithTip)
@@ -169,7 +167,6 @@ namespace ChapeauUI
         }
         private void LoadTipButtons()
         {
-            // Attach CheckedChanged event handlers for all tip radio buttons
             rdBtnTipPct0.CheckedChanged += TipRadioButton_CheckedChanged;
             rdBtnTipPct2.CheckedChanged += TipRadioButton_CheckedChanged;
             rdBtnTipPct5.CheckedChanged += TipRadioButton_CheckedChanged;
@@ -288,8 +285,12 @@ namespace ChapeauUI
         private int GetCurrentGuestNumber()
         {
             int splitValue = GetSplitValue();
-            // Guest numbers are 1-based
             return paymentsProcessed + 1;
+        }
+        private void UpdateFeedbackBox()
+        {
+            // Disable after the first guest pays
+            richTextBoxFeedback.Enabled = paymentsProcessed == 0;
         }
     }
 }

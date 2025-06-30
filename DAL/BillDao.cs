@@ -55,7 +55,6 @@ namespace DAL
                 OrderId = (int)dr["order_id"],
                 Feedback = dr["feedback"].ToString(),
                 Tip = (decimal)dr["tip"],
-                SubBills = subBillDao.GetSubBillsByBillId(billId)
             };
             return bill;
         }
