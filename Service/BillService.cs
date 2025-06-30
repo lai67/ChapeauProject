@@ -26,13 +26,13 @@ namespace Service
         }*/
 
         // retrieves a single bill by its ID
-        /*ublic Bill GetBillById(int billId)
+        public Bill GetBillById(int billId)
         {
             var bill = billDao.GetBillById(billId);
             if (bill != null)
                 bill.SubBills = subBillService.GetSubBillsByBillId(bill.BillId);
             return bill;
-        }*/
+        }
         public Bill GetBillByOrderId(int orderId)
         {
             return billDao.GetBillByOrderId(orderId);

@@ -30,9 +30,12 @@ namespace DAL
         // get order items by order
         public List<OrderItem> GetOrderItemsByOrderId(int orderId)
         {
-            string query = @"SELECT oi.*, mi.* FROM [Order_Item] oi
-                     JOIN [Menu_Item] mi ON oi.menu_item_id = mi.id
-                     WHERE oi.order_id = @orderId";
+            string query = @"SELECT 
+                            oi.id, oi.menu_item_id, oi.count, oi.order_id, oi.comment, oi.status,
+                            mi.name, mi.item_category, mi.stock, mi.vat, mi.price, mi.preparation_time, mi.menu_id
+                         FROM [Order_Item] oi
+                         JOIN [Menu_Item] mi ON oi.menu_item_id = mi.id
+                         WHERE oi.order_id = @orderId";
             SqlParameter[] parameters = { new SqlParameter("@orderId", orderId) };
             DataTable dt = ExecuteSelectQuery(query, parameters);
 
@@ -67,8 +70,6 @@ namespace DAL
 
 
 
-
-        // Update Order Item Count
         public void UpdateOrderItemCount(OrderItem orderItem)
         {
             if (IfOrderItemExists(orderItem.OrderId, orderItem.MenuItem.Id))
@@ -76,6 +77,7 @@ namespace DAL
                 UpdateOrderItemCount(orderItem.OrderId, orderItem.MenuItem.Id, orderItem.Count);
             }
         }
+
 
         // Helper method. 
         public bool IfOrderItemExists(int orderId, int menuItemId)
@@ -152,7 +154,7 @@ namespace DAL
                 int count = Convert.ToInt32(row["count"]);
                 int orderId = Convert.ToInt32(row["order_id"]);
                 string comment = row["comment"].ToString();
-                OrderItem.OrderStatus status = (OrderItem.OrderStatus)Enum.Parse(typeof(OrderItem.OrderStatus), row["status"].ToString());
+                OrderStatus status = (OrderStatus)Enum.Parse(typeof(OrderStatus), row["status"].ToString());
                 MenuItemModel menuItem = new MenuItemModel
                 {
                     Id = menuItemId,
@@ -161,7 +163,7 @@ namespace DAL
                     Stock = Convert.ToInt32(row["stock"]),
                     Vat = Convert.ToDecimal(row["vat"]),
                     Price = Convert.ToDecimal(row["price"]),
-                    Preperation_Time = Convert.ToInt32(row["preparation_time"]),
+                    PreparationTime = Convert.ToInt32(row["preparation_time"]),
                     Menu_Id = Convert.ToInt32(row["menu_id"])
                 };
                 OrderItem orderItem = new OrderItem(id, menuItem, comment, status, count, orderId);
@@ -179,6 +181,16 @@ namespace DAL
                              AND status = 'Ready'";
             SqlParameter[] parameters = {
                 new SqlParameter("@tableId", tableId)
+            };
+            ExecuteEditQuery(query, parameters);
+        }
+
+        public void UpdateOrderItem(OrderItem item)
+        {
+            string query = "UPDATE [Order_Item] SET [status] = @Status WHERE [id] = @OrderItemId";
+            SqlParameter[] parameters = {
+                new SqlParameter("@Status", item.orderStatus.ToString()),
+                new SqlParameter("@OrderItemId", item.Id)
             };
             ExecuteEditQuery(query, parameters);
         }

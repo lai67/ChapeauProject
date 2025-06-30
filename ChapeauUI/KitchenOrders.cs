@@ -24,6 +24,7 @@ namespace ChapeauUI
         private Timer timer;
         private bool ShowUnprepared;
         private OrderService orderService;
+        private OrderItemService orderItemService;
         private BillService billService;
         private MenuService menuService;
         private List<Order> CurrentOrders;
@@ -50,7 +51,7 @@ namespace ChapeauUI
 
         void SetData()
         {
-            lblName.Text = GlobalVariables.CurrentEmployee.FirstName + " " + GlobalVariables.CurrentEmployee.LastName;
+            lblName.Text = _currentEmployee.FirstName + " " + _currentEmployee.LastName;
             timer = new Timer { Interval = 1000 };
             timer.Tick += Timer_Tick;
             timer.Start();
@@ -60,6 +61,7 @@ namespace ChapeauUI
             billService = new BillService();
             menuService = new MenuService();
             CurrentOrders = new List<Order>();
+            orderItemService = new OrderItemService();
         }
 
         void UpdateTimeLabel()
@@ -223,58 +225,26 @@ namespace ChapeauUI
 
         string OrderText(Order order)
         {
-            Bill bill = billService.GetBillById(order.Bill.BillId);
-            return $"Order number: {order.Id}    Table: {bill.Table.TableNumber}    Order Time: {order.OrderTime}    Wait Time: {order.PreparationTime}  Status: {order.Status}";
+            return $"Order number: {order.Id}    Table: {order.Table.Id}    Order Time: {order.OrderTime}    Wait Time: {order.PreparationTime}  Status: {order.Status}";
+
         }
 
         bool DifferentOrders(List<Order> orders)
         {
-            if (orders.Count == CurrentOrders.Count)
-            {
-                for (int i = 0; i < orders.Count; i++)
-                {
-                    if (CompareOrders(orders[i], CurrentOrders[i]) == false)
-                    {
-                        return true;
-                    }
-                }
-            }
-            else
+            if (orders.Count != CurrentOrders.Count)
             {
                 return true;
             }
+
+            for (int i = 0; i < orders.Count; i++)
+            {
+                if (!orders[i].Equals(CurrentOrders[i]))
+                {
+                    return true;
+                }
+            }
+
             return false;
-        }
-
-        bool CompareOrders(Order order1, Order order2)
-        {
-            if (order1.Id == order2.Id && order1.OrderTime == order2.OrderTime && order1.PreparationTime == order2.PreparationTime && order1.Status == order2.Status && order1.Bill.BillId == order2.Bill.BillId /* && order1.EmployeeID == order2.EmployeeID */ && order1.Items.Count == order2.Items.Count)
-            {
-                for (int i = 0; i < order1.Items.Count; i++)
-                {
-                    if (CompareOrderItem(order1.Items[i], order2.Items[i]) == false)
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        bool CompareOrderItem(OrderItem item1, OrderItem item2)
-        {
-            if (item1.MenuItem.Id == item2.MenuItem.Id && item1.Count == item2.Count && item1.orderStatus == item2.orderStatus && item1.Comment == item2.Comment)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         private void OrderTreeView_AfterSelect(object sender, TreeViewEventArgs e)
@@ -348,6 +318,7 @@ namespace ChapeauUI
         private void BSETItem_Click(object sender, EventArgs e)
         {
             TreeNode SelectedNode = OrderTreeView.SelectedNode;
+           
             if (SelectedNode.Tag.GetType() == typeof(Order))
             {
                 Order order = (Order)SelectedNode.Tag;
@@ -365,12 +336,13 @@ namespace ChapeauUI
                 CurrentOrders[orderIndex] = order;
                 orderService.UpdateOrder(order);    
             }
-            else if (SelectedNode.Tag.GetType() == typeof(OrderItem))
-            {
+             else if (SelectedNode.Tag.GetType() == typeof(OrderItem))
+                {
                 OrderItem item = (OrderItem)SelectedNode.Tag;
                 TreeNode OrderNode = SelectedNode.Parent.Parent;
                 Order order = (Order)OrderNode.Tag;
-                int itemIndex = order.Items.IndexOf(item), orderIndex = CurrentOrders.IndexOf(order);
+                int itemIndex = order.Items.IndexOf(item);
+                int orderIndex = CurrentOrders.IndexOf(order);
 
                 item.orderStatus = GetCheck();
                 if(item.orderStatus == OrderStatus.Preparing && order.Status != OrderStatus.Preparing)
@@ -386,8 +358,11 @@ namespace ChapeauUI
                 SelectedNode.Text = OrderItemText(item);
                 CurrentOrders[orderIndex] = order;
                 OrderNode.Text = OrderText(order);
-                orderService.UpdateOrder(order);
-            }
+                orderItemService.UpdateOrder(item);
+               
+                }
+              
+            
         }
 
         Order SetOrderWaitingTime(Order order)

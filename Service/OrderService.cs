@@ -72,5 +72,10 @@ namespace Service
         {
             _orderDao.SetOrderCreated(orderId, isCreated);
         }
+
+        public void UpdateOrder(Order order)
+        {
+            _orderDao.UpdateOrder(order);
+        }
     }
 }

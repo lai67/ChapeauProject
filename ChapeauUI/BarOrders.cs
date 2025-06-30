@@ -20,6 +20,7 @@ namespace ChapeauUI
         private Timer timer;
         private bool ShowUnprepared;
         private OrderService orderService;
+        private OrderItemService orderItemService;
         private BillService billService;
         private MenuService menuService;
         private List<Order> CurrentOrders;
@@ -38,7 +39,7 @@ namespace ChapeauUI
 
         private void SetData()
         {
-            lblName.Text = GlobalVariables.CurrentEmployee.FirstName + " " + GlobalVariables.CurrentEmployee.LastName;
+            lblName.Text = _currentEmployee.FirstName + " " + _currentEmployee.LastName;
             timer = new Timer { Interval = 1000 };
             timer.Tick += Timer_Tick;
             timer.Start();
@@ -48,6 +49,7 @@ namespace ChapeauUI
             billService = new BillService();
             menuService = new MenuService();
             CurrentOrders = new List<Order>();
+            orderItemService = new OrderItemService();
         }
 
         void UpdateTimeLabel()
@@ -74,14 +76,14 @@ namespace ChapeauUI
         {
             List<Order> orders = new List<Order>();
             string place = "Bar";
-/*             if (ShowUnprepared)
+            if (ShowUnprepared)
             {
                 orders = orderService.GetUnpreparedOrdersAndPlace(place);
             }
             else
             {
                 orders = orderService.GetFinishedOrdersOfTodayAndPlace(place);
-            } */
+            }
 
             return orders;
         }
@@ -165,10 +167,12 @@ namespace ChapeauUI
             {
                 for (int i = 0; i < orders.Count; i++)
                 {
-                    if (CompareOrders(orders[i], CurrentOrders[i]) == false)
+                    if (!orders[i].Equals(CurrentOrders[i]))
                     {
+                      
                         return true;
                     }
+                 
                 }
             }
             else
@@ -178,36 +182,9 @@ namespace ChapeauUI
             return false;
         }
 
-        bool CompareOrders(Order order1, Order order2)
-        {
-            if (order1.Id == order2.Id && order1.OrderTime == order2.OrderTime && order1.PreparationTime == order2.PreparationTime && order1.Status == order2.Status && order1.Bill.BillId == order2.Bill.BillId && order1.Employee.Id == order2.Employee.Id && order1.Items.Count == order2.Items.Count)
-            {
-                for (int i = 0; i < order1.Items.Count; i++)
-                {
-                    if (CompareOrderItem(order1.Items[i], order2.Items[i]) == false)
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        bool CompareOrderItem(OrderItem item1, OrderItem item2)
-        {
-            if (item1.MenuItem.Id == item2.MenuItem.Id && item1.MenuItem.Price == item2.MenuItem.Price && item1.orderStatus == item2.orderStatus && item1.Comment == item2.Comment)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+
+
 
         private void OrderTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -310,7 +287,7 @@ namespace ChapeauUI
                 SelectedNode.Text = OrderItemText(item);
                 CurrentOrders[orderIndex] = order;
                 OrderNode.Text = OrderText(order);
-                orderService.UpdateOrder(order);
+                order.UpdateOrder(order);
             }
         }
 

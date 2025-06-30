@@ -9,6 +9,13 @@ namespace DAL
 {
     public class OrderDao : BaseDao
     {
+        private readonly OrderItemDao orderItemService;
+
+        public OrderDao()
+        {
+            orderItemService = new OrderItemDao();
+        }
+
         // it appears that we dont have the location prepratioin but we have a menu type where it states there lunch,diner ,and drink 
         //however we hava a meneu type where it states there lunch,diner ,and drink
         public Dictionary<int, (string BarStatus, string KitchenStatus)> GetTableLocationPhases()
@@ -107,20 +114,9 @@ namespace DAL
         }
 
 
-        // update order
-        public void UpdateOrderPreparationInfo(int orderId, int preparationTime)
-        {
-            string query = @"UPDATE [Order]
-                     SET preparation_time = @preparationTime
-                     WHERE id = @orderId";
-            SqlParameter[] parameters = {
-        new SqlParameter("@preparationTime", preparationTime),
-        new SqlParameter("@orderId", orderId)
-    };
-            ExecuteEditQuery(query, parameters);
-        }
+
         
-                public void SetOrderCreated(int orderId, bool isCreated)
+         public void SetOrderCreated(int orderId, bool isCreated)
         {
             string query = "UPDATE [Order] SET IsCreated = @isCreated WHERE OrderId = @orderId";
             SqlParameter[] parameters = new SqlParameter[]
@@ -164,7 +160,9 @@ namespace DAL
                     row.Field<int>("table_id"),
                     row.Field<int>("table_number"),
                     Enum.Parse<TableStatus>(row.Field<string>("table_status"), true)
-                    )
+                    ),
+                    items: orderItemService.GetOrderItemsByOrderId(row.Field<int>("id"))
+                  
                 ));
             }
             return orders;
@@ -203,7 +201,8 @@ namespace DAL
                 row.Field<int>("table_id"),
                 row.Field<int>("table_number"),
                 Enum.Parse<TableStatus>(row.Field<string>("table_status"), true)
-                )
+                ),
+                items: orderItemService.GetOrderItemsByOrderId(row.Field<int>("id"))
             ));
             }
             return orders;
@@ -239,8 +238,28 @@ namespace DAL
                     row.Field<int>("table_id"),
                     row.Field<int>("table_number"),
                     Enum.Parse<TableStatus>(row.Field<string>("table_status"), true)
-                )
+                ),
+                 items: orderItemService.GetOrderItemsByOrderId(row.Field<int>("id"))
             );
+        }
+    public void UpdateOrder(Order order)
+        {
+            string orderQuery = "UPDATE [Order] SET [preparation_time] = @PreparationTime WHERE [id] = @OrderId";
+            SqlParameter[] orderParameters = {
+                new SqlParameter("@PreparationTime", order.PreparationTime),
+                new SqlParameter("@OrderId", order.Id)
+            };
+            ExecuteEditQuery(orderQuery, orderParameters);
+
+            foreach (OrderItem item in order.Items)
+            {
+                string itemQuery = "UPDATE [Order_Item] SET [status] = @Status WHERE [id] = @OrderItemId";
+                SqlParameter[] itemParameters = {
+                    new SqlParameter("@Status", item.orderStatus.ToString()),
+                    new SqlParameter("@OrderItemId", item.Id)
+                };
+                ExecuteEditQuery(itemQuery, itemParameters);
+            }
         }
 
     }
