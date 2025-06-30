@@ -11,13 +11,13 @@ namespace DAL
 {
     public class BillDao : BaseDao
     {
-        public List<Bill> GetAllBills()
+        /*public List<Bill> GetAllBills()
         {
             string querySelect = "SELECT id, total_price, vat, guest_number, order_id, tip, feedback FROM [Bill] ORDER BY order_id;";
             SqlParameter[] sqlParameters = new SqlParameter[0];
             return ReadTables(ExecuteSelectQuery(querySelect, sqlParameters));
-        }
-        private List<Bill> ReadTables(DataTable dataTable)
+        }*/
+        /*private List<Bill> ReadTables(DataTable dataTable)
         {
             List<Bill> bills = new List<Bill>();
             SubBillDao subBillDao = new SubBillDao();
@@ -40,7 +40,7 @@ namespace DAL
                 bills.Add(bill);
             }
             return bills;
-        }
+        }*/
         private Bill ReadBill(DataTable dataTable)
         {
             if (dataTable.Rows.Count == 0)
@@ -168,29 +168,27 @@ namespace DAL
         }
         public void UpdateBill(Bill bill)
         {
-            string query = @"UPDATE [Bill]
-                     SET total_price = @total_price,
-                         vat = @vat,
-                         guest_number = @guest_number,
-                         order_id = @order_id,
-                         tip = @tip,
-                         feedback = @feedback
-                     WHERE id = @id;";
+            string query = @"UPDATE Bill
+                     SET total_price = @TotalPrice,
+                         vat = @Vat,
+                         guest_number = @GuestNumber,
+                         feedback = @Feedback,
+                         tip = @Tip
+                     WHERE order_id = @OrderId";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@total_price", bill.TotalPrice),
-                new SqlParameter("@vat", bill.Vat),
-                new SqlParameter("@guest_number", bill.GuestNumber),
-                new SqlParameter("@order_id", bill.OrderId),
-                new SqlParameter("@tip", bill.Tip),
-                new SqlParameter("@feedback", bill.Feedback ?? (object)DBNull.Value),
-                new SqlParameter("@id", bill.BillId)
+        new SqlParameter("@TotalPrice", bill.TotalPrice),
+        new SqlParameter("@Vat", bill.Vat),
+        new SqlParameter("@GuestNumber", bill.GuestNumber),
+        new SqlParameter("@Feedback", bill.Feedback ?? (object)DBNull.Value),
+        new SqlParameter("@Tip", bill.Tip),
+        new SqlParameter("@OrderId", bill.OrderId)
             };
-
             ExecuteEditQuery(query, parameters);
         }
-        public void DeleteBill(int billId)
+
+        /*public void DeleteBill(int billId)
         {
             string query = "DELETE FROM [Bill] WHERE id = @id;";
             SqlParameter[] parameters = new SqlParameter[]
@@ -199,12 +197,15 @@ namespace DAL
             };
 
             ExecuteEditQuery(query, parameters);
-        }
+        }*/
         public int GetNextBillId()
         {
             string query = "SELECT ISNULL(MAX(id), 0) + 1 FROM [Bill]";
-            object result = ExecuteSelectQuery(query).Rows[0][0];
-            return Convert.ToInt32(result);
+            using (SqlCommand command = new SqlCommand(query, OpenConnection()))
+            {
+                int nextId = (int)command.ExecuteScalar();
+                return nextId;
+            }
         }
     }
 }

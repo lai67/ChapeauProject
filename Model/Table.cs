@@ -24,6 +24,6 @@ namespace Model
 
     public enum TableStatus
     {
-        Occupied, Free, Booked
+        Occupied, Free
     }
 }

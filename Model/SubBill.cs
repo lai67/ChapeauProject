@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Identity.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,12 +11,13 @@ namespace Model
     {
         public int SubBillId { get; set; }
         public int BillId { get; set; } // Foreign key
-        public float Price { get; set; }
-        public float Vat { get; set; }
-        public float Tip { get; set; }
+        public decimal Price { get; set; }
+        public decimal Vat { get; set; }
+        public decimal Tip { get; set; }
         public string Feedback { get; set; }
 
         // Navigation property
         public Bill Bill { get; set; }
+        public bool IsPaid { get; set; }
     }
 }

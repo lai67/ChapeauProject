@@ -64,11 +64,11 @@
             picKitch8 = new PictureBox();
             picKitch10 = new PictureBox();
             panelOccActions = new Panel();
+            lstReadyItems = new ListView();
             btnPayment = new Button();
             btnCancelOcc = new Button();
             btnFreeHere = new Button();
             btnMarkAllServed = new Button();
-            lstReadyItems = new ListBox();
             btnGoToOrders = new Button();
             pictureBox1 = new PictureBox();
             lblOccHeader = new Label();
@@ -78,6 +78,7 @@
             pictureBox2 = new PictureBox();
             lblFreeHeader = new Label();
             panel1 = new Panel();
+            btnRefresh = new Button();
             ((System.ComponentModel.ISupportInitialize)picBar1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picBar3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picBar5).BeginInit();
@@ -446,11 +447,11 @@
             // panelOccActions
             // 
             panelOccActions.BackColor = SystemColors.ControlLight;
+            panelOccActions.Controls.Add(lstReadyItems);
             panelOccActions.Controls.Add(btnPayment);
             panelOccActions.Controls.Add(btnCancelOcc);
             panelOccActions.Controls.Add(btnFreeHere);
             panelOccActions.Controls.Add(btnMarkAllServed);
-            panelOccActions.Controls.Add(lstReadyItems);
             panelOccActions.Controls.Add(btnGoToOrders);
             panelOccActions.Controls.Add(pictureBox1);
             panelOccActions.Controls.Add(lblOccHeader);
@@ -459,6 +460,14 @@
             panelOccActions.Size = new Size(746, 295);
             panelOccActions.TabIndex = 40;
             panelOccActions.Visible = false;
+            // 
+            // lstReadyItems
+            // 
+            lstReadyItems.Location = new Point(496, 4);
+            lstReadyItems.Name = "lstReadyItems";
+            lstReadyItems.Size = new Size(245, 121);
+            lstReadyItems.TabIndex = 43;
+            lstReadyItems.UseCompatibleStateImageBehavior = false;
             // 
             // btnPayment
             // 
@@ -498,15 +507,6 @@
             btnMarkAllServed.Text = "All Served";
             btnMarkAllServed.UseVisualStyleBackColor = true;
             // 
-            // lstReadyItems
-            // 
-            lstReadyItems.FormattingEnabled = true;
-            lstReadyItems.ItemHeight = 20;
-            lstReadyItems.Location = new Point(576, 10);
-            lstReadyItems.Name = "lstReadyItems";
-            lstReadyItems.Size = new Size(150, 104);
-            lstReadyItems.TabIndex = 3;
-            // 
             // btnGoToOrders
             // 
             btnGoToOrders.Location = new Point(376, 211);
@@ -542,9 +542,9 @@
             panelFreeActions.Controls.Add(btnOccupyHere);
             panelFreeActions.Controls.Add(pictureBox2);
             panelFreeActions.Controls.Add(lblFreeHeader);
-            panelFreeActions.Location = new Point(43, 158);
+            panelFreeActions.Location = new Point(46, 158);
             panelFreeActions.Name = "panelFreeActions";
-            panelFreeActions.Size = new Size(753, 295);
+            panelFreeActions.Size = new Size(753, 298);
             panelFreeActions.TabIndex = 41;
             panelFreeActions.Visible = false;
             // 
@@ -617,16 +617,26 @@
             panel1.Controls.Add(picBar9);
             panel1.Controls.Add(picBar4);
             panel1.Controls.Add(picBar2);
-            panel1.Location = new Point(32, 158);
+            panel1.Location = new Point(28, 158);
             panel1.Name = "panel1";
-            panel1.Size = new Size(796, 328);
+            panel1.Size = new Size(778, 328);
             panel1.TabIndex = 41;
+            // 
+            // btnRefresh
+            // 
+            btnRefresh.Location = new Point(685, 19);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(94, 29);
+            btnRefresh.TabIndex = 42;
+            btnRefresh.Text = "Refresh";
+            btnRefresh.UseVisualStyleBackColor = true;
             // 
             // RestaurantOverviewForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1564, 1000);
+            Controls.Add(btnRefresh);
             Controls.Add(panel1);
             Controls.Add(panelFreeActions);
             Controls.Add(panelOccActions);
@@ -711,7 +721,6 @@
         private Button btnGoToOrders;
         private Button btnFreeHere;
         private Button btnMarkAllServed;
-        private ListBox lstReadyItems;
         private Button btnCancelOcc;
         private Panel panelFreeActions;
         private Button btnCancelFree;
@@ -720,5 +729,7 @@
         private Label lblFreeHeader;
         private Panel panel1;
         private Button btnPayment;
+        private ListView lstReadyItems;
+        private Button btnRefresh;
     }
 }
