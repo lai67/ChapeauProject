@@ -299,31 +299,74 @@ namespace ChapeauUI
         private void btnPayment_Click(object sender, EventArgs e)
         {
             int tableNumber = _selectedTableNumber;
-            int tableId = _tableService.GetTableById(_selectedTableNumber).TableNumber;
+            var (isValid, errorMessage, order) = ValidateOrderForPayment(tableNumber);
+
+            if (!isValid)
+            {
+
+                MessageBox.Show(errorMessage, "Cannot Open Bill", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+
+            int orderId = order.Id;
+            var billService = new BillService();
+            var orderItemService = new OrderItemService();
+
+            Bill bill = ValidateBillForOrder(orderId, order, billService, orderItemService);
+
+            BillForm billForm = new BillForm(bill);
+            billForm.ShowDialog();
+        }
+        private (bool isValid, string errorMessage, Order? order) ValidateOrderForPayment(int tableNumber)
+        {
+            int tableId = _tableService.GetTableById(tableNumber).TableNumber;
             Order order = orderService.GetOrdersForAlreadyOrderedTable(tableId);
 
-            if (order != null)
+            if (order == null)
             {
-                // Check if all order items are served
-                bool allServed = order.Items != null && order.Items.All(item => item.orderStatus == OrderStatus.Served);
-                if (!allServed)
-                {
-                    MessageBox.Show("All order items must be served before proceeding to payment.", "Cannot Open Bill", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                return (false, "No active order found for this table.", null);
+            }
 
-                int orderId = order.Id;
-                BillForm billForm = new BillForm(orderId);
-                billForm.ShowDialog();
-            }
-            else
+            bool allServed = order.Items != null && order.Items.All(item => item.orderStatus == OrderItem.OrderStatus.Served);
+            if (!allServed)
             {
-                MessageBox.Show("No active order found for this table.");
+                return (false, "All order items must be served before proceeding to payment.", null);
             }
+
+            return (true, string.Empty, order);
         }
         private void BtnRefresh_Click(object sender, EventArgs e)
         {
             RefreshTables();
+        }
+        private Bill ValidateBillForOrder(int orderId, Order order, BillService billService, OrderItemService orderItemService)
+        {
+            Bill bill = billService.GetBillByOrderId(orderId);
+
+            if (bill == null)
+            {
+                int nextBillId = billService.GetNextBillId();
+
+                bill = new Bill
+                {
+                    BillId = nextBillId,
+                    OrderId = orderId,
+                    OrderItems = order.Items,
+                    GuestNumber = 1,
+                    Tip = 0,
+                    Feedback = ""
+                };
+                billService.CreateBill(bill);
+                bill = billService.GetBillByOrderId(orderId);
+            }
+
+            if (bill.OrderItems == null || bill.OrderItems.Count == 0)
+            {
+                bill.OrderItems = orderItemService.GetOrderItemsByOrderId(orderId);
+            }
+
+            return bill;
         }
     }
 }

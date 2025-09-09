@@ -12,21 +12,18 @@ namespace Service
     public class BillService
     {
         private BillDao billDao;
-        private SubBillService subBillService;
         public BillService()
         {
             // initalize the DAO to access the database
             billDao = new BillDao();
-            subBillService = new SubBillService();
         }
-        // gets all bills
-        /* public List<Bill> GetAllBills()
+        /*public List<Bill> GetAllBills()
         {
             return billDao.GetAllBills();
         }*/
 
         // retrieves a single bill by its ID
-        public Bill GetBillById(int billId)
+
         {
             var bill = billDao.GetBillById(billId);
             if (bill != null)
@@ -39,18 +36,10 @@ namespace Service
         }
         // gets the items ordered in a bill
         // shows item name, price, and amount
-        public List<BillItem> GetOrderedItemsForBill(int billId)
+        /*public List<OrderItem> GetOrderedItemsForBill(int billId)
         {
-            List<OrderItem> orderItems = billDao.GetOrderItemsByBillId(billId);
-
-            return orderItems.Select(o => new BillItem
-            {
-                Name = o.MenuItem.Name,
-                Price = o.MenuItem.Price,
-                Vat = o.MenuItem.Vat,
-                Amount = o.Count
-            }).ToList();
-        }
+            return billDao.GetOrderItemsByBillId(billId);
+        }*/
         // creates a new bill and saves it to the database
         public void CreateBill(Bill bill)
         {
@@ -69,5 +58,28 @@ namespace Service
         {
             return billDao.GetNextBillId();
         }
+
+        // not needed as the bill is already validated upon the form loading
+
+        /*public Bill EnsureBillExists(Bill bill, int orderId)
+        {
+            if (bill == null)
+            {
+                int nextId = GetNextBillId();
+                bill = new Bill
+                {
+                    BillId = nextId,
+                    OrderId = orderId,
+                    OrderItems = new List<OrderItem>(),
+                    IsPaid = false
+                };
+                CreateBill(bill);
+            }
+            else
+            {
+                UpdateBill(bill);
+            }
+            return bill;
+        }*/
     }
 }
